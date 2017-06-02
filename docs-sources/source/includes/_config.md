@@ -7,15 +7,16 @@ baseUrl: 'http://localhost:82/',
 
 //Selenium settings
 seleniumServerHost: 'localhost',
-seleniumServerPort: ['4444', '4445', '4446', '4447'],
+seleniumServerPort: 4444,
 
 //proxy settings:
 proxyHost: 'localhost',
 proxyPort: 8888,
-proxyHttpPort: ['8082', '8083', '8084', '8085'],
+proxyHttpPort: 8082,
+disableProxy: false,
 
 //Browser settings:
-platform: process.env.PLATFORM || "CHROME",
+platform: process.env.PLATFORM || 'CHROME',
 runMaximized: true,
 xvfbMode: false,
 XvfbSettings: {

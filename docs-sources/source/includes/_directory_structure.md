@@ -1,20 +1,20 @@
 # Directory structure
-Directory structure based on Cucumber-js suggestions.
+Directory structure.
 
 ```plaintext
 |-- features
-    |-- page_objects
-        |-- universal
-        |-- ExamplePage.js
-    |-- step_definitions
+    |-- steps
         |-- example-context.js
-    |-- support
-        |-- config.js.dist
-        |-- env.js
-        |-- hooks.js
-        |-- project-world.js.dist
-        |-- world.js
     |-- example.feature
+|-- pages
+    |-- universal
+    |-- ExamplePage.js
+|-- support
+    |-- config.js.dist
+    |-- env.js
+    |-- hooks.js
+    |-- project-world.js.dist
+    |-- world.js
 |-- data
     |-- test_files
     |-- pageUrlData.js.dist
@@ -31,13 +31,13 @@ Features directory contains all project files.
 ### .feature files
 `features` directory contains .feature files that contains Gherkin scenarios.
 
-### step_definitions
-`step_definitions` directory contains Step definitions (Context methods) that connect Gherkin steps to the Page methods.
+### steps
+`steps` directory contains Step definitions (Context methods) that connect Gherkin steps to the Page methods.
 
-### page_objects
-`page_objects` directory contains Page Object files. Additional `universal` directory is available for reusable components that exist on multipla pages.
+## pages
+`pages` directory contains Page Object files. Additional `universal` directory is available for reusable components that exist on multipla pages.
 
-### support
+## support
 `support` is framework directory. All framework methods are implemented here (mainly `world.js`). This directory also contains `config.js.dist` file that is default framework config.
 
 ## data

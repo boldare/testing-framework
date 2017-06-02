@@ -23,11 +23,17 @@ Hovers mouse cursor over element.
 
 `customTimeout` (optional) - would be used instead of default config timeout.
 
-#### loadPageByRoute
-//TODO: description
+#### loadPageByRoute(routeName, customTimeout)
+Loads page by route from pageUrlData file.
 
-#### loadPage
-//TODO: description
+`routeName` route name from pageUrlData that would be opened (only basic - can't be regex).
+`customTimeout` (optional) - would be used instead of default config timeout.
+
+#### loadPage(url, customTimeout)
+Loads page by URL.
+
+`url` page URL
+`customTimeout` (optional) - would be used instead of default config timeout.
 
 #### fillInInput(xpath, value, blur, customTimeout)
 `xpath` string with element xpath
@@ -93,9 +99,10 @@ Returns current driver. May be used for direct driver access when low-level driv
 #### getInstanceNumber()
 Returns number of instance in case of parallel execution.
 
-#### log
-//TODO: description
+#### log(logMessage, logLevel)
 Logger
+
+//TODO: description
 
 #### sleep(sleepTime)
 Static sleep.
