@@ -1,0 +1,520 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Functional Testing Framework design</title>
+
+    <style>
+      .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight .gh {
+  color: #999999;
+}
+.highlight .sr {
+  color: #f6aa11;
+}
+.highlight .go {
+  color: #888888;
+}
+.highlight .gp {
+  color: #555555;
+}
+.highlight .gs {
+}
+.highlight .gu {
+  color: #aaaaaa;
+}
+.highlight .nb {
+  color: #f6aa11;
+}
+.highlight .cm {
+  color: #75715e;
+}
+.highlight .cp {
+  color: #75715e;
+}
+.highlight .c1 {
+  color: #75715e;
+}
+.highlight .cs {
+  color: #75715e;
+}
+.highlight .c, .highlight .cd {
+  color: #75715e;
+}
+.highlight .err {
+  color: #960050;
+}
+.highlight .gr {
+  color: #960050;
+}
+.highlight .gt {
+  color: #960050;
+}
+.highlight .gd {
+  color: #49483e;
+}
+.highlight .gi {
+  color: #49483e;
+}
+.highlight .ge {
+  color: #49483e;
+}
+.highlight .kc {
+  color: #66d9ef;
+}
+.highlight .kd {
+  color: #66d9ef;
+}
+.highlight .kr {
+  color: #66d9ef;
+}
+.highlight .no {
+  color: #66d9ef;
+}
+.highlight .kt {
+  color: #66d9ef;
+}
+.highlight .mf {
+  color: #ae81ff;
+}
+.highlight .mh {
+  color: #ae81ff;
+}
+.highlight .il {
+  color: #ae81ff;
+}
+.highlight .mi {
+  color: #ae81ff;
+}
+.highlight .mo {
+  color: #ae81ff;
+}
+.highlight .m, .highlight .mb, .highlight .mx {
+  color: #ae81ff;
+}
+.highlight .sc {
+  color: #ae81ff;
+}
+.highlight .se {
+  color: #ae81ff;
+}
+.highlight .ss {
+  color: #ae81ff;
+}
+.highlight .sd {
+  color: #e6db74;
+}
+.highlight .s2 {
+  color: #e6db74;
+}
+.highlight .sb {
+  color: #e6db74;
+}
+.highlight .sh {
+  color: #e6db74;
+}
+.highlight .si {
+  color: #e6db74;
+}
+.highlight .sx {
+  color: #e6db74;
+}
+.highlight .s1 {
+  color: #e6db74;
+}
+.highlight .s {
+  color: #e6db74;
+}
+.highlight .na {
+  color: #a6e22e;
+}
+.highlight .nc {
+  color: #a6e22e;
+}
+.highlight .nd {
+  color: #a6e22e;
+}
+.highlight .ne {
+  color: #a6e22e;
+}
+.highlight .nf {
+  color: #a6e22e;
+}
+.highlight .vc {
+  color: #ffffff;
+}
+.highlight .nn {
+  color: #ffffff;
+}
+.highlight .nl {
+  color: #ffffff;
+}
+.highlight .ni {
+  color: #ffffff;
+}
+.highlight .bp {
+  color: #ffffff;
+}
+.highlight .vg {
+  color: #ffffff;
+}
+.highlight .vi {
+  color: #ffffff;
+}
+.highlight .nv {
+  color: #ffffff;
+}
+.highlight .w {
+  color: #ffffff;
+}
+.highlight {
+  color: #ffffff;
+}
+.highlight .n, .highlight .py, .highlight .nx {
+  color: #ffffff;
+}
+.highlight .ow {
+  color: #f92672;
+}
+.highlight .nt {
+  color: #f92672;
+}
+.highlight .k, .highlight .kv {
+  color: #f92672;
+}
+.highlight .kn {
+  color: #f92672;
+}
+.highlight .kp {
+  color: #f92672;
+}
+.highlight .o {
+  color: #f92672;
+}
+    </style>
+    <link href="stylesheets/screen.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/print.css" rel="stylesheet" media="print" />
+      <script src="javascripts/all.js"></script>
+  </head>
+
+  <body class="index" data-languages="[&quot;javascript&quot;]">
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <img src="images/navbar.png" alt="Navbar" />
+      </span>
+    </a>
+    <div class="tocify-wrapper">
+      <img src="images/logo.png" alt="Logo" />
+        <div class="lang-selector">
+              <a href="#" data-language-name="javascript">javascript</a>
+        </div>
+        <div class="search">
+          <input type="text" class="search" id="input-search" placeholder="Search">
+        </div>
+        <ul class="search-results"></ul>
+      <div id="toc">
+      </div>
+    </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+        
+          <h1 id="about">About</h1>
+
+<p>Design of JS testing framework above Selenium Webdriver.</p>
+
+<p>Main goals:</p>
+
+<ul>
+<li>Easy to use, high-level methods</li>
+<li>All needed waits build-in</li>
+<li>BDD Layer (Gherkin)</li>
+<li>Reports useful from both business and developers point of view (Gherkin scenarios, Screenshots, Driver logs, Proxy logs)</li>
+<li>Headless execution</li>
+<li>Parallel execution (in the future)</li>
+<li>Multiple driver configs and devices support (in the future)</li>
+</ul>
+
+          <h1 id="requirements">Requirements</h1>
+
+<p>Not yet specified.</p>
+
+<p>For the JS version probably something like:</p>
+
+<ul>
+<li>Node</li>
+<li>NPM</li>
+<li>Selenium Webdriver</li>
+<li>Cucumber-js</li>
+<li>BrowserMob Proxy</li>
+<li>GNU Make (for parallel execution)</li>
+<li>Xvfb (for headless execution)</li>
+<li>Superagent (for requests)</li>
+</ul>
+
+          <h1 id="config">Config</h1>
+<pre class="highlight javascript tab-javascript"><code><span class="c1">//project settings</span>
+<span class="nl">baseDirectory</span><span class="p">:</span> <span class="s1">'/home/user/project/tests/'</span><span class="p">,</span>
+<span class="nx">baseUrl</span><span class="p">:</span> <span class="s1">'http://localhost:82/'</span><span class="p">,</span>
+
+<span class="c1">//Selenium settings</span>
+<span class="nx">seleniumServerHost</span><span class="p">:</span> <span class="s1">'localhost'</span><span class="p">,</span>
+<span class="nx">seleniumServerPort</span><span class="p">:</span> <span class="mi">4444</span><span class="p">,</span>
+
+<span class="c1">//proxy settings:</span>
+<span class="nx">proxyHost</span><span class="p">:</span> <span class="s1">'localhost'</span><span class="p">,</span>
+<span class="nx">proxyPort</span><span class="p">:</span> <span class="mi">8888</span><span class="p">,</span>
+<span class="nx">proxyHttpPort</span><span class="p">:</span> <span class="mi">8082</span><span class="p">,</span>
+<span class="nx">disableProxy</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+
+<span class="c1">//Browser settings:</span>
+<span class="nx">platform</span><span class="p">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">PLATFORM</span> <span class="o">||</span> <span class="s1">'CHROME'</span><span class="p">,</span>
+<span class="nx">runMaximized</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+<span class="nx">xvfbMode</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+<span class="nx">XvfbSettings</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nl">windowWidth</span><span class="p">:</span> <span class="mi">1920</span><span class="p">,</span>
+    <span class="nx">windowHeight</span><span class="p">:</span> <span class="mi">1080</span>
+<span class="p">},</span>
+
+<span class="c1">//timeouts</span>
+<span class="nx">defaultTimeout</span><span class="p">:</span> <span class="mi">30000</span><span class="p">,</span><span class="c1">//ms</span>
+<span class="nx">defaultAfterTimeout</span><span class="p">:</span> <span class="mi">45000</span><span class="p">,</span><span class="c1">//ms</span>
+
+<span class="c1">//logs:</span>
+<span class="nx">seleniumDriverLogLevel</span><span class="p">:</span> <span class="s1">'SEVERE'</span><span class="p">,</span>
+<span class="nx">seleniumBrowserLogLevel</span><span class="p">:</span> <span class="s1">'ALL'</span><span class="p">,</span>
+<span class="nx">proxyCaptureHeaders</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+<span class="nx">proxyCaptureContent</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+<span class="nx">detailedTestLog</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+<span class="nx">testDebugLog</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+<span class="nx">enableScreenshotReports</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+
+<span class="c1">//other:</span>
+<span class="nx">extendedPageReadyStateValidation</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+
+<span class="c1">//project specific settings:</span>
+</code></pre>
+          <h1 id="directory-structure">Directory structure</h1>
+
+<p>Directory structure.</p>
+<pre class="highlight plaintext tab-plaintext"><code>|-- features
+    |-- steps
+        |-- example-context.js
+    |-- example.feature
+|-- pages
+    |-- universal
+    |-- ExamplePage.js
+|-- support
+    |-- config.js.dist
+    |-- env.js
+    |-- hooks.js
+    |-- project-world.js.dist
+    |-- world.js
+|-- data
+    |-- test_files
+    |-- pageUrlData.js.dist
+    |-- testData.js.dist
+|-- logs
+    |-- execution_logs
+    |-- screenshot_reports
+|-- docs
+</code></pre>
+<h2 id="features">features</h2>
+
+<p>Features directory contains all project files.</p>
+
+<h3 id="feature-files">.feature files</h3>
+
+<p><code class="prettyprint">features</code> directory contains .feature files that contains Gherkin scenarios.</p>
+
+<h3 id="steps">steps</h3>
+
+<p><code class="prettyprint">steps</code> directory contains Step definitions (Context methods) that connect Gherkin steps to the Page methods.</p>
+
+<h2 id="pages">pages</h2>
+
+<p><code class="prettyprint">pages</code> directory contains Page Object files. Additional <code class="prettyprint">universal</code> directory is available for reusable components that exist on multipla pages.</p>
+
+<h2 id="support">support</h2>
+
+<p><code class="prettyprint">support</code> is framework directory. All framework methods are implemented here (mainly <code class="prettyprint">world.js</code>). This directory also contains <code class="prettyprint">config.js.dist</code> file that is default framework config.</p>
+
+<h2 id="data">data</h2>
+
+<p><code class="prettyprint">testData.js.dist</code> is file for JSONs containing test data. <code class="prettyprint">pageUrlData.js.dist</code> is file for page routes definitions.
+<code class="prettyprint">test_files</code> directory is for test data files needed for test execution like images etc.</p>
+
+<h2 id="logs">logs</h2>
+
+<p>Directory where logs are written. <code class="prettyprint">execution_logs</code> contains typical logs from test execution - screenshots on failures and .har files for all scenarios.</p>
+
+<h2 id="documentation">documentation</h2>
+
+<p>Documentation.</p>
+
+          <h1 id="methods">Methods</h1>
+
+<h2 id="world">World</h2>
+
+<p>World will contain all basic methods needed for development of functional tests of websites. Driver would be available too so it would be possible to use all low-level Webdriver methods. All methods that need if contain build-in waits (timeouts configurable in config file), custom timeout can be set too.</p>
+
+<h3 id="actions">Actions</h3>
+
+<h4 id="click-xpath-customtimeout">click(xpath, customTimeout)</h4>
+
+<p>Clicks element identified by xpath.</p>
+
+<p><code class="prettyprint">xpath</code> string with element xpath</p>
+
+<p><code class="prettyprint">customTimeout</code> (optional) - would be used instead of default config timeout.</p>
+
+<h4 id="getcurrenturl">getCurrentUrl()</h4>
+
+<p>Returns current Url</p>
+
+<h4 id="hover-xpath-customtimeout">hover(xpath, customTimeout)</h4>
+
+<p>Hovers mouse cursor over element.</p>
+
+<p><code class="prettyprint">xpath</code> string with element xpath</p>
+
+<p><code class="prettyprint">customTimeout</code> (optional) - would be used instead of default config timeout.</p>
+
+<h4 id="loadpagebyroute-routename-customtimeout">loadPageByRoute(routeName, customTimeout)</h4>
+
+<p>Loads page by route from pageUrlData file.</p>
+
+<p><code class="prettyprint">routeName</code> route name from pageUrlData that would be opened (only basic - can&rsquo;t be regex).
+<code class="prettyprint">customTimeout</code> (optional) - would be used instead of default config timeout.</p>
+
+<h4 id="loadpage-url-customtimeout">loadPage(url, customTimeout)</h4>
+
+<p>Loads page by URL.</p>
+
+<p><code class="prettyprint">url</code> page URL
+<code class="prettyprint">customTimeout</code> (optional) - would be used instead of default config timeout.</p>
+
+<h4 id="fillininput-xpath-value-blur-customtimeout">fillInInput(xpath, value, blur, customTimeout)</h4>
+
+<p><code class="prettyprint">xpath</code> string with element xpath</p>
+
+<p><code class="prettyprint">value</code> string with text value</p>
+
+<p><code class="prettyprint">blur</code> (optional) - blur support</p>
+
+<p><code class="prettyprint">customTimeout</code> (optional) - would be used instead of default config timeout.</p>
+
+<h4 id="findelement-xpath-customtimeout">findElement(xpath, customTimeout)</h4>
+
+<p>Just like Webdriver findElement with wait.</p>
+
+<p><code class="prettyprint">xpath</code> string with element xpath</p>
+
+<p><code class="prettyprint">customTimeout</code> (optional) - would be used instead of default config timeout.</p>
+
+<h4 id="findelements-xpath-customtimeout">findElements(xpath, customTimeout)</h4>
+
+<p>Just like Webdriver findElements with wait.</p>
+
+<p><code class="prettyprint">xpath</code> string with element xpath</p>
+
+<p><code class="prettyprint">customTimeout</code> (optional) - would be used instead of default config timeout.</p>
+
+<h4 id="selectimage-imageinputxp-imagename-customtimeout">selectImage(imageInputXP, imageName, customTimeout)</h4>
+
+<h3 id="validators">Validators</h3>
+
+<h4 id="isdisplayed-xpath-customtimeout">isDisplayed(xpath, customTimeout)</h4>
+
+<p>Checks if element is displayed (displayed, not only visible in page source).</p>
+
+<h4 id="isnotdisplayed-xpath-customtimeout">isNotDisplayed(xpath, customTimeout)</h4>
+
+<p>Checks if element is not displayed (not displayed, may be visible in page source).</p>
+
+<h4 id="iselementvisible-xpath-customtimeout">isElementVisible(xpath, customTimeout)</h4>
+
+<p>Checks if element is visible in page source. May not be displayed.</p>
+
+<h4 id="iselementnotvisible-xpath-customtimeout">isElementNotVisible(xpath, customTimeout)</h4>
+
+<p>Checks if element is not visible in page source.</p>
+
+<h4 id="validatedynamicelementtext-xpath-expectedtext-timeout">validateDynamicElementText(xpath, expectedText, timeout)</h4>
+
+<h4 id="validatepagereadystate">validatePageReadyState()</h4>
+
+<p>Validates if the page load is complete. <code class="prettyprint">extendedPageReadyStateValidation</code> may be enabled in config file for extended validation.</p>
+
+<h4 id="validateurlbyroute-pagename-customtimeout">validateUrlByRoute(pageName, customTimeout)</h4>
+
+<p>Validates page route based on page route defined in <code class="prettyprint">pageRoute.js</code> file. If regex is available it would be used, if not simplified validation would be used (by url part).
+<code class="prettyprint">pageName</code> page route name</p>
+
+<h4 id="validateurl-url-customtimeout">validateUrl(url, customTimeout)</h4>
+
+<p>Validates url by url text.
+<code class="prettyprint">url</code> url string
+<code class="prettyprint">customTimeout</code> (optional) - would be used instead of default config timeout.</p>
+
+<h3 id="other">Other</h3>
+
+<h4 id="getcurrenttime">getCurrentTime()</h4>
+
+<p>Returns current date and time.</p>
+
+<h4 id="getdriver">getDriver()</h4>
+
+<p>Returns current driver. May be used for direct driver access when low-level driver methods are needed.</p>
+
+<h4 id="getinstancenumber">getInstanceNumber()</h4>
+
+<p>Returns number of instance in case of parallel execution.</p>
+
+<h4 id="log-logmessage-loglevel">log(logMessage, logLevel)</h4>
+
+<p>Logger</p>
+
+<p>//TODO: description</p>
+
+<h4 id="sleep-sleeptime">sleep(sleepTime)</h4>
+
+<p>Static sleep.</p>
+
+<p><code class="prettyprint">sleepTime</code> sleep time (ms)</p>
+
+<h3 id="angular-specific">Angular-specific</h3>
+
+<p>Angular specific methods.</p>
+
+<h4 id="getangularinputvalue-xpath-customtimeout">getAngularInputValue(xpath, customTimeout)</h4>
+
+<p>Returns angular input value.</p>
+
+<p><code class="prettyprint">xpath</code> string with element xpath</p>
+
+<p><code class="prettyprint">customTimeout</code> (optional) - would be used instead of default config timeout.</p>
+
+<h4 id="validatedynamicangularinputvalue-xpath-expectedvalue-customtimeout">validateDynamicAngularInputValue(xpath, expectedValue, customTimeout)</h4>
+
+<p>Validates if angular input value is correct.</p>
+
+<p><code class="prettyprint">xpath</code> string with element xpath</p>
+
+<p><code class="prettyprint">expectedValue</code> expected input value</p>
+
+<p><code class="prettyprint">customTimeout</code> (optional) - would be used instead of default config timeout.</p>
+
+      </div>
+      <div class="dark-box">
+          <div class="lang-selector">
+                <a href="#" data-language-name="javascript">javascript</a>
+          </div>
+      </div>
+    </div>
+  </body>
+</html>
