@@ -47,5 +47,5 @@ Features directory contains all project files.
 ## logs
 Directory where logs are written. `execution_logs` contains typical logs from test execution - screenshots on failures and .har files for all scenarios.
 
-## documentation
+## docs
 Documentation.
