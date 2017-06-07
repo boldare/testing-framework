@@ -115,12 +115,15 @@ var jsBasedClick = function(xpath) {
 };
 
 var click = function(xpath, customTimeout) {
-    return findElement(xpath, customTimeout)
-        .then(function(el) {
-            el.click().catch(function(e) {
-                console.log('Standard click failed.');
-                return jsBasedClick(xpath);
-            });
+    return validatePageReadyState()
+        .then(function() {
+            return findElement(xpath, customTimeout)
+                .then(function(el) {
+                    el.click().catch(function(e) {
+                        console.log('Standard click failed.');
+                        return jsBasedClick(xpath);
+                    });
+                });
         });
 };
 
@@ -133,6 +136,10 @@ var hover = function(xpath, customTimeout) {
         });
 };
 
+var sleep = function(time) {
+    return new Promise((resolve) => setTimeout(resolve, time));
+};
+
 var World = function() {
 };
 
@@ -140,5 +147,7 @@ module.exports = {
     loadPage: loadPage,
     findElement: findElement,
     findElements: findElements,
-    click: click
+    click: click,
+    hover: hover,
+    sleep: sleep
 };
