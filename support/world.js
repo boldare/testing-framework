@@ -58,6 +58,35 @@ var loadPage = function(page) {
     return driver.get(page);
 };
 
+var waitForElement = function(xpath, customTimeout) {
+    var waitTimeout = timeout || defaultTimeout;
+
+    return driver.wait(until.elementLocated(By.xpath(xpath)), waitTimeout);
+};
+
+var findElement = function(xpath, customTimeout) {
+    return waitForElement(xpath, customTimeout)
+    .then(function() {
+        return driver.findElement(By.xpath(xpath));
+    });
+};
+
+var findElements = function(xpath, customTimeout) {
+    return waitForElement(xpath, customTimeout)
+    .then(function() {
+        return driver.findElements(By.xpath(xpath));
+    });
+};
+
+var click = function(xpath, customTimeout) {
+    return findElement(xpath, customTimeout)
+    .then(function(el) {
+        el.click().catch(function(e) {
+        console.log('Standard click failed.');
+        });
+    });
+};
+
 var World = function() {
 };
 
