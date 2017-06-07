@@ -3,7 +3,7 @@
   "private": true,
   "license": "UNLICENSED",
   "devDependencies": {
-    "selenium-webdriver": "^2.53.3",
+    "selenium-webdriver": "^3.4.0",
     "cucumber": "^2.3.0",
     "browsermob-proxy": "^1.0.9",
     "sprintf-js": "^1.1.1",
@@ -15,4 +15,3 @@
   "dependencies": {
   }
 }
-
