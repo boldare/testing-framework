@@ -58,7 +58,7 @@ var loadPage = function(page) {
     return driver.get(page);
 };
 
-var getDocumentReatyState() {
+var getDocumentReatyState = function() {
     return driver.executeScript(
         'return document.readyState === \'complete\'',
         ''
@@ -136,8 +136,8 @@ var hover = function(xpath, customTimeout) {
         });
 };
 
-var sleep = function(time) {
-    return new Promise((resolve) => setTimeout(resolve, time));
+var sleep = function(sleepTime) {
+    return new Promise((resolve) => setTimeout(resolve, sleepTime));
 };
 
 var World = function() {
