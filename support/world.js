@@ -58,6 +58,31 @@ var loadPage = function(page) {
     return driver.get(page);
 };
 
+var getDocumentReatyState() {
+    return driver.executeScript(
+        'return document.readyState === \'complete\'',
+        ''
+    ).then(function(result) {
+        return result;
+    });
+};
+
+var validatePageReadyState = function() {
+    //TODO: code style
+    return driver.wait(function() {
+        return getDocumentReatyState()
+            .then(function(value) {
+                return value;
+            },
+            function() {
+                return getDocumentReatyState()
+                    .then(function(value) {
+                        return value;
+                    });
+            });
+    }, defaultTimeout);
+};
+
 var waitForElement = function(xpath, customTimeout) {
     var waitTimeout = timeout || defaultTimeout;
 
@@ -87,7 +112,7 @@ var jsBasedClick = function(xpath) {
                 return true;
             });
         });
-}
+};
 
 var click = function(xpath, customTimeout) {
     return findElement(xpath, customTimeout)
@@ -99,9 +124,21 @@ var click = function(xpath, customTimeout) {
         });
 };
 
+var hover = function(xpath, customTimeout) {
+    return validatePageReadyState()
+        .then(function() {
+            return findElement(xpath, customTimeout).then(function(el) {
+                return driver.actions().mouseMove(el).perform();
+            });
+        });
+};
+
 var World = function() {
 };
 
 module.exports = {
     loadPage: loadPage,
+    findElement: findElement,
+    findElements: findElements,
+    click: click
 };
