@@ -66,25 +66,37 @@ var waitForElement = function(xpath, customTimeout) {
 
 var findElement = function(xpath, customTimeout) {
     return waitForElement(xpath, customTimeout)
-    .then(function() {
-        return driver.findElement(By.xpath(xpath));
-    });
+        .then(function() {
+            return driver.findElement(By.xpath(xpath));
+        });
 };
 
 var findElements = function(xpath, customTimeout) {
     return waitForElement(xpath, customTimeout)
-    .then(function() {
-        return driver.findElements(By.xpath(xpath));
-    });
+        .then(function() {
+            return driver.findElements(By.xpath(xpath));
+        });
 };
+
+var jsBasedClick = function(xpath) {
+    return findElement(xpath, 0)
+        .then(function() {
+            return driver.executeScript(
+                'document.evaluate(\''+ xpath +'\', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.click();'
+            ).then(function() {
+                return true;
+            });
+        });
+}
 
 var click = function(xpath, customTimeout) {
     return findElement(xpath, customTimeout)
-    .then(function(el) {
-        el.click().catch(function(e) {
-        console.log('Standard click failed.');
+        .then(function(el) {
+            el.click().catch(function(e) {
+                console.log('Standard click failed.');
+                return jsBasedClick(xpath);
+            });
         });
-    });
 };
 
 var World = function() {
