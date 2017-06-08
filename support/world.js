@@ -136,13 +136,13 @@ var hover = function(xpath, customTimeout) {
         });
 };
 
-fillInInput = function(xpath, value, blur, customTimeout) {
+var fillInInput = function(xpath, value, blur, customTimeout) {
     return findElement(xpath, customTimeout)
         .clear()
         .sendKeys(typeof blur !== 'undefined' && blur ? value  + '\t': value);
 };
 
-selectImage(imageInputXP, imageName, customTimeout) {
+var selectImage(imageInputXP, imageName, customTimeout) {
     return waitForElement(imageInputXP, customTimeout)
         .then(function() {
             return findElement(xpath, 0)
