@@ -136,6 +136,23 @@ var hover = function(xpath, customTimeout) {
         });
 };
 
+fillInInput = function(xpath, value, blur, customTimeout) {
+    return findElement(xpath, customTimeout)
+        .clear()
+        .sendKeys(typeof blur !== 'undefined' && blur ? value  + '\t': value);
+};
+
+selectImage(imageInputXP, imageName, customTimeout) {
+    return waitForElement(imageInputXP, customTimeout)
+        .then(function() {
+            return findElement(xpath, 0)
+                .then(function(el) {
+                    var imageDir = config.baseDirectory + 'testImages/' + imageName;
+                    return el.sendKeys(imageDir);
+                });
+        });
+};
+
 var sleep = function(sleepTime) {
     return new Promise((resolve) => setTimeout(resolve, sleepTime));
 };
