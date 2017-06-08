@@ -54,8 +54,30 @@ var driver = buildDriver(config.platform);
 loadDriverOptions(driver);
 
 //methods
+var log = function(logMessage, detailedLog) {
+    var displayDetailedLog = detailedLog !== 'undefined' ? detailedLog : false;
+
+    if(displayDetailedLog && config.detailedTestLog) {
+        console.log(sprintf('LOG-info: %s', logMessage));
+    } else if(!displayDetailedLog) {
+        console.log(sprintf('LOG: %s', logMessage));
+    }
+};
+
 var loadPage = function(page) {
     return driver.get(page);
+};
+
+var loadPageByRoute = function(routeName, customTimeout) {
+    //TODO: implement
+};
+
+var validateUrl(url, customTimeout) {
+    //TODO: implement
+};
+
+var validateUrlByRoute(pageName, customTimeout) {
+    //TODO: implement
 };
 
 var getDocumentReatyState = function() {
@@ -103,6 +125,22 @@ var findElements = function(xpath, customTimeout) {
         });
 };
 
+var isDisplayed = function(xpath, customTimeout) {
+    //TODO: implement
+};
+
+var isNotDisplayed = function(xpath, customTimeout) {
+    //TODO: implement
+};
+
+var isElementVisible = function(xpath, customTimeout) {
+    //TODO: implement
+};
+
+var isElementNotVisible = function(xpath, customTimeout) {
+    //TODO: implement
+};
+
 var jsBasedClick = function(xpath) {
     return findElement(xpath, 0)
         .then(function() {
@@ -148,6 +186,7 @@ var selectImage(imageInputXP, imageName, customTimeout) {
             return findElement(xpath, 0)
                 .then(function(el) {
                     var imageDir = config.baseDirectory + 'testImages/' + imageName;
+
                     return el.sendKeys(imageDir);
                 });
         });
@@ -155,6 +194,20 @@ var selectImage(imageInputXP, imageName, customTimeout) {
 
 var sleep = function(sleepTime) {
     return new Promise((resolve) => setTimeout(resolve, sleepTime));
+};
+
+var getDriver = function() {
+    return driver;
+};
+
+//angular-specific methods
+
+var getAngularInputValue = function(xpath, customTimeout) {
+    //TODO: implement
+};
+
+var validateDynamicAngularInputValue = function(xpath, expectedValue, customTimeout) {
+    //TODO: implement
 };
 
 var World = function() {
@@ -166,5 +219,9 @@ module.exports = {
     findElements: findElements,
     click: click,
     hover: hover,
-    sleep: sleep
+    fillInInput: fillInInput,
+    selectImage: selectImage,
+    getDriver: getDriver,
+    sleep: sleep,
+    LOG_LEVEL: LOG_LEVEL
 };

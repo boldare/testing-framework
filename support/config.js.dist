@@ -13,7 +13,7 @@ module.exports = {
     proxyHttpPort: 8082,
 
     //Browser settings:
-    platform: process.env.PLATFORM || "CHROME",
+    platform: process.env.PLATFORM || 'CHROME',
     runMaximized: true,
     xvfbMode: false,
     xvfbSettings: {
@@ -30,8 +30,7 @@ module.exports = {
     seleniumBrowserLogLevel: 'ALL',
     proxyCaptureHeaders: true,
     proxyCaptureContent: false,
-    detailedTestLog: true,
-    testDebugLog: false,
+    detailedTestLog: false,
     enableScreenshotReports: false,
 
     //other:
