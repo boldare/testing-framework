@@ -28,13 +28,13 @@ var buildDriver = function(platform) {
     var proxyUrl = config.proxyHost + ':' + config.proxyHttpPort;
 
     return new webdriver.Builder()
-    .usingServer(sprintf(seleniumServerUrl, config.seleniumServerHost, config.seleniumServerPort))
-    .withCapabilities(capabilities)
-    .setLoggingPrefs(logPreferences)
-    .setProxy(seleniumProxy.manual({
-        http: proxyUrl
-    }))
-    .build();
+        .usingServer(sprintf(seleniumServerUrl, config.seleniumServerHost, config.seleniumServerPort))
+        .withCapabilities(capabilities)
+        .setLoggingPrefs(logPreferences)
+        .setProxy(seleniumProxy.manual({
+            http: proxyUrl
+        }))
+        .build();
 };
 
 var loadDriverOptions = function(driver) {
@@ -73,11 +73,19 @@ var loadPageByRoute = function(routeName, customTimeout) {
 };
 
 var validateUrl(url, customTimeout) {
-    //TODO: implement
+    return driver.wait(function() {
+            return driver.getCurrentUrl().then(function(currentUrl) {
+                return currentUrl.indexOf(url) !== -1;
+            });
+        },
+        defaultTimeout
+    );
 };
 
 var validateUrlByRoute(pageName, customTimeout) {
-    //TODO: implement
+    var url = pageUrlData['basic'][pageName];
+
+    return validateUrl(url, customTimeout);
 };
 
 var getDocumentReatyState = function() {
@@ -222,6 +230,5 @@ module.exports = {
     fillInInput: fillInInput,
     selectImage: selectImage,
     getDriver: getDriver,
-    sleep: sleep,
-    LOG_LEVEL: LOG_LEVEL
+    sleep: sleep
 };
