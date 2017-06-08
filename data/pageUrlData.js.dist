@@ -1,0 +1,8 @@
+module.exports = {
+    basic: {
+
+    },
+    regex: {
+
+    }
+};
