@@ -83,6 +83,7 @@ var validateUrl(url, customTimeout) {
 };
 
 var validateUrlByRoute(pageName, customTimeout) {
+    //TODO: implement regex-based version
     var url = pageUrlData['basic'][pageName];
 
     return validateUrl(url, customTimeout);
