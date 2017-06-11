@@ -72,7 +72,7 @@ var loadPageByRoute = function(routeName, customTimeout) {
     //TODO: implement
 };
 
-var validateUrl(url, customTimeout) {
+var validateUrl = function(url, customTimeout) {
     return driver.wait(function() {
             return driver.getCurrentUrl().then(function(currentUrl) {
                 return currentUrl.indexOf(url) !== -1;
@@ -82,7 +82,7 @@ var validateUrl(url, customTimeout) {
     );
 };
 
-var validateUrlByRoute(pageName, customTimeout) {
+var validateUrlByRoute = function(pageName, customTimeout) {
     //TODO: implement regex-based version
     var url = pageUrlData['basic'][pageName];
 
@@ -189,14 +189,23 @@ var fillInInput = function(xpath, value, blur, customTimeout) {
         .sendKeys(typeof blur !== 'undefined' && blur ? value  + '\t': value);
 };
 
-var selectImage(imageInputXP, imageName, customTimeout) {
+var getCheckboxValue = function(xpath, value, customTimeout) {
+    //TODO: implement
+};
+
+var setCheckboxValue = function(xpath, value, customTimeout) {
+    //TODO: implement
+};
+
+var selectImage = function(imageInputXP, imageName, customTimeout) {
+    //TODO: probably should be changed to select file input
     return waitForElement(imageInputXP, customTimeout)
         .then(function() {
             return findElement(xpath, 0)
                 .then(function(el) {
-                    var imageDir = config.baseDirectory + 'testImages/' + imageName;
+                    var imagePath = config.baseDirectory + 'data/test_files/' + imageName;
 
-                    return el.sendKeys(imageDir);
+                    return el.sendKeys(imagePath);
                 });
         });
 };
@@ -207,6 +216,13 @@ var sleep = function(sleepTime) {
 
 var getDriver = function() {
     return driver;
+};
+
+var getCurrentDate = function() {
+    var date = new Date();
+    var str = `${ date.toJSON().slice(0,10) }_${ date.getHours() }-${ date.getMinutes() }-${ date.getSeconds() }`;
+
+    return str;
 };
 
 //angular-specific methods
@@ -231,5 +247,6 @@ module.exports = {
     fillInInput: fillInInput,
     selectImage: selectImage,
     getDriver: getDriver,
+    getCurrentDate: getCurrentDate,
     sleep: sleep
 };
