@@ -3,6 +3,8 @@ var webdriver = require('selenium-webdriver'),
 var webdriverRemote = require('selenium-webdriver/remote');
 var sprintf = require('sprintf-js').sprintf;
 var config = require('./config.js');
+var fs = require('fs');
+var path = require('path');
 
 var seleniumServerUrl = 'http://%s:%s/wd/hub';
 
@@ -244,6 +246,22 @@ var cleanBrowserState = function() {
     return driver.manage().deleteAllCookies();
 };
 
+var takeScreenshot = function(fileName, directory) {
+    console.log('takeScreenshot');
+    var screenshotFilePath = path.join(directory, fileName + ".png");
+    console.log('screenshotFilePath: ' + screenshotFilePath);
+
+    return driver.takeScreenshot().then(function(data){
+        var base64Data = data.replace(/^data:image\/png;base64,/,"");
+
+        return fs.writeFile(screenshotFilePath, base64Data, 'base64', function(err) {
+            if(err) {
+                world.log(err, true);
+            }
+        });
+    });
+};
+
 //angular-specific methods
 
 var getAngularInputValue = function(xpath, customTimeout) {
@@ -269,5 +287,6 @@ module.exports = {
     getCurrentDate: getCurrentDate,
     sleep: sleep,
     getLogsDirName: getLogsDirName,
-    cleanBrowserState: cleanBrowserState
+    cleanBrowserState: cleanBrowserState,
+    takeScreenshot: takeScreenshot
 };

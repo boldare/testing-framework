@@ -7,31 +7,38 @@ var {defineSupportCode} = require('cucumber');
 
 defineSupportCode(function({After, Before}) {
     var logsDir = 'logs/execution_logs/' + world.getLogsDirName();
+    var logFileName = scenario.getName() + '_' + world.getCurrentTime();
+    var screenshotReportsDir = 'logs/screenshot_reports/' + world.getLogsDirName();
+
     if(!fs.existsSync(logsDir)) {
         fs.mkdirSync(logsDir);
     }
 
-    if(config.enableScreenshotReports) {
-        var screenshotReportsDir = 'logs/screenshot_reports/' + world.getLogsDirName();
-        if(!fs.existsSync(screenshotReportsDir)) {
-            fs.mkdirSync(screenshotReportsDir);
-        }
-    }
+    // if(config.enableScreenshotReports) {
+    //     if(!fs.existsSync(screenshotReportsDir)) {
+    //         fs.mkdirSync(screenshotReportsDir);
+    //     }
+    // }
 
     Before(function (scenarioResult, callback) {
         console.log('Before');
         callback();
     });
 
-    After(function () {
+    After(function (scenario) {
         console.log('After');
-        return world.cleanBrowserState();
+
+        if(scenario.isFailed()) {
+            console.log('failed');
+            world.takeScreenshot(logFileName, logsDir);
+        }
+
+        return world.cleanBrowserState('', 'logs/execution_logs/');
     });
 });
 
 defineSupportCode(function({registerHandler}) {
     registerHandler('AfterFeatures', function(event) {
-        console.log('AfterFeatures');
         return driver.quit();
     });
 });
