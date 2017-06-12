@@ -37,6 +37,14 @@ defineSupportCode(function({After, Before}) {
         if(scenario.isFailed()) {
             console.log('failed');
             world.takeScreenshot(logFileName, logsDir);
+
+            driver.manage().logs().get('driver').then(function(logs){
+                console.log('Driver logs: ' + JSON.stringify(logs));
+            });
+
+            driver.manage().logs().get('browser').then(function(logs){
+                console.log('Browser logs: ' + JSON.stringify(logs));
+            });
         }
 
         return world.cleanBrowserState('', 'logs/execution_logs/');
