@@ -7,7 +7,7 @@ var {defineSupportCode} = require('cucumber');
 
 defineSupportCode(function({After, Before}) {
     var logsDir = 'logs/execution_logs/' + world.getLogsDirName();
-    var logFileName = scenario.getName() + '_' + world.getCurrentTime();
+    var logFileName;
     var screenshotReportsDir = 'logs/screenshot_reports/' + world.getLogsDirName();
 
     if(!fs.existsSync(logsDir)) {
@@ -20,13 +20,19 @@ defineSupportCode(function({After, Before}) {
     //     }
     // }
 
-    Before(function (scenarioResult, callback) {
-        console.log('Before');
+    Before(function(scenario, callback) {
+        // openProxyHttpPort(world.proxyHttpPort).then(function() {
+        //     startHar();
+        // });
+        console.log('before');
+        var featureName = scenario.scenario.feature.name;
+        var scenarioName = scenario.scenario.name;
+        logFileName = `${ featureName }-${ scenarioName }__${ world.getCurrentDate() }`;
+        console.log('logFileName: ' + logFileName);
         callback();
     });
 
-    After(function (scenario) {
-        console.log('After');
+    After(function(scenario) {
 
         if(scenario.isFailed()) {
             console.log('failed');
