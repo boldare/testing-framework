@@ -4,7 +4,7 @@
   "license": "UNLICENSED",
   "devDependencies": {
     "selenium-webdriver": "^3.4.0",
-    "cucumber": "^2.3.0",
+    "cucumber": "^2.3.1",
     "browsermob-proxy": "^1.0.9",
     "sprintf-js": "^1.1.1",
     "superagent": "^3.5.2",
