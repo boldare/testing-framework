@@ -11,6 +11,16 @@ const PLATFORM  = {
     FIREFOX: 'FIREFOX'
 };
 
+var getCurrentDate = function() {
+    //TODO: method visibility
+    var date = new Date();
+    var str = `${ date.toJSON().slice(0,10) }_${ date.getHours() }-${ date.getMinutes() }-${ date.getSeconds() }`;
+
+    return str;
+};
+
+var logsDirName = getCurrentDate();
+
 var buildDriver = function(platform) {
     var capabilities;
 
@@ -134,6 +144,13 @@ var findElements = function(xpath, customTimeout) {
         });
 };
 
+var getElementsNumber = function(xpath, customTimeout) {
+    return findElements(xpath, customTimeout)
+        .then(function(el) {
+            return el.length;
+        });
+};
+
 var isDisplayed = function(xpath, customTimeout) {
     //TODO: implement
 };
@@ -218,11 +235,13 @@ var getDriver = function() {
     return driver;
 };
 
-var getCurrentDate = function() {
-    var date = new Date();
-    var str = `${ date.toJSON().slice(0,10) }_${ date.getHours() }-${ date.getMinutes() }-${ date.getSeconds() }`;
+var getLogsDirName = function() {
+    return logsDirName;
+};
 
-    return str;
+var cleanBrowserState = function() {
+    driver.executeScript('localStorage.clear()');
+    return driver.manage().deleteAllCookies();
 };
 
 //angular-specific methods
@@ -248,5 +267,7 @@ module.exports = {
     selectImage: selectImage,
     getDriver: getDriver,
     getCurrentDate: getCurrentDate,
-    sleep: sleep
+    sleep: sleep,
+    getLogsDirName: getLogsDirName,
+    cleanBrowserState: cleanBrowserState
 };
