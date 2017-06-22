@@ -155,14 +155,28 @@ var getElementsNumber = function(xpath, customTimeout) {
 };
 
 var isDisplayed = function(xpath, customTimeout) {//visible in sources AND displayed
-    return findElements(xpath, customTimeout).then(function(elem) {//TODO: waiting for state change
-        return elem[0].isDisplayed();
+    return driver.wait(
+        function () {
+            return findElements(xpath, customTimeout).then(function(elem) {//TODO: waiting for state change
+                return elem[0].isDisplayed();
+            });
+        },
+        defaultTimeout
+    ).catch(function(err){
+        throw(`isDisplayed failed on element: "${ xpath }" - error message: "${ err.message }", error stack: "${ err.stack }`);
     });
 };
 
 var isNotDisplayed = function(xpath, customTimeout) {//element visible in sources and not displayed
-    return isDisplayed(xpath, customTimeout).then(function(result) {//TODO: waiting for state change
-        return !result;
+    return driver.wait(
+        function () {
+            return findElements(xpath, customTimeout).then(function(elem) {//TODO: waiting for state change
+                return !elem[0].isDisplayed();
+            });
+        },
+        defaultTimeout
+    ).catch(function(err){
+        throw(`isNotDisplayed failed on element: "${ xpath }" - error message: "${ err.message }", error stack: "${ err.stack }`);
     });
 };
 
