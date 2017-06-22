@@ -242,8 +242,19 @@ var getLogsDirName = function() {
 };
 
 var cleanBrowserState = function() {
-    driver.executeScript('localStorage.clear()');
-    return driver.manage().deleteAllCookies();
+    //TODO: clean browser console logs
+
+    return driver.executeScript('return window.location.hostname.length > 0', '').then(function(result) {//data URLs
+        if(result) {
+            driver.executeScript('localStorage.clear()');
+            driver.executeScript('sessionStorage.clear()');
+        } else {
+            console.log('Can\'t clean localStorage and sessionStorage');
+        }
+
+        return driver.manage().deleteAllCookies();
+    });
+
 };
 
 var takeScreenshot = function(fileName, directory) {
