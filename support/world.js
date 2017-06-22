@@ -68,7 +68,7 @@ loadDriverOptions(driver);
 
 //methods
 var log = function(logMessage, detailedLog) {
-    var displayDetailedLog = detailedLog !== 'undefined' ? detailedLog : false;
+    var displayDetailedLog = detailedLog !== undefined ? detailedLog : false;
 
     if(displayDetailedLog && config.detailedTestLog) {
         console.log(sprintf('LOG-info: %s', logMessage));
@@ -157,7 +157,7 @@ var getElementsNumber = function(xpath, customTimeout) {
 var isDisplayed = function(xpath, customTimeout) {//visible in sources AND displayed
     return driver.wait(
         function () {
-            return findElements(xpath, customTimeout).then(function(elem) {//TODO: waiting for state change
+            return findElements(xpath, customTimeout).then(function(elem) {
                 return elem[0].isDisplayed();
             });
         },
@@ -170,7 +170,7 @@ var isDisplayed = function(xpath, customTimeout) {//visible in sources AND displ
 var isNotDisplayed = function(xpath, customTimeout) {//element visible in sources and not displayed
     return driver.wait(
         function () {
-            return findElements(xpath, customTimeout).then(function(elem) {//TODO: waiting for state change
+            return findElements(xpath, customTimeout).then(function(elem) {
                 return !elem[0].isDisplayed();
             });
         },
@@ -248,7 +248,7 @@ var hover = function(xpath, customTimeout) {
 var fillInInput = function(xpath, value, blur, customTimeout) {
     return findElement(xpath, customTimeout)
         .clear()
-        .sendKeys(typeof blur !== 'undefined' && blur ? value  + '\t': value);
+        .sendKeys(typeof blur !== undefined && blur ? value  + '\t': value);
 };
 
 var getCheckboxValue = function(xpath, value, customTimeout) {
