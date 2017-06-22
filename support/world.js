@@ -167,11 +167,35 @@ var isNotDisplayed = function(xpath, customTimeout) {//element visible in source
 };
 
 var isElementVisible = function(xpath, customTimeout) {//element visible in sources and may be displayed or not
-    //TODO: implement
+    var waitTimeout = customTimeout || config.defaultTimeout;
+
+    return driver.wait(
+        function () {
+            return findElements(xpath).then(function(elem) {
+                return elem.length !== 0;
+            });
+        },
+        defaultTimeout
+    ).catch(function(err){
+        throw(`isElementVisible failed on element: "${ xpath }" - error message: "${ err.message }", error stack: "${ err.stack }`);
+    });
 };
 
 var isElementNotVisible = function(xpath, customTimeout) {//not visible in sources and not displayed
-    //TODO: implement
+    var waitTimeout = customTimeout || config.defaultTimeout;
+
+    return validatePageReadyState().then(function() {
+        return driver.wait(
+            function () {
+                return driver.findElements(By.xpath(xpath)).then(function(elem) {
+                    return elem.length !== 0;
+                });
+            },
+            defaultTimeout
+        ).catch(function(err){
+                throw(`isElementNotVisible failed on element: "${ xpath }" - error message: "${ err.message }", error stack: "${ err.stack }`);
+        });
+    });
 };
 
 var jsBasedClick = function(xpath) {
