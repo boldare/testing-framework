@@ -75,7 +75,8 @@ var startHar = function() {
 var saveHar = function(fileName, directory) {
     var harFilePath = path.join(directory, fileName + ".har");
 
-    return superagent.get(proxyHarUrl)
+    return superagent
+        .get(proxyHarUrl)
         .pipe(fs.createWriteStream(harFilePath));
 };
 

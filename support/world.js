@@ -5,6 +5,7 @@ var sprintf = require('sprintf-js').sprintf;
 var config = require('./config.js');
 var fs = require('fs');
 var path = require('path');
+var until = webdriver.until;
 
 var seleniumServerUrl = 'http://%s:%s/wd/hub';
 
@@ -127,7 +128,7 @@ var validatePageReadyState = function() {
 };
 
 var waitForElement = function(xpath, customTimeout) {
-    var waitTimeout = timeout || defaultTimeout;
+    var waitTimeout = customTimeout || config.defaultTimeout;
 
     return driver.wait(until.elementLocated(By.xpath(xpath)), waitTimeout);
 };
@@ -153,19 +154,23 @@ var getElementsNumber = function(xpath, customTimeout) {
         });
 };
 
-var isDisplayed = function(xpath, customTimeout) {
+var isDisplayed = function(xpath, customTimeout) {//visible in sources AND displayed
+    return findElements(xpath, customTimeout).then(function(elem) {//TODO: waiting for state change
+        return elem[0].isDisplayed();
+    });
+};
+
+var isNotDisplayed = function(xpath, customTimeout) {//element visible in sources and not displayed
+    return isDisplayed(xpath, customTimeout).then(function(result) {//TODO: waiting for state change
+        return !result;
+    });
+};
+
+var isElementVisible = function(xpath, customTimeout) {//element visible in sources and may be displayed or not
     //TODO: implement
 };
 
-var isNotDisplayed = function(xpath, customTimeout) {
-    //TODO: implement
-};
-
-var isElementVisible = function(xpath, customTimeout) {
-    //TODO: implement
-};
-
-var isElementNotVisible = function(xpath, customTimeout) {
+var isElementNotVisible = function(xpath, customTimeout) {//not visible in sources and not displayed
     //TODO: implement
 };
 
@@ -290,6 +295,8 @@ module.exports = {
     loadPage: loadPage,
     findElement: findElement,
     findElements: findElements,
+    isDisplayed: isDisplayed,
+    isNotDisplayed: isNotDisplayed,
     click: click,
     hover: hover,
     fillInInput: fillInInput,
