@@ -86,12 +86,14 @@ var loadPageByRoute = function(routeName, customTimeout) {
 };
 
 var validateUrl = function(url, customTimeout) {
+    var waitTimeout = customTimeout || config.defaultTimeout;
+
     return driver.wait(function() {
             return driver.getCurrentUrl().then(function(currentUrl) {
                 return currentUrl.indexOf(url) !== -1;
             });
         },
-        defaultTimeout
+        waitTimeout
     );
 };
 
@@ -111,8 +113,10 @@ var getDocumentReatyState = function() {
     });
 };
 
-var validatePageReadyState = function() {
+var validatePageReadyState = function(customTimeout) {
     //TODO: code style
+    var waitTimeout = customTimeout || config.defaultTimeout;
+
     return driver.wait(function() {
         return getDocumentReatyState()
             .then(function(value) {
@@ -124,7 +128,7 @@ var validatePageReadyState = function() {
                         return value;
                     });
             });
-    }, defaultTimeout);
+    }, waitTimeout);
 };
 
 var waitForElement = function(xpath, customTimeout) {
@@ -154,33 +158,59 @@ var getElementsNumber = function(xpath, customTimeout) {
         });
 };
 
-var isDisplayed = function(xpath, customTimeout) {//visible in sources AND displayed
+var validateElementsNumber = function(xpath, number, customTimeout) {
+
+    var waitTimeout = customTimeout || config.defaultTimeout;
+
+    if(number === 0) {
+        return validatePageReadyState().then(function() {
+            return isElementNotVisible(xpath, waitTimeout);
+        });
+    } else {
+        return driver.wait(
+            function () {
+                return findElements(xpath, waitTimeout).then(function(elem) {
+                    return elem.length === number;
+                });
+            },
+            waitTimeout
+        ).catch(function(err){
+            throw(`isElementVisible failed on element: "${ xpath }" - error message: "${ err.message }", error stack: "${ err.stack }`);
+        });
+    }
+};
+
+var validateElementDisplayed = function(xpath, customTimeout) {//visible in sources AND displayed
+    var waitTimeout = customTimeout || config.defaultTimeout;
+
     return driver.wait(
         function () {
-            return findElements(xpath, customTimeout).then(function(elem) {
+            return findElements(xpath, waitTimeout).then(function(elem) {
                 return elem[0].isDisplayed();
             });
         },
-        defaultTimeout
+        waitTimeout
     ).catch(function(err){
         throw(`isDisplayed failed on element: "${ xpath }" - error message: "${ err.message }", error stack: "${ err.stack }`);
     });
 };
 
-var isNotDisplayed = function(xpath, customTimeout) {//element visible in sources and not displayed
+var validateElementNotDisplayed = function(xpath, customTimeout) {//element visible in sources and not displayed
+    var waitTimeout = customTimeout || config.defaultTimeout;
+
     return driver.wait(
         function () {
-            return findElements(xpath, customTimeout).then(function(elem) {
+            return findElements(xpath, waitTimeout).then(function(elem) {
                 return !elem[0].isDisplayed();
             });
         },
-        defaultTimeout
+        waitTimeout
     ).catch(function(err){
         throw(`isNotDisplayed failed on element: "${ xpath }" - error message: "${ err.message }", error stack: "${ err.stack }`);
     });
 };
 
-var isElementVisible = function(xpath, customTimeout) {//element visible in sources and may be displayed or not
+var validateElementVisible = function(xpath, customTimeout) {//element visible in sources and may be displayed or not
     var waitTimeout = customTimeout || config.defaultTimeout;
 
     return driver.wait(
@@ -189,13 +219,13 @@ var isElementVisible = function(xpath, customTimeout) {//element visible in sour
                 return elem.length !== 0;
             });
         },
-        defaultTimeout
+        waitTimeout
     ).catch(function(err){
         throw(`isElementVisible failed on element: "${ xpath }" - error message: "${ err.message }", error stack: "${ err.stack }`);
     });
 };
 
-var isElementNotVisible = function(xpath, customTimeout) {//not visible in sources and not displayed
+var validateElementNotVisible = function(xpath, customTimeout) {//not visible in sources and not displayed
     var waitTimeout = customTimeout || config.defaultTimeout;
 
     return validatePageReadyState().then(function() {
@@ -205,7 +235,7 @@ var isElementNotVisible = function(xpath, customTimeout) {//not visible in sourc
                     return elem.length !== 0;
                 });
             },
-            defaultTimeout
+            waitTimeout
         ).catch(function(err){
                 throw(`isElementNotVisible failed on element: "${ xpath }" - error message: "${ err.message }", error stack: "${ err.stack }`);
         });
@@ -213,6 +243,7 @@ var isElementNotVisible = function(xpath, customTimeout) {//not visible in sourc
 };
 
 var jsBasedClick = function(xpath) {
+    //TODO: timeout
     return findElement(xpath, 0)
         .then(function() {
             return driver.executeScript(
@@ -228,8 +259,8 @@ var click = function(xpath, customTimeout) {
         .then(function() {
             return findElement(xpath, customTimeout)
                 .then(function(el) {
-                    el.click().catch(function(e) {
-                        console.log('Standard click failed.');
+                    el.click().catch(function(err) {
+                        console.log(`Standard click failed with error message: "${ err.message }", error stack: "${ err.stack }`);
                         return jsBasedClick(xpath);
                     });
                 });
@@ -251,16 +282,42 @@ var fillInInput = function(xpath, value, blur, customTimeout) {
         .sendKeys(typeof blur !== undefined && blur ? value  + '\t': value);
 };
 
-var getCheckboxValue = function(xpath, value, customTimeout) {
-    //TODO: implement
+var getCheckboxValue = function(xpath, customTimeout) {
+    return findElement(xpath, customTimeout).isSelected().then(function(value) {
+        return value;
+    });
+};
+
+var validateCheckboxValue = function(xpath, value, customTimeout) {
+    var waitTimeout = customTimeout || config.defaultTimeout;
+
+    return driver.wait(
+        function () {
+            return getCheckboxValue(xpath, customTimeout).then(function(elemState) {
+                return elemState === value;
+            });
+        },
+        waitTimeout
+    ).catch(function(err){
+        throw(`validateCheckboxValue failed on element: "${ xpath }" - error message: "${ err.message }", error stack: "${ err.stack }`);
+    });
 };
 
 var setCheckboxValue = function(xpath, value, customTimeout) {
-    //TODO: implement
+    var waitTimeout = customTimeout || config.defaultTimeout;
+
+    return getCheckboxValue(xpath, waitTimeout).then(function(isChecked) {
+        if(isChecked === value) {
+            return true;
+        }
+
+        return world.click(xpath, waitTimeout).then(function() {
+            return true;
+        });
+    });
 };
 
-var selectImage = function(imageInputXP, imageName, customTimeout) {
-    //TODO: probably should be changed to select file input
+var selectFileInputValue = function(imageInputXP, imageName, customTimeout) {
     return waitForElement(imageInputXP, customTimeout)
         .then(function() {
             return findElement(xpath, 0)
@@ -291,6 +348,7 @@ var cleanBrowserState = function() {
         if(result) {
             driver.executeScript('localStorage.clear()');
             driver.executeScript('sessionStorage.clear()');
+            driver.executeScript('console.clear()');
         } else {
             console.log('Can\'t clean localStorage and sessionStorage');
         }
@@ -322,7 +380,7 @@ var getAngularInputValue = function(xpath, customTimeout) {
     //TODO: implement
 };
 
-var validateDynamicAngularInputValue = function(xpath, expectedValue, customTimeout) {
+var validateAngularInputValue = function(xpath, expectedValue, customTimeout) {
     //TODO: implement
 };
 
@@ -333,12 +391,12 @@ module.exports = {
     loadPage: loadPage,
     findElement: findElement,
     findElements: findElements,
-    isDisplayed: isDisplayed,
-    isNotDisplayed: isNotDisplayed,
+    validateElementDisplayed: validateElementDisplayed,
+    validateElementNotDisplayed: validateElementNotDisplayed,
     click: click,
     hover: hover,
     fillInInput: fillInInput,
-    selectImage: selectImage,
+    selectFileInputValue: selectFileInputValue,
     getDriver: getDriver,
     getCurrentDate: getCurrentDate,
     sleep: sleep,
