@@ -35,7 +35,7 @@ Features directory contains all project files.
 `steps` directory contains Step definitions (Context methods) that connect Gherkin steps to the Page methods.
 
 ## pages
-`pages` directory contains Page Object files. Additional `universal` directory is available for reusable components that exist on multipla pages.
+`pages` directory contains Page Object files. Additional `universal` directory is available for reusable components that exist on multiple pages.
 
 ## support
 `support` is framework directory. All framework methods are implemented here (mainly `world.js`). This directory also contains `config.js.dist` file that is default framework config.
@@ -45,7 +45,7 @@ Features directory contains all project files.
 `test_files` directory is for test data files needed for test execution like images etc.
 
 ## logs
-Directory where logs are written. `execution_logs` contains typical logs from test execution - screenshots on failures and .har files for all scenarios.
+Directory where logs are written. `execution_logs` contains typical logs from test execution - screenshots on failures and .har files for all scenarios. `screentshot_reports` directory contains Screenshot reports.
 
 ## docs
 Documentation.

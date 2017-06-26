@@ -13,7 +13,6 @@ seleniumServerPort: 4444,
 proxyHost: 'localhost',
 proxyPort: 8888,
 proxyHttpPort: 8082,
-disableProxy: false,
 
 //Browser settings:
 platform: process.env.PLATFORM || 'CHROME',
@@ -38,7 +37,7 @@ testDebugLog: false,
 enableScreenshotReports: false,
 
 //other:
-extendedPageReadyStateValidation: true,
+extendedPageReadyStateValidation: true,//NOT YET IMPLEMENTED
 
 //project specific settings:
 ```
