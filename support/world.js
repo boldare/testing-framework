@@ -47,7 +47,7 @@ function loadPage(page) {
 };
 
 function loadPageByRoute(routeName, customTimeout) {
-    //TODO: implement
+    //TODO2: implement
 };
 
 function validateUrl(url, customTimeout) {
@@ -79,7 +79,6 @@ function validateUrlByRoute(pageName, customTimeout) {
 };
 
 function validatePageReadyState(customTimeout) {
-    //TODO: code style
     var waitTimeout = customTimeout || config.defaultTimeout;
 
     return driver.wait(function() {
@@ -208,7 +207,7 @@ function validateElementNotVisible(xpath, customTimeout) {//not visible in sourc
 };
 
 function jsBasedClick(xpath) {
-    //TODO: timeout
+    //TODO2: timeout
     return findElement(xpath, 0)
         .then(function() {
             return driver.executeScript(
@@ -307,8 +306,6 @@ function getLogsDirName() {
 };
 
 function cleanBrowserState() {
-    //TODO: clean browser console logs
-
     return driver.executeScript('return window.location.hostname.length > 0', '').then(function(result) {//data URLs
         if(result) {
             driver.executeScript('localStorage.clear()');
@@ -342,14 +339,22 @@ function takeScreenshot(fileName, directory) {
 //angular-specific methods
 
 function getAngularInputValue(xpath, customTimeout) {
-    //TODO: implement
+    //TODO2: implement
 };
 
 function validateAngularInputValue(xpath, expectedValue, customTimeout) {
-    //TODO: implement
+    //TODO2: implement
 };
 
 //internal methods
+
+function init() {
+    logsDirName = getCurrentDate();
+
+    driver = buildDriver(config.platform);
+    loadDriverOptions(driver);
+};
+
 function getCurrentDate() {
     var date = new Date();
     var str = `${ date.toJSON().slice(0,10) }_${ date.getHours() }-${ date.getMinutes() }-${ date.getSeconds() }`;
@@ -393,16 +398,6 @@ function loadDriverOptions(driver) {
     }
 
     driver.setFileDetector(new webdriverRemote.FileDetector);
-};
-
-function init() {
-    logsDirName = getCurrentDate();
-
-    driver = buildDriver(config.platform);
-    loadDriverOptions(driver);
-};
-
-var World = function() {
 };
 
 module.exports = {
