@@ -73,11 +73,35 @@ function validateUrl(url, customTimeout) {
     );
 };
 
-function validateUrlByRoute(pageName, customTimeout) {
-    //TODO: implement regex-based version
-    var url = pageUrlData['basic'][pageName];
+function validateRegexUrl(regex, customTimeout) {
+    var waitTimeout = customTimeout || config.defaultTimeout;
 
-    return validateUrl(url, customTimeout);
+    return driver.wait(function() {
+            return driver.getCurrentUrl().then(function(currentUrl) {
+                var r = new RegExp(regex);
+                if(r.test(currentUrl)) {
+                    return true;
+                }
+
+                return false;
+            });
+        },
+        waitTimeout
+    );
+};
+
+function validateUrlByRoute(pageName, customTimeout) {
+    if(pageUrlData['regex'] !== undefined && pageUrlData['regex'][pageName] != undefined) {
+        var url = pageUrlData['regex'][pageName];
+
+        return validateRegexUrl(regex, customTimeout);
+    } else if(pageUrlData['basic'] !== undefined && pageUrlData['basic'][pageName] != undefined) {
+        var url = pageUrlData['basic'][pageName];
+
+        return validateUrl(url, customTimeout);
+    } else {
+        logError('validateUrlByRoute - incorrect page name: ' + pageName);
+    }
 };
 
  function getDocumentReatyState() {
@@ -222,7 +246,7 @@ function jsBasedClick(xpath) {
     return findElement(xpath, 0)
         .then(function() {
             return driver.executeScript(
-                'document.evaluate(\''+ xpath +'\', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.click();'
+                `document.evaluate(\'${ xpath }\', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.click();`
             ).then(function() {
                 return true;
             });
