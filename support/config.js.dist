@@ -34,7 +34,7 @@ module.exports = {
     enableScreenshotReports: false,
 
     //other:
-    extendedPageReadyStateValidation: true,
+    extendedPageReadyStateValidation: true,//NOT YET IMPLEMENTED
 
     //project specific settings:
 

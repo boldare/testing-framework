@@ -225,19 +225,16 @@
         
           <h1 id="about">About</h1>
 
-<p>Design of JS testing framework above Selenium Webdriver.</p>
+<p>Testing framework above Selenium Webdriver and Cucumber written in JS.</p>
 
-<p>Main goals:</p>
-
-<ul>
-<li>Easy to use, high-level methods</li>
-<li>All needed waits build-in</li>
-<li>BDD Layer (Gherkin)</li>
-<li>Reports useful from both business and developers point of view (Gherkin scenarios, Screenshots, Driver logs, Proxy logs)</li>
-<li>Headless execution</li>
-<li>Parallel execution (in the future)</li>
-<li>Multiple driver configs and devices support (in the future)</li>
-</ul>
+<p>Main goals:
+  - Easy to use, high-level methods
+  - All needed waits build-in
+  - BDD Layer (Gherkin)
+  - Reports useful from both business and developers point of view (Gherkin scenarios, Screenshots, Driver logs, Proxy logs)
+  - Headless execution
+  - Parallel execution (not in first release)
+  - Multiple driver configs and devices support (not in first release)</p>
 
           <h1 id="requirements">Requirements</h1>
 
@@ -269,7 +266,6 @@
 <span class="nx">proxyHost</span><span class="p">:</span> <span class="s1">'localhost'</span><span class="p">,</span>
 <span class="nx">proxyPort</span><span class="p">:</span> <span class="mi">8888</span><span class="p">,</span>
 <span class="nx">proxyHttpPort</span><span class="p">:</span> <span class="mi">8082</span><span class="p">,</span>
-<span class="nx">disableProxy</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
 
 <span class="c1">//Browser settings:</span>
 <span class="nx">platform</span><span class="p">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">PLATFORM</span> <span class="o">||</span> <span class="s1">'CHROME'</span><span class="p">,</span>
@@ -294,7 +290,7 @@
 <span class="nx">enableScreenshotReports</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
 
 <span class="c1">//other:</span>
-<span class="nx">extendedPageReadyStateValidation</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+<span class="nx">extendedPageReadyStateValidation</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span><span class="c1">//NOT YET IMPLEMENTED</span>
 
 <span class="c1">//project specific settings:</span>
 </code></pre>
@@ -337,7 +333,7 @@
 
 <h2 id="pages">pages</h2>
 
-<p><code class="prettyprint">pages</code> directory contains Page Object files. Additional <code class="prettyprint">universal</code> directory is available for reusable components that exist on multipla pages.</p>
+<p><code class="prettyprint">pages</code> directory contains Page Object files. Additional <code class="prettyprint">universal</code> directory is available for reusable components that exist on multiple pages.</p>
 
 <h2 id="support">support</h2>
 
@@ -350,9 +346,9 @@
 
 <h2 id="logs">logs</h2>
 
-<p>Directory where logs are written. <code class="prettyprint">execution_logs</code> contains typical logs from test execution - screenshots on failures and .har files for all scenarios.</p>
+<p>Directory where logs are written. <code class="prettyprint">execution_logs</code> contains typical logs from test execution - screenshots on failures and .har files for all scenarios. <code class="prettyprint">screentshot_reports</code> directory contains Screenshot reports.</p>
 
-<h2 id="documentation">documentation</h2>
+<h2 id="docs">docs</h2>
 
 <p>Documentation.</p>
 
@@ -360,7 +356,7 @@
 
 <h2 id="world">World</h2>
 
-<p>World will contain all basic methods needed for development of functional tests of websites. Driver would be available too so it would be possible to use all low-level Webdriver methods. All methods that need if contain build-in waits (timeouts configurable in config file), custom timeout can be set too.</p>
+<p>World contains all basic methods needed for development of functional tests of websites. Driver is available too so it is possible to use all low-level Webdriver methods. All methods that need if contain build-in waits (timeouts configurable in config file), custom timeout can be set too.</p>
 
 <h3 id="actions">Actions</h3>
 
@@ -384,13 +380,6 @@
 
 <p><code class="prettyprint">customTimeout</code> (optional) - would be used instead of default config timeout.</p>
 
-<h4 id="loadpagebyroute-routename-customtimeout">loadPageByRoute(routeName, customTimeout)</h4>
-
-<p>Loads page by route from pageUrlData file.</p>
-
-<p><code class="prettyprint">routeName</code> route name from pageUrlData that would be opened (only basic - can&rsquo;t be regex).
-<code class="prettyprint">customTimeout</code> (optional) - would be used instead of default config timeout.</p>
-
 <h4 id="loadpage-url-customtimeout">loadPage(url, customTimeout)</h4>
 
 <p>Loads page by URL.</p>
@@ -398,7 +387,17 @@
 <p><code class="prettyprint">url</code> page URL
 <code class="prettyprint">customTimeout</code> (optional) - would be used instead of default config timeout.</p>
 
+<h4 id="loadpagebyroute-routename-customtimeout-not-yet-implemented">loadPageByRoute(routeName, customTimeout) (NOT YET IMPLEMENTED)</h4>
+
+<p>Loads page by route from pageUrlData file.</p>
+
+<p><code class="prettyprint">routeName</code> route name from pageUrlData that would be opened (only basic - can&rsquo;t be regex).</p>
+
+<p><code class="prettyprint">customTimeout</code> (optional) - would be used instead of default config timeout.</p>
+
 <h4 id="fillininput-xpath-value-blur-customtimeout">fillInInput(xpath, value, blur, customTimeout)</h4>
+
+<p>Fills in input with value.</p>
 
 <p><code class="prettyprint">xpath</code> string with element xpath</p>
 
@@ -424,62 +423,140 @@
 
 <p><code class="prettyprint">customTimeout</code> (optional) - would be used instead of default config timeout.</p>
 
-<h4 id="selectimage-imageinputxp-imagename-customtimeout">selectImage(imageInputXP, imageName, customTimeout)</h4>
+<h4 id="selectfileinputvalue-inputxp-filename-customtimeout">selectFileInputValue(inputXP, fileName, customTimeout)</h4>
+
+<p>Sets file input value.</p>
+
+<p><code class="prettyprint">inputXP</code> string with file input element xpath.</p>
+
+<p><code class="prettyprint">fileName</code> fileName that would be set</p>
+
+<p><code class="prettyprint">customTimeout</code> (optional) - would be used instead of default config timeout.</p>
+
+<h4 id="setcheckboxvalue-xpath-value-customtimeout">setCheckboxValue(xpath, value, customTimeout)</h4>
+
+<p>Sets checkbox value.</p>
+
+<p><code class="prettyprint">xpath</code> string with element xpath</p>
+
+<p><code class="prettyprint">value</code> checkbox value</p>
+
+<p><code class="prettyprint">customTimeout</code> (optional) - would be used instead of default config timeout.</p>
 
 <h3 id="validators">Validators</h3>
 
-<h4 id="isdisplayed-xpath-customtimeout">isDisplayed(xpath, customTimeout)</h4>
+<h4 id="getelementsnumber-xpath-customtimeout">getElementsNumber(xpath, customTimeout)</h4>
 
-<p>Checks if element is displayed (displayed, not only visible in page source).</p>
+<p>Returns number of elements.</p>
 
-<h4 id="isnotdisplayed-xpath-customtimeout">isNotDisplayed(xpath, customTimeout)</h4>
+<p><code class="prettyprint">xpath</code> string with element xpath</p>
 
-<p>Checks if element is not displayed (not displayed, may be visible in page source).</p>
+<p><code class="prettyprint">customTimeout</code> (optional) - would be used instead of default config timeout.</p>
 
-<h4 id="iselementvisible-xpath-customtimeout">isElementVisible(xpath, customTimeout)</h4>
+<h4 id="getcheckboxvalue-xpath-customtimeout">getCheckboxValue(xpath, customTimeout)</h4>
+
+<p>Returns checkbox value.</p>
+
+<p><code class="prettyprint">xpath</code> string with element xpath</p>
+
+<p><code class="prettyprint">customTimeout</code> (optional) - would be used instead of default config timeout.</p>
+
+<h4 id="validatecheckboxvalue-xpath-value-customtimeout">validateCheckboxValue(xpath, value, customTimeout)</h4>
+
+<p>Validates if checkbox is set to expected value.</p>
+
+<p><code class="prettyprint">xpath</code> string with element xpath</p>
+
+<p><code class="prettyprint">value</code> expected value</p>
+
+<p><code class="prettyprint">customTimeout</code> (optional) - would be used instead of default config timeout.</p>
+
+<h4 id="validateelementdisplayed-xpath-customtimeout">validateElementDisplayed(xpath, customTimeout)</h4>
+
+<p>Validates if element is displayed (not only visible in page source - visible in sources AND displayed).</p>
+
+<p><code class="prettyprint">xpath</code> string with element xpath</p>
+
+<p><code class="prettyprint">customTimeout</code> (optional) - would be used instead of default config timeout.</p>
+
+<h4 id="validateelementnotdisplayed-xpath-customtimeout">validateElementNotDisplayed(xpath, customTimeout)</h4>
+
+<p>Validates if element is not displayed (visible in sources and not displayed).</p>
+
+<p><code class="prettyprint">xpath</code> string with element xpath</p>
+
+<p><code class="prettyprint">customTimeout</code> (optional) - would be used instead of default config timeout.</p>
+
+<h4 id="validateelementvisible-xpath-customtimeout">validateElementVisible(xpath, customTimeout)</h4>
 
 <p>Checks if element is visible in page source. May not be displayed.</p>
 
-<h4 id="iselementnotvisible-xpath-customtimeout">isElementNotVisible(xpath, customTimeout)</h4>
+<p><code class="prettyprint">xpath</code> string with element xpath</p>
+
+<p><code class="prettyprint">customTimeout</code> (optional) - would be used instead of default config timeout.</p>
+
+<h4 id="validateelementnotvisible-xpath-customtimeout">validateElementNotVisible(xpath, customTimeout)</h4>
 
 <p>Checks if element is not visible in page source.</p>
 
-<h4 id="validatedynamicelementtext-xpath-expectedtext-timeout">validateDynamicElementText(xpath, expectedText, timeout)</h4>
+<p><code class="prettyprint">xpath</code> string with element xpath</p>
+
+<p><code class="prettyprint">customTimeout</code> (optional) - would be used instead of default config timeout.</p>
+
+<h4 id="validateelementsnumber-xpath-number-customtimeout">validateElementsNumber(xpath, number, customTimeout)</h4>
+
+<p>Validates if number of elements is correct.</p>
+
+<p><code class="prettyprint">xpath</code> string with element xpath</p>
+
+<p><code class="prettyprint">number</code> expected number of elements</p>
+
+<p><code class="prettyprint">customTimeout</code> (optional) - would be used instead of default config timeout.</p>
 
 <h4 id="validatepagereadystate">validatePageReadyState()</h4>
 
-<p>Validates if the page load is complete. <code class="prettyprint">extendedPageReadyStateValidation</code> may be enabled in config file for extended validation.</p>
+<p>Validates if the page load is complete. <code class="prettyprint">extendedPageReadyStateValidation</code> may be enabled in config file for extended validation (not implemented yet).</p>
 
 <h4 id="validateurlbyroute-pagename-customtimeout">validateUrlByRoute(pageName, customTimeout)</h4>
 
-<p>Validates page route based on page route defined in <code class="prettyprint">pageRoute.js</code> file. If regex is available it would be used, if not simplified validation would be used (by url part).
+<p>Validates page route based on page route defined in <code class="prettyprint">pageRoute.js</code> file. If regex is available it would be used, if not simplified validation would be used (by URL part).
 <code class="prettyprint">pageName</code> page route name</p>
 
 <h4 id="validateurl-url-customtimeout">validateUrl(url, customTimeout)</h4>
 
-<p>Validates url by url text.
-<code class="prettyprint">url</code> url string
+<p>Validates url by url text.</p>
+
+<p><code class="prettyprint">url</code> url string
+<code class="prettyprint">customTimeout</code> (optional) - would be used instead of default config timeout.</p>
+
+<h4 id="validateurlbyregex-regex-customtimeout">validateUrlByRegex(regex, customTimeout)</h4>
+
+<p>Validates url by regex.</p>
+
+<p><code class="prettyprint">regex</code> regex
 <code class="prettyprint">customTimeout</code> (optional) - would be used instead of default config timeout.</p>
 
 <h3 id="other">Other</h3>
-
-<h4 id="getcurrenttime">getCurrentTime()</h4>
-
-<p>Returns current date and time.</p>
 
 <h4 id="getdriver">getDriver()</h4>
 
 <p>Returns current driver. May be used for direct driver access when low-level driver methods are needed.</p>
 
-<h4 id="getinstancenumber">getInstanceNumber()</h4>
+<h4 id="getinstancenumber-not-yet-implemented">getInstanceNumber() (NOT YET IMPLEMENTED)</h4>
 
 <p>Returns number of instance in case of parallel execution.</p>
 
-<h4 id="log-logmessage-loglevel">log(logMessage, logLevel)</h4>
+<h4 id="logerror-errormessage-nothrow">logError(errorMessage, noThrow)</h4>
 
-<p>Logger</p>
+<p>Error logger.
+<code class="prettyprint">errorMessage</code> message
+<code class="prettyprint">noThrow</code> (optional) - can be set if error message should only be displayed and not thrown.</p>
 
-<p>//TODO: description</p>
+<h4 id="logmessage-logmessage-detailedonlylog">logMessage(logMessage, detailedOnlyLog)</h4>
+
+<p>Message logger - writes custom messages for steps.
+<code class="prettyprint">logMessage</code> message
+<code class="prettyprint">detailedOnlyLog</code> (optional) - can be set if message should be only shown if config <code class="prettyprint">detailedTestLog</code> is enabled.</p>
 
 <h4 id="sleep-sleeptime">sleep(sleepTime)</h4>
 
@@ -487,11 +564,27 @@
 
 <p><code class="prettyprint">sleepTime</code> sleep time (ms)</p>
 
-<h3 id="angular-specific">Angular-specific</h3>
+<h4 id="cleanbrowserstate">cleanBrowserState</h4>
+
+<p>Cleans browser state - Cookies, localStorage, sessionStorage and console logs.</p>
+
+<h4 id="takescreenshot-filename-directory">takeScreenshot(fileName, directory)</h4>
+
+<p>Takes screenshot.</p>
+
+<p><code class="prettyprint">fileName</code> screenshot file name (without extension - would be saved as .png).</p>
+
+<p><code class="prettyprint">directory</code> directory where screenshot would be saved.</p>
+
+<h4 id="getcurrentdate">getCurrentDate()</h4>
+
+<p>Returns current date in <code class="prettyprint">YYYY-MM-DD_HH-MM-SS-mmm</code> format (for example <code class="prettyprint">2017-06-26_13-53-51-122</code>)</p>
+
+<h3 id="angular-specific-not-yet-implemented">Angular-specific (NOT YET IMPLEMENTED)</h3>
 
 <p>Angular specific methods.</p>
 
-<h4 id="getangularinputvalue-xpath-customtimeout">getAngularInputValue(xpath, customTimeout)</h4>
+<h4 id="getangularinputvalue-xpath-customtimeout-not-yet-implemented">getAngularInputValue(xpath, customTimeout) (NOT YET IMPLEMENTED)</h4>
 
 <p>Returns angular input value.</p>
 
@@ -499,7 +592,7 @@
 
 <p><code class="prettyprint">customTimeout</code> (optional) - would be used instead of default config timeout.</p>
 
-<h4 id="validatedynamicangularinputvalue-xpath-expectedvalue-customtimeout">validateDynamicAngularInputValue(xpath, expectedValue, customTimeout)</h4>
+<h4 id="validatedynamicangularinputvalue-xpath-expectedvalue-customtimeout-not-yet-implemented">validateDynamicAngularInputValue(xpath, expectedValue, customTimeout) (NOT YET IMPLEMENTED)</h4>
 
 <p>Validates if angular input value is correct.</p>
 

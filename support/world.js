@@ -104,7 +104,7 @@ function validateUrlByRoute(pageName, customTimeout) {
     }
 };
 
- function getDocumentReatyState() {
+ function getDocumentReatyState() {//internal only
     return driver.executeScript(
         'return document.readyState === \'complete\'',
         ''
@@ -130,7 +130,7 @@ function validatePageReadyState(customTimeout) {
     }, waitTimeout);
 };
 
-function waitForElement(xpath, customTimeout) {
+function waitForElement(xpath, customTimeout) {//internal only
     var waitTimeout = customTimeout || config.defaultTimeout;
 
     return driver.wait(until.elementLocated(By.xpath(xpath)), waitTimeout);
@@ -316,7 +316,7 @@ function setCheckboxValue(xpath, value, customTimeout) {
     });
 };
 
-function selectFileInputValue(imageInputXP, imageName, customTimeout) {
+function selectFileInputValue(inputXP, fileName, customTimeout) {
     return waitForElement(imageInputXP, customTimeout)
         .then(function() {
             return findElement(xpath, 0)
@@ -336,7 +336,7 @@ function getDriver() {
     return driver;
 };
 
-function getLogsDirName() {
+function getLogsDirName() {//internal only
     return logsDirName;
 };
 
@@ -437,18 +437,31 @@ module.exports = {
     logMessage: logMessage,
     logError: logError,
     loadPage: loadPage,
+    loadPageByRoute: loadPageByRoute,
     findElement: findElement,
     findElements: findElements,
     validateElementDisplayed: validateElementDisplayed,
     validateElementNotDisplayed: validateElementNotDisplayed,
+    validateElementDisplayed: validateElementDisplayed,
+    validateElementNotDisplayed: validateElementNotDisplayed,
+    validateElementsNumber: validateElementsNumber,
     click: click,
+    getCheckboxValue: getCheckboxValue,
+    setCheckboxValue: setCheckboxValue,
+    validateCheckboxValue: validateCheckboxValue,
+    getCurrentUrl: getCurrentUrl,
     hover: hover,
     fillInInput: fillInInput,
     selectFileInputValue: selectFileInputValue,
     getDriver: getDriver,
+    getElementsNumber: getElementsNumber,
     getCurrentDate: getCurrentDate,
     sleep: sleep,
     getLogsDirName: getLogsDirName,
     cleanBrowserState: cleanBrowserState,
-    takeScreenshot: takeScreenshot
+    takeScreenshot: takeScreenshot,
+    validatePageReadyState: validatePageReadyState,
+    validateUrl: validateUrl,
+    validateUrlByRoute: validateUrlByRoute,
+    validateUrlByRegex: validateUrlByRegex
 };
