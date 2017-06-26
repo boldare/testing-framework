@@ -321,16 +321,14 @@ function cleanBrowserState() {
 };
 
 function takeScreenshot(fileName, directory) {
-    console.log('takeScreenshot');
     var screenshotFilePath = path.join(directory, fileName + ".png");
-    console.log('screenshotFilePath: ' + screenshotFilePath);
 
     return driver.takeScreenshot().then(function(data){
         var base64Data = data.replace(/^data:image\/png;base64,/,"");
 
         return fs.writeFile(screenshotFilePath, base64Data, 'base64', function(err) {
             if(err) {
-                world.log(err, true);
+                log('takeScreenshot eror: ' + err, true);
             }
         });
     });
@@ -357,7 +355,7 @@ function init() {
 
 function getCurrentDate() {
     var date = new Date();
-    var str = `${ date.toJSON().slice(0,10) }_${ date.getHours() }-${ date.getMinutes() }-${ date.getSeconds() }`;
+    var str = `${ date.toJSON().slice(0,10) }_${ date.getHours() }-${ date.getMinutes() }-${ date.getSeconds() }-${ date.getMilliseconds() }`;
 
     return str;
 };

@@ -11,6 +11,9 @@ var proxyPortUrl = 'http://%s:%s/proxy';
 var proxyHarUrl = `http://${ config.proxyHost }:${ config.proxyPort }/proxy/${ config.proxyHttpPort }/har` +
     `?captureContent=${ config.proxyCaptureContent }&captureHeaders=${ config.proxyCaptureHeaders }`;
 
+var logsDir = 'logs/execution_logs/' + world.getLogsDirName();
+var screenshotReportsDir = 'logs/screenshot_reports/' + world.getLogsDirName();
+
 var isProxyHttpPortOpen = function() {
     var requestUrl = sprintf(proxyPortUrl, config.proxyHost, config.proxyPort);
 
@@ -81,20 +84,9 @@ var saveHar = function(fileName, directory) {
 };
 
 defineSupportCode(function({After, Before}) {
-    var logsDir = 'logs/execution_logs/' + world.getLogsDirName();
     var logFileName;
-    var screenshotReportsDir = 'logs/screenshot_reports/' + world.getLogsDirName();
 
-    if(!fs.existsSync(logsDir)) {
-        fs.mkdirSync(logsDir);
-    }
-
-    //TODO: screenshot reports
-    // if(config.enableScreenshotReports) {
-    //     if(!fs.existsSync(screenshotReportsDir)) {
-    //         fs.mkdirSync(screenshotReportsDir);
-    //     }
-    // }
+    createLogDirs(logsDir, screenshotReportsDir);
 
     Before(function(scenario, callback) {
         openProxyHttpPort(config.proxyHttpPort).then(function() {
@@ -103,7 +95,7 @@ defineSupportCode(function({After, Before}) {
 
         var featureName = scenario.scenario.feature.name;
         var scenarioName = scenario.scenario.name;
-        logFileName = `${ featureName }-${ scenarioName }__${ world.getCurrentDate() }`;
+        logFileName = `${ world.getCurrentDate() }__${ featureName }-${ scenarioName }`;
 
         callback();
     });
@@ -133,3 +125,29 @@ defineSupportCode(function({registerHandler}) {
         return driver.quit();
     });
 });
+
+defineSupportCode(function({registerHandler}) {
+    registerHandler('AfterStep', function(afterStepData) {
+        if(config.enableScreenshotReports) {
+            if(afterStepData.constructor.name == 'Step') {
+                var featureName = afterStepData.scenario.feature.name;
+                var scenarioName = afterStepData.scenario.name;
+                var stepName = afterStepData.name;
+                var screenshotReportFileName = `${ world.getCurrentDate() }__${ featureName }-${ scenarioName }-${ stepName }`;
+                world.takeScreenshot(screenshotReportFileName, screenshotReportsDir);
+            }
+        }
+    });
+});
+
+function createLogDirs(logsDir, screenshotReportsDir) {
+    if(!fs.existsSync(logsDir)) {
+        fs.mkdirSync(logsDir);
+    }
+
+    if(config.enableScreenshotReports) {
+        if(!fs.existsSync(screenshotReportsDir)) {
+            fs.mkdirSync(screenshotReportsDir);
+        }
+    }
+};
