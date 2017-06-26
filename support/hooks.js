@@ -21,7 +21,7 @@ var isProxyHttpPortOpen = function() {
         .get(requestUrl)
         .then(function(res) {//TODO: error support (browsermob not running etc.)
             if(res.status !== 200) {
-                console.log('Proxy response error: ' + res.status);
+                world.logError('Proxy response error: ' + res.status);
                 return false;
             }
 
@@ -33,11 +33,9 @@ var isProxyHttpPortOpen = function() {
                 portsArray.proxyList[0].port !== undefined &&
                 portsArray.proxyList[0].port == config.proxyHttpPort
             ) {
-                console.log('isProxyHttpPortOpen - true');
                 return true;
             }
 
-            console.log('isProxyHttpPortOpen - false');
             return false;
         });
 };
@@ -47,14 +45,14 @@ var openProxyHttpPort = function(proxyHttpPort) {
 
     return isProxyHttpPortOpen().then(function(isOpen) {
         if(!isOpen) {
-            console.log('Opening proxy HTTP port: ' + config.proxyHttpPort);
+            world.logMessage('Opening proxy HTTP port: ' + config.proxyHttpPort, true);
 
             return superagent
                 .post(requestUrl)
                 .send('port=' + proxyHttpPort)
                 .then(function(res) {
                     if(res.status !== 200) {
-                        throw 'Proxy response error: ' + res.status;
+                        world.logError('Proxy response error: ' + res.status);
                     }
 
                     return true;
@@ -68,7 +66,7 @@ var startHar = function() {
         .put(proxyHarUrl)
         .then(function(res) {
             if(res.status !== 200 && res.status !== 204) {
-                throw 'Proxy start HAR error: ' + res.status;
+                world.logError('Proxy start HAR error: ' + res.status);
             }
 
             return true;
@@ -91,6 +89,9 @@ defineSupportCode(function({After, Before}) {
     Before(function(scenario, callback) {
         openProxyHttpPort(config.proxyHttpPort).then(function() {
             startHar();
+        })
+        .catch(function (err) {
+            world.logError('Proxy response error: ' + err);
         });
 
         var featureName = scenario.scenario.feature.name;
@@ -106,11 +107,11 @@ defineSupportCode(function({After, Before}) {
             world.takeScreenshot(logFileName, logsDir);
 
             driver.manage().logs().get('driver').then(function(logs){
-                console.log('Driver logs: ' + JSON.stringify(logs));
+                world.logMessage('Driver logs: ' + JSON.stringify(logs));
             });
 
             driver.manage().logs().get('browser').then(function(logs){
-                console.log('Browser logs: ' + JSON.stringify(logs));
+                world.logMessage('Browser logs: ' + JSON.stringify(logs));
             });
         }
 

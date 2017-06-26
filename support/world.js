@@ -32,14 +32,25 @@ const PLATFORM  = {
 init();
 
 //methods
-function log(logMessage, detailedLog) {
-    var displayDetailedLog = detailedLog !== undefined ? detailedLog : false;
+function logMessage(logMessage, detailedOnlyLog) {
+    var displayDetailedLog = config.detailedLog !== undefined ? config.detailedLog : false;
 
     if(displayDetailedLog && config.detailedTestLog) {
         console.log(sprintf('LOG-info: %s', logMessage));
     } else if(!displayDetailedLog) {
         console.log(sprintf('LOG: %s', logMessage));
     }
+};
+
+function logError(errorMessage, noThrow) {
+    var message = sprintf('ERROR: %s', errorMessage);
+
+    if(noThrow !== undefined && noThrow) {
+        throw(message);
+    }else {
+        console.log(message);
+    }
+
 };
 
 function loadPage(page) {
@@ -224,7 +235,7 @@ function click(xpath, customTimeout) {
             return findElement(xpath, customTimeout)
                 .then(function(el) {
                     el.click().catch(function(err) {
-                        console.log(`Standard click failed with error message: "${ err.message }", error stack: "${ err.stack }`);
+                        logError(`Standard click failed with error message: "${ err.message }", error stack: "${ err.stack }`);
                         return jsBasedClick(xpath);
                     });
                 });
@@ -312,7 +323,7 @@ function cleanBrowserState() {
             driver.executeScript('sessionStorage.clear()');
             driver.executeScript('console.clear()');
         } else {
-            console.log('Can\'t clean localStorage and sessionStorage');
+            logError('Can\'t clean localStorage and sessionStorage');
         }
 
         return driver.manage().deleteAllCookies();
@@ -328,7 +339,7 @@ function takeScreenshot(fileName, directory) {
 
         return fs.writeFile(screenshotFilePath, base64Data, 'base64', function(err) {
             if(err) {
-                log('takeScreenshot eror: ' + err, true);
+                logError('takeScreenshot eror: ' + err);
             }
         });
     });
@@ -399,6 +410,8 @@ function loadDriverOptions(driver) {
 };
 
 module.exports = {
+    logMessage: logMessage,
+    logError: logError,
     loadPage: loadPage,
     findElement: findElement,
     findElements: findElements,
