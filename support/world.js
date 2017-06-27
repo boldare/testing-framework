@@ -15,6 +15,7 @@ var webdriver = require('selenium-webdriver'),
 var webdriverRemote = require('selenium-webdriver/remote');
 var sprintf = require('sprintf-js').sprintf;
 var config = require('./config.js');
+var pageUrlData = require('../data/pageUrlData.js');
 var fs = require('fs');
 var path = require('path');
 var until = webdriver.until;
@@ -73,7 +74,7 @@ function validateUrl(url, customTimeout) {
     );
 };
 
-function validateRegexUrl(regex, customTimeout) {
+function validateUrlByRegex(regex, customTimeout) {
     var waitTimeout = customTimeout || config.defaultTimeout;
 
     return driver.wait(function() {
@@ -88,6 +89,10 @@ function validateRegexUrl(regex, customTimeout) {
         },
         waitTimeout
     );
+};
+
+function getCurrentUrl() {
+    return driver.getCurrentUrl();
 };
 
 function validateUrlByRoute(pageName, customTimeout) {
@@ -276,9 +281,17 @@ function hover(xpath, customTimeout) {
 };
 
 function fillInInput(xpath, value, blur, customTimeout) {
+    var element;
+
     return findElement(xpath, customTimeout)
-        .clear()
-        .sendKeys(typeof blur !== undefined && blur ? value  + '\t': value);
+        .then(function(el) {
+            element = el;
+
+            return element.clear();
+        })
+        .then(function() {
+            element.sendKeys(typeof blur !== 'undefined' && blur ? value  + '\t': value);
+        })
 };
 
 function getCheckboxValue(xpath, customTimeout) {
@@ -462,6 +475,6 @@ module.exports = {
     takeScreenshot: takeScreenshot,
     validatePageReadyState: validatePageReadyState,
     validateUrl: validateUrl,
-    validateUrlByRoute: validateUrlByRoute,
-    validateUrlByRegex: validateUrlByRegex
+    validateUrlByRegex: validateUrlByRegex,
+    validateUrlByRoute: validateUrlByRoute
 };
