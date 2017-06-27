@@ -436,11 +436,11 @@ function buildDriver(platform) {
 
 function loadDriverOptions(driver) {
     if(config.runMaximized) {
-    driver.manage().window().maximize();
+        driver.manage().window().maximize();
     }
 
     if(config.xvfbMode) {
-    driver.manage().window().setSize(config.xvfbSettings.windowWidth, config.xvfbSettings.windowHeight);
+        driver.manage().window().setSize(config.xvfbSettings.windowWidth, config.xvfbSettings.windowHeight);
     }
 
     driver.setFileDetector(new webdriverRemote.FileDetector);
@@ -455,8 +455,8 @@ module.exports = {
     findElements: findElements,
     validateElementDisplayed: validateElementDisplayed,
     validateElementNotDisplayed: validateElementNotDisplayed,
-    validateElementDisplayed: validateElementDisplayed,
-    validateElementNotDisplayed: validateElementNotDisplayed,
+    validateElementVisible: validateElementVisible,
+    validateElementNotVisible: validateElementNotVisible,
     validateElementsNumber: validateElementsNumber,
     click: click,
     getCheckboxValue: getCheckboxValue,
