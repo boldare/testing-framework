@@ -2,7 +2,6 @@
 
 ```javascript
 //project settings
-baseDirectory: '/home/user/project/tests/',
 baseUrl: 'http://localhost:82/',
 
 //Selenium settings
