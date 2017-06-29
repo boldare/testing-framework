@@ -9,15 +9,18 @@ Function.prototype.curry = function() {
     };
 };
 
+global.tf = global.tf || {};
+
 //imports
+var path = require('path');
+global.tf.projectDir = path.join(__dirname, '..');
 var webdriver = require('selenium-webdriver'),
     By = webdriver.By;
 var webdriverRemote = require('selenium-webdriver/remote');
 var sprintf = require('sprintf-js').sprintf;
 var config = require('./config.js');
-var pageUrlData = require('../data/pageUrlData.js');
+var pageUrlData = require(global.tf.projectDir + '/data/pageUrlData.js');
 var fs = require('fs');
-var path = require('path');
 var until = webdriver.until;
 
 //vars
@@ -395,6 +398,7 @@ function validateAngularInputValue(xpath, expectedValue, customTimeout) {
 //internal methods
 
 function init() {
+
     logsDirName = getCurrentDate();
 
     driver = buildDriver(config.platform);
