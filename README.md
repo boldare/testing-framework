@@ -320,7 +320,7 @@ XvfbSettings: {
 
 //timeouts
 defaultTimeout: 30000,//ms
-defaultAfterTimeout: 45000,//ms
+defaultStepTimeout: 45000,//ms
 
 //logs:
 seleniumDriverLogLevel: 'SEVERE',
