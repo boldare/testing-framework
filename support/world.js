@@ -121,6 +121,49 @@ function validateUrlByRoute(pageName, customTimeout) {
     });
 };
 
+function checkAngularPresence() {
+    var script = 'return (window.angular !== undefined)';
+
+    return driver.executeScript(script, '').then(function(result) {
+        return result;
+    });
+};
+
+function checkExtendedPageState() {
+    if(config.extendedPageReadyStateValidation) {
+        return checkAngularPresence().then(function(present) {
+            if(present) {
+                //angular-based page - validation
+                var script = 'return (angular.element(document.body).injector() !== undefined) && ' +
+                '(angular.element(document.body).injector().get(\'$http\').pendingRequests.length === 0)';
+
+                return driver.executeScript(script, '').then(function(result) {
+                    return result;
+                });
+            }
+
+            return true;//currently only Angular
+        });
+    } else {
+        return boolPromiseResult(true);
+    }
+};
+
+function validateExtendedPageState(customTimeout) {
+    var waitTimeout = customTimeout || config.defaultTimeout;
+
+    return driver.wait(function() {
+        return checkExtendedPageState().then(function(value) {
+            return value;
+        },
+        function() {
+            return checkExtendedPageState().then(function(value) {
+                return value;
+            });
+        });
+    }, waitTimeout);
+};
+
 function validatePageReadyState(customTimeout) {
     var waitTimeout = customTimeout || config.defaultTimeout;
 
@@ -135,7 +178,10 @@ function validatePageReadyState(customTimeout) {
                         return value;
                     });
             });
-    }, waitTimeout);
+    }, waitTimeout)
+        .then(function() {
+            return validateExtendedPageState(waitTimeout);
+        });
 };
 
 function waitForElement(xpath, customTimeout) {//internal only
@@ -337,7 +383,7 @@ function selectFileInputValue(inputXP, fileName, customTimeout) {
         .then(function() {
             return findElement(xpath, 0)
                 .then(function(el) {
-                    var imagePath = config.baseDirectory + 'data/test_files/' + imageName;
+                    var imagePath = global.tf.projectDir + 'data/test_files/' + imageName;
 
                     return el.sendKeys(imagePath);
                 });
@@ -396,6 +442,12 @@ function validateAngularInputValue(xpath, expectedValue, customTimeout) {
 };
 
 //internal methods
+
+function boolPromiseResult(value) {
+    return new Promise(function(resolve, reject){
+        resolve(value);
+    });
+};
 
 function init() {
 

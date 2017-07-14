@@ -1,6 +1,5 @@
 module.exports = {
     //project settings
-    baseDirectory: '/home/user/project/tests/',
     baseUrl: 'http://localhost:82/',
 
     //Selenium settings
@@ -34,7 +33,7 @@ module.exports = {
     enableScreenshotReports: false,
 
     //other:
-    extendedPageReadyStateValidation: true,//NOT YET IMPLEMENTED
+    extendedPageReadyStateValidation: true,
 
     //project specific settings:
 
