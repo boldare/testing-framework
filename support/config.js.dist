@@ -21,8 +21,8 @@ module.exports = {
     },
 
     //timeouts
-    defaultTimeout: 30000,//ms
-    defaultStepTimeout: 45000,//ms
+    defaultTimeout: 20000,//ms
+    defaultStepTimeout: 40000,//ms
 
     //logs:
     seleniumDriverLogLevel: 'SEVERE',
