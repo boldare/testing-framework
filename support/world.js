@@ -228,7 +228,7 @@ function validateElementsNumber(xpath, number, customTimeout) {
             },
             waitTimeout
         ).catch(function(err){
-            throw(`isElementVisible failed on element: "${ xpath }" - error message: "${ err.message }", error stack: "${ err.stack }`);
+            throw(`validateElementsNumber failed on element: "${ xpath }" - error message: "${ err.message }", error stack: "${ err.stack }`);
         });
     }
 };
@@ -244,7 +244,7 @@ function validateElementDisplayed(xpath, customTimeout) {//visible in sources AN
         },
         waitTimeout
     ).catch(function(err){
-        throw(`isDisplayed failed on element: "${ xpath }" - error message: "${ err.message }", error stack: "${ err.stack }`);
+        throw(`validateElementDisplayed failed on element: "${ xpath }" - error message: "${ err.message }", error stack: "${ err.stack }`);
     });
 };
 
@@ -259,7 +259,7 @@ function validateElementNotDisplayed(xpath, customTimeout) {//element visible in
         },
         waitTimeout
     ).catch(function(err){
-        throw(`isNotDisplayed failed on element: "${ xpath }" - error message: "${ err.message }", error stack: "${ err.stack }`);
+        throw(`validateElementNotDisplayed failed on element: "${ xpath }" - error message: "${ err.message }", error stack: "${ err.stack }`);
     });
 };
 
@@ -274,7 +274,7 @@ function validateElementVisible(xpath, customTimeout) {//element visible in sour
         },
         waitTimeout
     ).catch(function(err){
-        throw(`isElementVisible failed on element: "${ xpath }" - error message: "${ err.message }", error stack: "${ err.stack }`);
+        throw(`validateElementVisible failed on element: "${ xpath }" - error message: "${ err.message }", error stack: "${ err.stack }`);
     });
 };
 
@@ -290,7 +290,7 @@ function validateElementNotVisible(xpath, customTimeout) {//not visible in sourc
             },
             waitTimeout
         ).catch(function(err){
-                throw(`isElementNotVisible failed on element: "${ xpath }" - error message: "${ err.message }", error stack: "${ err.stack }`);
+                throw(`validateElementNotVisible failed on element: "${ xpath }" - error message: "${ err.message }", error stack: "${ err.stack }`);
         });
     });
 };
