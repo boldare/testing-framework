@@ -35,7 +35,7 @@ detailedTestLog: true,
 enableScreenshotReports: false,
 
 //other:
-extendedPageReadyStateValidation: true,//NOT YET IMPLEMENTED
+extendedPageReadyStateValidation: true,
 
 //project specific settings:
 ```

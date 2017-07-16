@@ -142,7 +142,7 @@ Validates if number of elements is correct.
 `customTimeout` (optional) - would be used instead of default config timeout.
 
 #### validatePageReadyState()
-Validates if the page load is complete. `extendedPageReadyStateValidation` may be enabled in config file for extended validation (not implemented yet).
+Validates if the page load is complete. `extendedPageReadyStateValidation` may be enabled in config file for extended validation (currently only Angular support implemented).
 
 #### validateUrlByRoute(pageName, customTimeout)
 Validates page route based on page route defined in `pageRoute.js` file. If regex is available it would be used, if not simplified validation would be used (by URL part).
