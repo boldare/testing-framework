@@ -32,7 +32,6 @@ seleniumBrowserLogLevel: 'ALL',
 proxyCaptureHeaders: true,
 proxyCaptureContent: false,
 detailedTestLog: true,
-testDebugLog: false,
 enableScreenshotReports: false,
 
 //other:
