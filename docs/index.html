@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>Functional Testing Framework design</title>
+    <title>Functional Testing Framework</title>
 
     <style>
       .highlight table td { padding: 5px; }
@@ -222,40 +222,141 @@
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
-
+        
           <h1 id="about">About</h1>
 
-<p>Testing framework above Selenium Webdriver and Cucumber written in JS.</p>
+<p>Testing framework above Selenium Webdriver and Cucumber written in JS (Node).</p>
 
-<p>Main goals:
-  - Easy to use, high-level methods
-  - All needed waits build-in
-  - BDD Layer (Gherkin)
-  - Reports useful from both business and developers point of view (Gherkin scenarios, Screenshots, Driver logs, Proxy logs)
-  - Headless execution
-  - Parallel execution (not in first release)
-  - Multiple driver configs and devices support (not in first release)</p>
+<p>Main goals:</p>
+
+<ul>
+<li>Easy to use, high-level methods</li>
+<li>All needed waits build-in</li>
+<li>BDD Layer (Gherkin)</li>
+<li>Reports useful from both business and developers point of view (Gherkin scenarios, Screenshots, Driver logs, Proxy logs)</li>
+<li>Headless execution</li>
+<li>Parallel execution (not in first release)</li>
+<li>Multiple driver configs and devices support (not in first release)</li>
+</ul>
 
           <h1 id="requirements">Requirements</h1>
 
-<p>Not yet specified.</p>
+<ul>
+<li>Node.js (v6.X or newer)</li>
+<li>NPM</li>
+<li>Selenium Server (recommended 3.X)</li>
+<li>Cucumber-js (v2.X, from NPM)</li>
+<li>BrowserMob Proxy (v2.1.X or newer)</li>
+</ul>
 
-<p>For the JS version probably something like:</p>
+<p>Optional:</p>
 
 <ul>
-<li>Node</li>
-<li>NPM</li>
-<li>Selenium Webdriver</li>
-<li>Cucumber-js</li>
-<li>BrowserMob Proxy</li>
-<li>GNU Make (for parallel execution)</li>
 <li>Xvfb (for headless execution)</li>
-<li>Superagent (for requests)</li>
 </ul>
+
+          <h1 id="installation">Installation</h1>
+
+<p>Described for Ubuntu 16.04 LTS.</p>
+
+<h2 id="node-js-and-npm">Node.js and NPM</h2>
+
+<p>Install Node.js and NPM from NodeSource.
+<code class="prettyprint">curl -sL https://deb.nodesource.com/setup_6.x -o nodesource_setup.sh &amp;&amp; sudo bash nodesource_setup.sh &amp;&amp;
+sudo apt-get install build-essential nodejs</code></p>
+
+<h2 id="java">Java</h2>
+
+<p>Oracle Java may be needed here.
+You can install it and set as default version using:
+<code class="prettyprint">sudo apt-get install python-software-properties &amp;&amp; sudo add-apt-repository ppa:webupd8team/java &amp;&amp; sudo apt-get update &amp;&amp; sudo apt-get install oracle-java8-installer</code>.</p>
+
+<p>Verify Java version using <code class="prettyprint">java -version</code> and change if needed using <code class="prettyprint">sudo update-alternatives --config java</code></p>
+
+<h2 id="selenium-server">Selenium Server</h2>
+
+<p>Download Selenium Server Standalone using wget (here version 3.4.0):
+<code class="prettyprint">wget https://selenium-release.storage.googleapis.com/3.4/selenium-server-standalone-3.4.0.jar</code></p>
+
+<p>or manually from Selenium website: <code class="prettyprint">http://docs.seleniumhq.org/download/</code></p>
+
+<h2 id="selenium-drivers">Selenium Drivers</h2>
+
+<p>Download Driver you want to use (Chromedriver recomended).</p>
+
+<h3 id="chromedriver">Chromedriver</h3>
+
+<p>Download latest version from <code class="prettyprint">https://sites.google.com/a/chromium.org/chromedriver/</code>.
+You can use wget for this:
+<code class="prettyprint">wget http://chromedriver.storage.googleapis.com/2.30/chromedriver_linux64.zip</code> (here version 2.30, x86-64)</p>
+
+<p>Unzip (if needed install Unzip using <code class="prettyprint">sudo apt-get install unzip</code>):
+<code class="prettyprint">unzip chromedriver_linux64.zip</code></p>
+
+<p>Copy chromedriver binary to <code class="prettyprint">/user/bin</code> or <code class="prettyprint">/usr/local/bin</code>:
+<code class="prettyprint">sudo cp chromedriver /usr/bin</code></p>
+
+<p>Check if Chromedriver is visible: <code class="prettyprint">chromedriver --version</code>.</p>
+
+<h2 id="browsermob-proxy">BrowserMob Proxy</h2>
+
+<p>Download BrowserMob Proxy using: <code class="prettyprint">wget https://github.com/lightbody/browsermob-proxy/releases/download/browsermob-proxy-2.1.4/browsermob-proxy-2.1.4-bin.zip</code>
+or manually from project page: <code class="prettyprint">http://bmp.lightbody.net/</code>.</p>
+
+<p>Unzip: <code class="prettyprint">unzip browsermob-proxy-2.1.4-bin.zip</code></p>
+
+<h2 id="other-dependancies">Other dependancies</h2>
+
+<p>On project dir run <code class="prettyprint">npm install</code>. All needed dependancies like Cucumber-js or Superagent would be installed. You can check full dependancies list in <code class="prettyprint">package.json</code> file.</p>
+
+<h2 id="xvfb-optional">Xvfb (optional)</h2>
+
+<p>If you want to run tests on headless server you would also need Xvfb.
+<code class="prettyprint">sudo apt-get install xvfb xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic x11-apps imagemagick</code></p>
+
+          <h1 id="running">Running</h1>
+
+<h2 id="start-selenium-server">Start Selenium Server</h2>
+
+<p>Selenium Server must be running during test execution:
+If you want to run Selenium Server on default port (4444):
+<code class="prettyprint">java -jar selenium-server-standalone-3.*.jar</code></p>
+
+<p>You can also set custom port running with <code class="prettyprint">-port</code> parameter:
+<code class="prettyprint">java -jar selenium-server-standalone-3.*.jar -port 4444</code></p>
+
+<h3 id="xvfb">Xvfb</h3>
+
+<p>If you want to run headlessly you must create virtual display and set it as default BEFORE running Selenium Server.
+You can create display using:
+<code class="prettyprint">/usr/bin/Xvfb :99 -ac -screen 0 1920x1080x24</code> (here display number 99 with resolution 1920x1080)
+Then you have to set display you want to use (99 in this case):
+<code class="prettyprint">export DISPLAY=:99</code></p>
+
+<p>If you want to return to &ldquo;normal&rdquo; display you have to set value to :0:
+<code class="prettyprint">export DISPLAY=:0</code> and rerun Selenium Webdriver if needed.</p>
+
+<h3 id="start-browsermob-proxy">Start BrowserMob Proxy</h3>
+
+<p>BrowserMob Proxy also must be running during test execution. You can run proxy by running:
+<code class="prettyprint">bin/browsermob-proxy -port 8888</code> from inside BrowserMob Proxy directory.</p>
+
+<h3 id="copy-dist-files">Copy .dist files</h3>
+
+<p>Copy all .js.dist files (<code class="prettyprint">/support/config.js.dist</code>, <code class="prettyprint">/data/testData.js.dist</code> and <code class="prettyprint">/data/pageUrlData.js.dist</code>) to .js files on project directory.
+For example <code class="prettyprint">config.js.dist</code> file should be copied to <code class="prettyprint">config.js</code> etc.</p>
+
+<h2 id="run-tests">Run tests</h2>
+
+<p>Tests can be run using:
+<code class="prettyprint">node_modules/cucumber/bin/cucumber.js --require support/ --require features/</code></p>
+
+<p>You can pass &ldquo;normal&rdquo; cucumber parameters - specify .feature files, select tags etc.
+Currently <code class="prettyprint">--require</code> parameters are needed, custom runner is planned.</p>
 
           <h1 id="config">Config</h1>
 <pre class="highlight javascript tab-javascript"><code><span class="c1">//project settings</span>
-<span class="nx">baseUrl</span><span class="p">:</span> <span class="s1">'http://localhost:82/'</span><span class="p">,</span>
+<span class="nl">baseUrl</span><span class="p">:</span> <span class="s1">'http://localhost:82/'</span><span class="p">,</span>
 
 <span class="c1">//Selenium settings</span>
 <span class="nx">seleniumServerHost</span><span class="p">:</span> <span class="s1">'localhost'</span><span class="p">,</span>
@@ -599,6 +700,21 @@
 <p><code class="prettyprint">expectedValue</code> expected input value</p>
 
 <p><code class="prettyprint">customTimeout</code> (optional) - would be used instead of default config timeout.</p>
+
+          <h1 id="todo">TODO</h1>
+
+<p>Planned features:</p>
+
+<ul>
+<li>Polling rate</li>
+<li>Require wrapper</li>
+<li>Runner</li>
+<li>Proxy disable/enable config</li>
+<li>Framework specific methods (for example for Angular)</li>
+<li>Multiple devices support, Profiles</li>
+<li>Parallel execution</li>
+<li>Actions support</li>
+</ul>
 
       </div>
       <div class="dark-box">

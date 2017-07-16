@@ -1,7 +1,8 @@
 # About
-Testing framework above Selenium Webdriver and Cucumber written in JS.
+Testing framework above Selenium Webdriver and Cucumber written in JS (Node).
 
 Main goals:
+
   - Easy to use, high-level methods
   - All needed waits build-in
   - BDD Layer (Gherkin)
@@ -10,20 +11,103 @@ Main goals:
   - Parallel execution (not in first release)
   - Multiple driver configs and devices support (not in first release)
 
-
 # Requirements
-Not yet specified.
 
-For the JS version probably something like:
+  - Node.js (v6.X or newer)
+  - NPM
+  - Selenium Server (recommended 3.X)
+  - Cucumber-js (v2.X, from NPM)
+  - BrowserMob Proxy (v2.1.X or newer)
 
-- Node
-- NPM
-- Selenium Webdriver
-- Cucumber-js
-- BrowserMob Proxy
-- GNU Make (for parallel execution)
-- Xvfb (for headless execution)
-- Superagent (for requests)
+Optional:
+
+  - Xvfb (for headless execution)
+
+# Installation
+
+Described for Ubuntu 16.04 LTS.
+
+## Node.js and NPM
+Install Node.js and NPM from NodeSource.
+`curl -sL https://deb.nodesource.com/setup_6.x -o nodesource_setup.sh && sudo bash nodesource_setup.sh &&
+sudo apt-get install build-essential nodejs`
+
+## Java
+Oracle Java may be needed here.
+You can install it and set as default version using:
+`sudo apt-get install python-software-properties && sudo add-apt-repository ppa:webupd8team/java && sudo apt-get update && sudo apt-get install oracle-java8-installer`.
+
+Verify Java version using `java -version` and change if needed using `sudo update-alternatives --config java`
+
+## Selenium Server
+Download Selenium Server Standalone using wget (here version 3.4.0):
+`wget https://selenium-release.storage.googleapis.com/3.4/selenium-server-standalone-3.4.0.jar`
+
+or manually from Selenium website: `http://docs.seleniumhq.org/download/`
+
+## Selenium Drivers
+Download Driver you want to use (Chromedriver recomended).
+
+### Chromedriver
+Download latest version from `https://sites.google.com/a/chromium.org/chromedriver/`.
+You can use wget for this:
+`wget http://chromedriver.storage.googleapis.com/2.30/chromedriver_linux64.zip` (here version 2.30, x86-64)
+
+Unzip (if needed install Unzip using `sudo apt-get install unzip`):
+`unzip chromedriver_linux64.zip`
+
+Copy chromedriver binary to `/user/bin` or `/usr/local/bin`:
+`sudo cp chromedriver /usr/bin`
+
+Check if Chromedriver is visible: `chromedriver --version`.
+
+## BrowserMob Proxy
+Download BrowserMob Proxy using: `wget https://github.com/lightbody/browsermob-proxy/releases/download/browsermob-proxy-2.1.4/browsermob-proxy-2.1.4-bin.zip`
+or manually from project page: `http://bmp.lightbody.net/`.
+
+Unzip: `unzip browsermob-proxy-2.1.4-bin.zip`
+
+## Other dependancies
+On project dir run `npm install`. All needed dependancies like Cucumber-js or Superagent would be installed. You can check full dependancies list in `package.json` file.
+
+## Xvfb (optional)
+If you want to run tests on headless server you would also need Xvfb.
+`sudo apt-get install xvfb xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic x11-apps imagemagick`
+
+# Running
+
+## Start Selenium Server
+Selenium Server must be running during test execution:
+If you want to run Selenium Server on default port (4444):
+`java -jar selenium-server-standalone-3.*.jar`
+
+You can also set custom port running with `-port` parameter:
+`java -jar selenium-server-standalone-3.*.jar -port 4444`
+
+### Xvfb
+If you want to run headlessly you must create virtual display and set it as default BEFORE running Selenium Server.
+You can create display using:
+`/usr/bin/Xvfb :99 -ac -screen 0 1920x1080x24` (here display number 99 with resolution 1920x1080)
+Then you have to set display you want to use (99 in this case):
+`export DISPLAY=:99`
+
+If you want to return to "normal" display you have to set value to :0:
+`export DISPLAY=:0` and rerun Selenium Webdriver if needed.
+
+### Start BrowserMob Proxy
+BrowserMob Proxy also must be running during test execution. You can run proxy by running:
+`bin/browsermob-proxy -port 8888` from inside BrowserMob Proxy directory.
+
+### Copy .dist files
+Copy all .js.dist files (`/support/config.js.dist`, `/data/testData.js.dist` and `/data/pageUrlData.js.dist`) to .js files on project directory.
+For example `config.js.dist` file should be copied to `config.js` etc.
+
+## Run tests
+Tests can be run using:
+`node_modules/cucumber/bin/cucumber.js --require support/ --require features/`
+
+You can pass "normal" cucumber parameters - specify .feature files, select tags etc.
+Currently `--require` parameters are needed, custom runner is planned.
 
 
 # Directory structure
@@ -77,6 +161,7 @@ Directory where logs are written. `execution_logs` contains typical logs from te
 
 ## docs
 Documentation.
+
 
 # Methods
 
@@ -294,6 +379,7 @@ Validates if angular input value is correct.
 
 `customTimeout` (optional) - would be used instead of default config timeout.
 
+
 # Config
 
 ```javascript
@@ -335,3 +421,16 @@ extendedPageReadyStateValidation: true,//NOT YET IMPLEMENTED
 
 //project specific settings:
 ```
+
+
+# TODO
+Planned features:
+
+  - Polling rate
+  - Require wrapper
+  - Runner
+  - Proxy disable/enable config
+  - Framework specific methods (for example for Angular)
+  - Multiple devices support, Profiles
+  - Parallel execution
+  - Actions support
