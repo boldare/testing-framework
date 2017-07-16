@@ -9,6 +9,8 @@ toc_footers:
 includes:
   - about
   - requirements
+  - installation
+  - running
   - config
   - directory_structure
   - methods
