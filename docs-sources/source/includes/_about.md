@@ -1,7 +1,8 @@
 # About
-Testing framework above Selenium Webdriver and Cucumber written in JS.
+Testing framework above Selenium Webdriver and Cucumber written in JS (Node).
 
 Main goals:
+
   - Easy to use, high-level methods
   - All needed waits build-in
   - BDD Layer (Gherkin)

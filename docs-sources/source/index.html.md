@@ -1,5 +1,5 @@
 ---
-title: Functional Testing Framework design
+title: Functional Testing Framework
 
 language_tabs:
   - javascript
@@ -12,6 +12,7 @@ includes:
   - config
   - directory_structure
   - methods
+  - todo
 
 search: true
 ---
