@@ -271,6 +271,7 @@ Validates if checkbox is set to expected value.
 
 #### validateElementDisplayed(xpath, customTimeout)
 Validates if element is displayed (not only visible in page source - visible in sources AND displayed).
+May be browser-specific because of the driver differences.
 
 `xpath` string with element xpath
 
@@ -278,6 +279,7 @@ Validates if element is displayed (not only visible in page source - visible in 
 
 #### validateElementNotDisplayed(xpath, customTimeout)
 Validates if element is not displayed (visible in sources and not displayed).
+May be browser-specific because of the driver differences.
 
 `xpath` string with element xpath
 
