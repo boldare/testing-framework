@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>Functional Testing Framework</title>
+    <title>XSolve Web Testing Framework</title>
 
     <style>
       .highlight table td { padding: 5px; }
@@ -222,19 +222,19 @@
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
-
+        
           <h1 id="about">About</h1>
 
-<p>Testing framework above Selenium Webdriver and Cucumber written in JS (Node).</p>
+<p><strong>XSolve Web Testing Framework</strong> is test framework above Selenium Webdriver and Cucumber written in JS (Node).</p>
 
 <p>Main goals:</p>
 
 <ul>
 <li>Easy to use, high-level methods</li>
-<li>All needed waits build-in</li>
+<li>All needed waits built-in</li>
 <li>BDD Layer (Gherkin)</li>
 <li>Reports useful from both business and developers point of view (Gherkin scenarios, Screenshots, Driver logs, Proxy logs)</li>
-<li>Headless execution</li>
+<li>Headless execution support</li>
 <li>Parallel execution (not in first release)</li>
 <li>Multiple driver configs and devices support (not in first release)</li>
 </ul>
@@ -282,7 +282,7 @@ You can install it and set as default version using:
 
 <h2 id="selenium-drivers">Selenium Drivers</h2>
 
-<p>Download Driver you want to use (Chromedriver recomended).</p>
+<p>Download Driver you want to use (Chromedriver recommended, other driver weren&rsquo;t tested yet).</p>
 
 <h3 id="chromedriver">Chromedriver</h3>
 
@@ -297,6 +297,8 @@ You can use wget for this:
 <code class="prettyprint">sudo cp chromedriver /usr/bin</code></p>
 
 <p>Check if Chromedriver is visible: <code class="prettyprint">chromedriver --version</code>.</p>
+
+<p>Not only Chromedriver is needed - Chrome browser also has to be installed. Verify chrome installation with <code class="prettyprint">google-chrome --version</code>.</p>
 
 <h2 id="browsermob-proxy">BrowserMob Proxy</h2>
 
@@ -355,6 +357,8 @@ For example <code class="prettyprint">config.js.dist</code> file should be copie
 Currently <code class="prettyprint">--require</code> parameters are needed, custom runner is planned.</p>
 
           <h1 id="config">Config</h1>
+
+<p>Configuration options.</p>
 <pre class="highlight javascript tab-javascript"><code><span class="c1">//project settings</span>
 <span class="nl">baseUrl</span><span class="p">:</span> <span class="s1">'http://localhost:82/'</span><span class="p">,</span>
 
@@ -387,12 +391,153 @@ Currently <code class="prettyprint">--require</code> parameters are needed, cust
 <span class="nx">proxyCaptureContent</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
 <span class="nx">detailedTestLog</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
 <span class="nx">enableScreenshotReports</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+<span class="nx">pollingRate</span><span class="p">:</span> <span class="mi">100</span><span class="c1">//ms</span>
 
 <span class="c1">//other:</span>
-<span class="nx">extendedPageReadyStateValidation</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span><span class="c1"></span>
+<span class="nl">extendedPageReadyStateValidation</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
 
 <span class="c1">//project specific settings:</span>
 </code></pre>
+<h2 id="project-related">Project related</h2>
+
+<h3 id="baseurl">baseUrl</h3>
+
+<p>Url of main page. Value not required - depends on Pages implementation.</p>
+
+<h2 id="selenium">Selenium</h2>
+
+<h3 id="seleniumserverhost">seleniumServerHost</h3>
+
+<p>Host of Selenium Server. Remote server may be used.</p>
+
+<h3 id="seleniumserverport">seleniumServerPort</h3>
+
+<p>Port of Selenium Server.</p>
+
+<h2 id="proxy">Proxy</h2>
+
+<h3 id="proxyhost">proxyHost</h3>
+
+<p>Host of BrowserMob Proxy.</p>
+
+<h3 id="proxyport">proxyPort</h3>
+
+<p>Port of BrowserMob Proxy.</p>
+
+<h3 id="proxyhttpport">proxyHttpPort</h3>
+
+<p>Proxy HTTP port.</p>
+
+<h2 id="browser">Browser</h2>
+
+<h3 id="platform">platform</h3>
+
+<p>Browser/Driver the tests would be run on.
+Chrome browser is recommended. Other browsers wasn&rsquo;t tested.</p>
+
+<p>Possible values:</p>
+
+<ul>
+<li>CHROME</li>
+<li>FIREFOX</li>
+<li>IE</li>
+<li>EDGE</li>
+<li>OPERA</li>
+<li>SAFARI</li>
+<li>PHANTOMJS</li>
+<li>HTMLUNITWITHJS</li>
+<li>ANDROID</li>
+<li>IPHONE</li>
+<li>IPAD</li>
+</ul>
+
+<h3 id="runmaximized">runMaximized</h3>
+
+<p>Set if browser should be maximized. In case of Chrome running inside Xvfb display <code class="prettyprint">xvfbMode</code> may be required to correctly maximize.</p>
+
+<h3 id="xvfbmode">xvfbMode</h3>
+
+<p>Sets static Browser window dimensions based on xvfbSettings values.</p>
+
+<h3 id="xvfbsettings">xvfbSettings</h3>
+
+<p>Defines Xvfb Browser window dimensions.</p>
+
+<p><code class="prettyprint">windowWidth</code> - width of browser window (px)
+<code class="prettyprint">windowHeight</code> - height of browser window (px)</p>
+
+<h2 id="timeouts">Timeouts</h2>
+
+<h3 id="defaulttimeout">defaultTimeout</h3>
+
+<p>Default timeout of specific action (for example click, validateElementVisible etc.) in ms.</p>
+
+<h3 id="defaultsteptimeout">defaultStepTimeout</h3>
+
+<p>Default timeout of Cucumber step in ms.</p>
+
+<h2 id="logs">Logs</h2>
+
+<h3 id="seleniumdriverloglevel">seleniumDriverLogLevel</h3>
+
+<p>Sets log level for Selenium Driver.</p>
+
+<p>Possible values:</p>
+
+<ul>
+<li><code class="prettyprint">OFF</code></li>
+<li><code class="prettyprint">SEVERE</code></li>
+<li><code class="prettyprint">WARNING</code></li>
+<li><code class="prettyprint">INFO</code></li>
+<li><code class="prettyprint">DEBUG</code></li>
+<li><code class="prettyprint">ALL</code></li>
+</ul>
+
+<h3 id="seleniumbrowserloglevel">seleniumBrowserLogLevel</h3>
+
+<p>Sets log level for Browser.</p>
+
+<p>Possible values:</p>
+
+<ul>
+<li><code class="prettyprint">OFF</code></li>
+<li><code class="prettyprint">SEVERE</code></li>
+<li><code class="prettyprint">WARNING</code></li>
+<li><code class="prettyprint">INFO</code></li>
+<li><code class="prettyprint">DEBUG</code></li>
+<li><code class="prettyprint">ALL</code></li>
+</ul>
+
+<h3 id="proxycaptureheaders">proxyCaptureHeaders</h3>
+
+<p>Controlls if request headers are logged by proxy.</p>
+
+<h3 id="proxycapturecontent">proxyCaptureContent</h3>
+
+<p>Controlls if request content (body) is logged by proxy.</p>
+
+<h3 id="detailedtestlog">detailedTestLog</h3>
+
+<p>If enabled detailed logs are displayed. May be used for debugging.</p>
+
+<h3 id="enablescreenshotreports">enableScreenshotReports</h3>
+
+<p>Allows to enable/disable Screenshot reports functionality. If set to <code class="prettyprint">true</code> screenshots will be made for every action. May be useful for for example for test reports.</p>
+
+<h2 id="other">Other</h2>
+
+<h3 id="extendedpagereadystatevalidation">extendedPageReadyStateValidation</h3>
+
+<p>By default actions are made after DOM is loaded (document.readystate == &lsquo;complete&rsquo;). This option allows to enable additional validation for Angular apps - checking if requests are finished.</p>
+
+<h3 id="pollingrate">pollingRate</h3>
+
+<p>Polling rate isn&rsquo;t supported by Selenium JS bindings - on our test environment about 60-80 requests per second to Selenium Server were made. It isn&rsquo;t speading up tests execution and it&rsquo;s causing additional CPU usage. This option allows to limit it to some reasonable value.</p>
+
+<h2 id="project-specific-settings">Project specific settings</h2>
+
+<p>Custom project config options.</p>
+
           <h1 id="directory-structure">Directory structure</h1>
 
 <p>Directory structure.</p>
@@ -572,7 +717,8 @@ Currently <code class="prettyprint">--require</code> parameters are needed, cust
 
 <h4 id="validateelementdisplayed-xpath-customtimeout">validateElementDisplayed(xpath, customTimeout)</h4>
 
-<p>Validates if element is displayed (not only visible in page source - visible in sources AND displayed). May be browser-specific because of the driver differences.</p>
+<p>Validates if element is displayed (not only visible in page source - visible in sources AND displayed).
+May be browser-specific because of the driver differences.</p>
 
 <p><code class="prettyprint">xpath</code> string with element xpath</p>
 
@@ -580,7 +726,8 @@ Currently <code class="prettyprint">--require</code> parameters are needed, cust
 
 <h4 id="validateelementnotdisplayed-xpath-customtimeout">validateElementNotDisplayed(xpath, customTimeout)</h4>
 
-<p>Validates if element is not displayed (visible in sources and not displayed). May be browser-specific because of the driver differences.</p>
+<p>Validates if element is not displayed (visible in sources and not displayed).
+May be browser-specific because of the driver differences.</p>
 
 <p><code class="prettyprint">xpath</code> string with element xpath</p>
 
@@ -706,7 +853,6 @@ Currently <code class="prettyprint">--require</code> parameters are needed, cust
 <p>Planned features:</p>
 
 <ul>
-<li>Polling rate</li>
 <li>Require wrapper</li>
 <li>Runner</li>
 <li>Proxy disable/enable config</li>
