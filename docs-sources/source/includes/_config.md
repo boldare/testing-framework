@@ -78,7 +78,7 @@ Proxy HTTP port.
 ### platform
 
 Browser/Driver the tests would be run on.
-Chrome browser is recommended. Other browsers wasn't tested.
+Chrome browser is recommended. Other browsers weren't tested.
 
 Possible values:
 
