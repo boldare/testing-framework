@@ -1,5 +1,5 @@
 ---
-title: Functional Testing Framework
+title: XSolve Web Testing Framework
 
 language_tabs:
   - javascript
