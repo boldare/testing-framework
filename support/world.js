@@ -169,15 +169,19 @@ function validateExtendedPageState(customTimeout) {
     var waitTimeout = customTimeout || config.defaultTimeout;
 
     return driver.wait(function() {
-        return checkExtendedPageState().then(function(value) {
-            return value;
-        },
-        function() {
-            return checkExtendedPageState().then(function(value) {
-                return value;
+        return checkExtendedPageState()
+            .then(function(value) {
+                if(value) {
+                    return true;
+                }
+
+                return sleep(config.pollingRate).then(function() {
+                    return false;
+                });
             });
-        });
-    }, waitTimeout);
+        },
+        waitTimeout
+    );
 };
 
 function validatePageReadyState(customTimeout) {
@@ -186,18 +190,20 @@ function validatePageReadyState(customTimeout) {
     return driver.wait(function() {
         return getDocumentReadyState()
             .then(function(value) {
-                return value;
-            },
-            function() {
-                return getDocumentReadyState()
-                    .then(function(value) {
-                        return value;
-                    });
-            });
-    }, waitTimeout)
-        .then(function() {
-            return validateExtendedPageState(waitTimeout);
-        });
+                if(value) {
+                    return true;
+                }
+
+                return sleep(config.pollingRate).then(function() {
+                    return false;
+                });
+            })
+        },
+        waitTimeout
+    ).then(function() {
+        return validateExtendedPageState(waitTimeout);
+    });
+
 };
 
 function waitForElement(xpath, customTimeout) {//internal only
