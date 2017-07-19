@@ -128,7 +128,7 @@ function validateUrlByRoute(pageName, customTimeout) {
     }
 };
 
- function getDocumentReatyState() {//internal only
+ function getDocumentReadyState() {//internal only
     return driver.executeScript(
         'return document.readyState === \'complete\'',
         ''
@@ -184,12 +184,12 @@ function validatePageReadyState(customTimeout) {
     var waitTimeout = customTimeout || config.defaultTimeout;
 
     return driver.wait(function() {
-        return getDocumentReatyState()
+        return getDocumentReadyState()
             .then(function(value) {
                 return value;
             },
             function() {
-                return getDocumentReatyState()
+                return getDocumentReadyState()
                     .then(function(value) {
                         return value;
                     });
