@@ -1,5 +1,5 @@
 # About
-XSolve Web Testing Framework is test framework above Selenium Webdriver and Cucumber written in JS (Node).
+**XSolve Web Testing Framework** is test framework above Selenium Webdriver and Cucumber written in JS (Node).
 
 Main goals:
 
