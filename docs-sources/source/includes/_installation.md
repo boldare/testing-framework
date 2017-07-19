@@ -20,7 +20,7 @@ Download Selenium Server Standalone using wget (here version 3.4.0):
 or manually from Selenium website: `http://docs.seleniumhq.org/download/`
 
 ## Selenium Drivers
-Download Driver you want to use (Chromedriver recomended).
+Download Driver you want to use (Chromedriver recommended, other driver weren't tested yet).
 
 ### Chromedriver
 Download latest version from `https://sites.google.com/a/chromium.org/chromedriver/`.
@@ -34,6 +34,8 @@ Copy chromedriver binary to `/user/bin` or `/usr/local/bin`:
 `sudo cp chromedriver /usr/bin`
 
 Check if Chromedriver is visible: `chromedriver --version`.
+
+Not only Chromedriver is needed - Chrome browser also has to be installed. Verify chrome installation with `google-chrome --version`.
 
 ## BrowserMob Proxy
 Download BrowserMob Proxy using: `wget https://github.com/lightbody/browsermob-proxy/releases/download/browsermob-proxy-2.1.4/browsermob-proxy-2.1.4-bin.zip`

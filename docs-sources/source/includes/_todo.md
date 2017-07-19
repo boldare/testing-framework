@@ -1,7 +1,6 @@
 # TODO
 Planned features:
 
-  - Polling rate
   - Require wrapper
   - Runner
   - Proxy disable/enable config
