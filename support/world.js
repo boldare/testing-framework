@@ -440,15 +440,14 @@ function setCheckboxValue(xpath, value, customTimeout) {
 };
 
 function selectFileInputValue(inputXP, fileName, customTimeout) {
-    return waitForElement(imageInputXP, customTimeout)
-        .then(function() {
-            return findElement(xpath, 0)
-                .then(function(el) {
-                    var imagePath = global.tf.projectDir + 'data/test_files/' + imageName;
+    var waitTimeout = customTimeout || config.defaultTimeout;
 
-                    return el.sendKeys(imagePath);
-                });
-        });
+    return findElement(inputXP, waitTimeout)
+        .then(function(el) {
+            var imagePath = global.tf.projectDir + 'data/test_files/' + imageName;
+
+            return el.sendKeys(imagePath);
+      });
 };
 
 function sleep(sleepTime) {
