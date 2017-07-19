@@ -444,9 +444,9 @@ function selectFileInputValue(inputXP, fileName, customTimeout) {
 
     return findElement(inputXP, waitTimeout)
         .then(function(el) {
-            var imagePath = global.tf.projectDir + 'data/test_files/' + imageName;
+            var filePath = global.tf.projectDir + 'data/test_files/' + imageName;
 
-            return el.sendKeys(imagePath);
+            return el.sendKeys(filePath);
       });
 };
 
