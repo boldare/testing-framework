@@ -30,7 +30,16 @@ var seleniumServerUrl = 'http://%s:%s/wd/hub';
 
 const PLATFORM  = {
     CHROME: 'CHROME',
-    FIREFOX: 'FIREFOX'
+    FIREFOX: 'FIREFOX',
+    IE: 'IE',
+    EDGE: 'EDGE',
+    OPERA: 'OPERA',
+    SAFARI: 'SAFARI',
+    PHANTOMJS: 'PHANTOMJS',
+    HTMLUNITWITHJS: 'HTMLUNITWITHJS',
+    ANDROID: 'ANDROID',
+    IPHONE: 'IPHONE',
+    IPAD: 'IPAD'
 };
 
 init();
@@ -54,7 +63,6 @@ function logError(errorMessage, noThrow) {
     }else {
         console.log(message);
     }
-
 };
 
 function loadPage(page) {
@@ -70,7 +78,13 @@ function validateUrl(url, customTimeout) {
 
     return driver.wait(function() {
             return driver.getCurrentUrl().then(function(currentUrl) {
-                return currentUrl.indexOf(url) !== -1;
+                if(currentUrl.indexOf(url) !== -1) {
+                    return true;
+                } else {
+                    return sleep(config.pollingRate).then(function() {
+                        return false;
+                    });
+                }
             });
         },
         waitTimeout
@@ -87,7 +101,9 @@ function validateUrlByRegex(regex, customTimeout) {
                     return true;
                 }
 
-                return false;
+                return sleep(config.pollingRate).then(function() {
+                    return false;
+                });
             });
         },
         waitTimeout
@@ -187,7 +203,22 @@ function validatePageReadyState(customTimeout) {
 function waitForElement(xpath, customTimeout) {//internal only
     var waitTimeout = customTimeout || config.defaultTimeout;
 
-    return driver.wait(until.elementLocated(By.xpath(xpath)), waitTimeout);
+    return driver.wait(
+        function () {
+            return driver.findElements(By.xpath(xpath)).then(function(el) {
+                if(el.length > 0) {
+                    return true;
+                } else {
+                    return sleep(config.pollingRate).then(function() {
+                        return false;
+                    });
+                }
+            });
+        },
+        waitTimeout
+    ).catch(function(err){
+        throw(`waitForElement failed on element: "${ xpath }" - error message: "${ err.message }", error stack: "${ err.stack }`);
+    });
 };
 
 function findElement(xpath, customTimeout) {
@@ -205,7 +236,7 @@ function findElements(xpath, customTimeout) {
 };
 
 function getElementsNumber(xpath, customTimeout) {
-    return findElements(xpath, customTimeout)
+    return driver.findElements(By.xpath(xpath))
         .then(function(el) {
             return el.length;
         });
@@ -223,7 +254,13 @@ function validateElementsNumber(xpath, number, customTimeout) {
         return driver.wait(
             function () {
                 return findElements(xpath, waitTimeout).then(function(elem) {
-                    return elem.length === number;
+                    if(elem.length === number) {
+                        return true;
+                    } else {
+                        return sleep(config.pollingRate).then(function() {
+                            return false;
+                        });
+                    }
                 });
             },
             waitTimeout
@@ -239,7 +276,13 @@ function validateElementDisplayed(xpath, customTimeout) {//visible in sources AN
     return driver.wait(
         function () {
             return findElements(xpath, waitTimeout).then(function(elem) {
-                return elem[0].isDisplayed();
+                if(elem[0].isDisplayed()) {
+                    return true;
+                } else {
+                    return sleep(config.pollingRate).then(function() {
+                        return false;
+                    });
+                }
             });
         },
         waitTimeout
@@ -254,7 +297,13 @@ function validateElementNotDisplayed(xpath, customTimeout) {//element visible in
     return driver.wait(
         function () {
             return findElements(xpath, waitTimeout).then(function(elem) {
-                return !elem[0].isDisplayed();
+                if(!elem[0].isDisplayed()) {
+                    return true;
+                } else {
+                    return sleep(config.pollingRate).then(function() {
+                        return false;
+                    });
+                }
             });
         },
         waitTimeout
@@ -269,7 +318,13 @@ function validateElementVisible(xpath, customTimeout) {//element visible in sour
     return driver.wait(
         function () {
             return findElements(xpath).then(function(elem) {
-                return elem.length !== 0;
+                if(elem.length !== 0) {
+                    return true;
+                } else {
+                    return sleep(config.pollingRate).then(function() {
+                        return false;
+                    });
+                }
             });
         },
         waitTimeout
@@ -285,7 +340,13 @@ function validateElementNotVisible(xpath, customTimeout) {//not visible in sourc
         return driver.wait(
             function () {
                 return driver.findElements(By.xpath(xpath)).then(function(elem) {
-                    return elem.length !== 0;
+                    if(elem.length !== 0) {
+                        return true;
+                    } else {
+                        return sleep(config.pollingRate).then(function() {
+                            return false;
+                        });
+                    }
                 });
             },
             waitTimeout
@@ -467,10 +528,40 @@ function getCurrentDate() {
 function buildDriver(platform) {
     var capabilities;
 
-    if(platform === PLATFORM.CHROME) {
-        capabilities = webdriver.Capabilities.chrome();
-    } else if(platform === PLATFORM.FIREFOX) {
-        capabilities = webdriver.Capabilities.firefox();
+    switch(platform) {
+        case PLATFORM.CHROME:
+            capabilities = webdriver.Capabilities.chrome();
+            break;
+        case PLATFORM.FIREFOX:
+            capabilities = webdriver.Capabilities.firefox();
+            break;
+        case PLATFORM.IE:
+            capabilities = webdriver.Capabilities.ie();
+            break;
+        case PLATFORM.EDGE:
+            capabilities = webdriver.Capabilities.edge();
+            break;
+        case PLATFORM.OPERA:
+            capabilities = webdriver.Capabilities.opera();
+            break;
+        case PLATFORM.SAFARI:
+            capabilities = webdriver.Capabilities.safari();
+            break;
+        case PLATFORM.PHANTOMJS:
+            capabilities = webdriver.Capabilities.phantomjs();
+            break;
+        case PLATFORM.HTMLUNITWITHJS:
+            capabilities = webdriver.Capabilities.htmlunitwithjs();
+            break;
+        case PLATFORM.ANDROID:
+            capabilities = webdriver.Capabilities.android();
+            break;
+        case PLATFORM.IPHONE:
+            capabilities = webdriver.Capabilities.iphone();
+            break;
+        case PLATFORM.IPAD:
+            capabilities = webdriver.Capabilities.ipad();
+            break;
     }
 
     var logPreferences = new webdriver.logging.Preferences();
