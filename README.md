@@ -555,7 +555,7 @@ By default actions are made after DOM is loaded (document.readystate == 'complet
 
 ### pollingRate
 
-Polling rate isn't supported by Selenium JS bindings - on our test environment about 60-80 requests per second to Selenium Server were made. It isn't speading up tests execution and it's causing additional CPU usage. This option allows to limit it to some reasonable value.
+Polling rate isn't supported by Selenium JS bindings - on our test environment about 60-80 requests per second to Selenium Server were made. It isn't speeding up tests execution and it's causing additional CPU usage. This option allows to limit it to some reasonable value.
 
 ## Project specific settings
 
