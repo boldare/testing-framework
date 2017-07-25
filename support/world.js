@@ -203,7 +203,6 @@ function validatePageReadyState(customTimeout) {
     ).then(function() {
         return validateExtendedPageState(waitTimeout);
     });
-
 };
 
 function waitForElement(xpath, customTimeout) {//internal only
@@ -380,7 +379,7 @@ function click(xpath, customTimeout) {
             return findElement(xpath, customTimeout)
                 .then(function(el) {
                     el.click().catch(function(err) {
-                        logError(`Standard click failed with error message: "${ err.message }", error stack: "${ err.stack }`);
+                        logMessage(`Standard click failed with error message: "${ err.message }", error stack: "${ err.stack }`, true);
                         return jsBasedClick(xpath);
                     });
                 });
@@ -407,7 +406,7 @@ function fillInInput(xpath, value, blur, customTimeout) {
         })
         .then(function() {
             element.sendKeys(typeof blur !== 'undefined' && blur ? value  + '\t': value);
-        })
+        });
 };
 
 function getCheckboxValue(xpath, customTimeout) {
@@ -480,7 +479,6 @@ function cleanBrowserState() {
 
         return driver.manage().deleteAllCookies();
     });
-
 };
 
 function takeScreenshot(fileName, directory) {
