@@ -115,11 +115,11 @@ function getCurrentUrl() {
 };
 
 function validateUrlByRoute(pageName, customTimeout) {
-    if(pageUrlData['regex'] !== undefined && pageUrlData['regex'][pageName] != undefined) {
+    if(pageUrlData['regex'] !== undefined && pageUrlData['regex'][pageName] !== undefined) {
         var url = pageUrlData['regex'][pageName];
 
         return validateRegexUrl(regex, customTimeout);
-    } else if(pageUrlData['basic'] !== undefined && pageUrlData['basic'][pageName] != undefined) {
+    } else if(pageUrlData['basic'] !== undefined && pageUrlData['basic'][pageName] !== undefined) {
         var url = pageUrlData['basic'][pageName];
 
         return validateUrl(url, customTimeout);
@@ -449,7 +449,7 @@ function selectFileInputValue(inputXP, fileName, customTimeout) {
 
     return findElement(inputXP, waitTimeout)
         .then(function(el) {
-            var filePath = global.tf.projectDir + 'data/test_files/' + imageName;
+            var filePath = global.tf.projectDir + 'data/test_files/' + fileName;
 
             return el.sendKeys(filePath);
       });
