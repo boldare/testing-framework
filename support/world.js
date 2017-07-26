@@ -450,7 +450,7 @@ function selectFileInputValue(inputXP, fileName, customTimeout) {
     return findElement(inputXP, waitTimeout)
         .then(function(el) {
             var filePath = global.tf.projectDir + '/data/test_files/' + fileName;
-            logMessage('Selecting { filePath } file.');
+            logMessage(`Selecting { filePath } file.`);
 
             return el.sendKeys(filePath);
       });
