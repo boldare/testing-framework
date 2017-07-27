@@ -410,9 +410,10 @@ function fillInInput(xpath, value, blur, customTimeout) {
 };
 
 function getCheckboxValue(xpath, customTimeout) {
-    return findElement(xpath, customTimeout).isSelected().then(function(value) {
-        return value;
-    });
+    return findElement(xpath, customTimeout)
+        .then(function(el) {
+            return el.isSelected();
+        });
 };
 
 function validateCheckboxValue(xpath, value, customTimeout) {
@@ -438,7 +439,7 @@ function setCheckboxValue(xpath, value, customTimeout) {
             return true;
         }
 
-        return world.click(xpath, waitTimeout).then(function() {
+        return click(xpath, waitTimeout).then(function() {
             return true;
         });
     });
@@ -450,7 +451,7 @@ function selectFileInputValue(inputXP, fileName, customTimeout) {
     return findElement(inputXP, waitTimeout)
         .then(function(el) {
             var filePath = global.tf.projectDir + '/data/test_files/' + fileName;
-            logMessage(`Selecting { filePath } file.`);
+            logMessage(`Selecting ${ filePath } file.`);
 
             return el.sendKeys(filePath);
       });
