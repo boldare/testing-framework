@@ -345,7 +345,7 @@ function validateElementNotVisible(xpath, customTimeout) {//not visible in sourc
         return driver.wait(
             function () {
                 return driver.findElements(By.xpath(xpath)).then(function(elem) {
-                    if(elem.length !== 0) {
+                    if(elem.length === 0) {
                         return true;
                     } else {
                         return sleep(config.pollingRate).then(function() {
