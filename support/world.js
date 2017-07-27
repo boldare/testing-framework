@@ -379,7 +379,7 @@ function click(xpath, customTimeout) {
             return findElement(xpath, customTimeout)
                 .then(function(el) {
                     el.click().catch(function(err) {
-                        logMessage(`Standard click failed with error message: "${ err.message }", error stack: "${ err.stack }`, true);
+                        logMessage(`Standard click failed with error message: "${ err.message }"`, true);
                         return jsBasedClick(xpath);
                     });
                 });
