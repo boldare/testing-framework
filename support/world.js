@@ -70,7 +70,13 @@ function loadPage(page) {
 };
 
 function loadPageByRoute(routeName, customTimeout) {
-    //TODO2: implement
+    var routeValue = pageUrlData['basic'][routeName];
+
+    if(routeValue.charAt(0) === '/') {
+        routeValue = routeValue.substr(1);
+    }
+
+    return driver.get(config.baseUrl + routeValue);
 };
 
 function validateUrl(url, customTimeout) {

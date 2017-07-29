@@ -196,7 +196,7 @@ Loads page by URL.
 `url` page URL
 `customTimeout` (optional) - would be used instead of default config timeout.
 
-#### loadPageByRoute(routeName, customTimeout) (NOT YET IMPLEMENTED)
+#### loadPageByRoute(routeName, customTimeout)
 Loads page by route from pageUrlData file.
 
 `routeName` route name from pageUrlData that would be opened (only basic - can't be regex).
