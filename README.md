@@ -106,10 +106,9 @@ For example `config.js.dist` file should be copied to `config.js` etc.
 
 ## Run tests
 Tests can be run using:
-`node_modules/cucumber/bin/cucumber.js --require support/ --require features/`
+`node_modules/cucumber/bin/cucumber.js`
 
 You can pass "normal" cucumber parameters - specify .feature files, select tags etc.
-Currently `--require` parameters are needed, custom runner is planned.
 
 
 # Directory structure
