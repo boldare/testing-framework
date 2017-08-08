@@ -110,6 +110,9 @@ Tests can be run using:
 
 You can pass "normal" cucumber parameters - specify .feature files, select tags etc.
 
+### Tags
+Make sure to use Cucumber Tag Expressions, not old-style Cucumber tags - there are not available in Cucumber 2.X anymore.
+https://docs.cucumber.io/tag-expressions/
 
 # Directory structure
 Directory structure.
