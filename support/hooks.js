@@ -1,5 +1,5 @@
 var world = require('./world.js');
-var driver = require('./world.js').getDriver();
+var driver = world.getDriver();
 var config = require('./config.js');
 var {defineSupportCode} = require('cucumber');
 var fs = require('fs');

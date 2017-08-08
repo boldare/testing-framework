@@ -79,9 +79,7 @@ function loadPageByRoute(routeName, customTimeout) {
     return driver.get(config.baseUrl + routeValue);
 };
 
-function validateUrl(url, customTimeout) {
-    var waitTimeout = customTimeout || config.defaultTimeout;
-
+function validateUrl(url, customTimeout = config.defaultTimeout) {
     return driver.wait(function() {
             return driver.getCurrentUrl().then(function(currentUrl) {
                 if(currentUrl.indexOf(url) !== -1) {
@@ -93,13 +91,11 @@ function validateUrl(url, customTimeout) {
                 }
             });
         },
-        waitTimeout
+        customTimeout
     );
 };
 
-function validateUrlByRegex(regex, customTimeout) {
-    var waitTimeout = customTimeout || config.defaultTimeout;
-
+function validateUrlByRegex(regex, customTimeout = config.defaultTimeout) {
     return driver.wait(function() {
             return driver.getCurrentUrl().then(function(currentUrl) {
                 var r = new RegExp(regex);
@@ -112,7 +108,7 @@ function validateUrlByRegex(regex, customTimeout) {
                 });
             });
         },
-        waitTimeout
+        customTimeout
     );
 };
 
@@ -171,9 +167,7 @@ function checkExtendedPageState() {
     }
 };
 
-function validateExtendedPageState(customTimeout) {
-    var waitTimeout = customTimeout || config.defaultTimeout;
-
+function validateExtendedPageState(customTimeout = config.defaultTimeout) {
     return driver.wait(function() {
         return checkExtendedPageState()
             .then(function(value) {
@@ -186,13 +180,11 @@ function validateExtendedPageState(customTimeout) {
                 });
             });
         },
-        waitTimeout
+        customTimeout
     );
 };
 
-function validatePageReadyState(customTimeout) {
-    var waitTimeout = customTimeout || config.defaultTimeout;
-
+function validatePageReadyState(customTimeout = config.defaultTimeout) {
     return driver.wait(function() {
         return getDocumentReadyState()
             .then(function(value) {
@@ -205,15 +197,13 @@ function validatePageReadyState(customTimeout) {
                 });
             })
         },
-        waitTimeout
+        customTimeout
     ).then(function() {
-        return validateExtendedPageState(waitTimeout);
+        return validateExtendedPageState(customTimeout);
     });
 };
 
-function waitForElement(xpath, customTimeout) {//internal only
-    var waitTimeout = customTimeout || config.defaultTimeout;
-
+function waitForElement(xpath, customTimeout = config.defaultTimeout) {//internal only
     return driver.wait(
         function () {
             return driver.findElements(By.xpath(xpath)).then(function(el) {
@@ -226,7 +216,7 @@ function waitForElement(xpath, customTimeout) {//internal only
                 }
             });
         },
-        waitTimeout
+        customTimeout
     ).catch(function(err){
         throw(`waitForElement failed on element: "${ xpath }" - error message: "${ err.message }", error stack: "${ err.stack }`);
     });
@@ -253,18 +243,15 @@ function getElementsNumber(xpath, customTimeout) {
         });
 };
 
-function validateElementsNumber(xpath, number, customTimeout) {
-
-    var waitTimeout = customTimeout || config.defaultTimeout;
-
+function validateElementsNumber(xpath, number, customTimeout = config.defaultTimeout) {
     if(number === 0) {
         return validatePageReadyState().then(function() {
-            return isElementNotVisible(xpath, waitTimeout);
+            return isElementNotVisible(xpath, customTimeout);
         });
     } else {
         return driver.wait(
             function () {
-                return findElements(xpath, waitTimeout).then(function(elem) {
+                return findElements(xpath, customTimeout).then(function(elem) {
                     if(elem.length === number) {
                         return true;
                     } else {
@@ -274,19 +261,17 @@ function validateElementsNumber(xpath, number, customTimeout) {
                     }
                 });
             },
-            waitTimeout
+            customTimeout
         ).catch(function(err){
             throw(`validateElementsNumber failed on element: "${ xpath }" - error message: "${ err.message }", error stack: "${ err.stack }`);
         });
     }
 };
 
-function validateElementDisplayed(xpath, customTimeout) {//visible in sources AND displayed
-    var waitTimeout = customTimeout || config.defaultTimeout;
-
+function validateElementDisplayed(xpath, customTimeout = config.defaultTimeout) {//visible in sources AND displayed
     return driver.wait(
         function () {
-            return findElements(xpath, waitTimeout).then(function(elem) {
+            return findElements(xpath, customTimeout).then(function(elem) {
                 if(elem[0].isDisplayed()) {
                     return true;
                 } else {
@@ -296,18 +281,16 @@ function validateElementDisplayed(xpath, customTimeout) {//visible in sources AN
                 }
             });
         },
-        waitTimeout
+        customTimeout
     ).catch(function(err){
         throw(`validateElementDisplayed failed on element: "${ xpath }" - error message: "${ err.message }", error stack: "${ err.stack }`);
     });
 };
 
-function validateElementNotDisplayed(xpath, customTimeout) {//element visible in sources and not displayed
-    var waitTimeout = customTimeout || config.defaultTimeout;
-
+function validateElementNotDisplayed(xpath, customTimeout = config.defaultTimeout) {//element visible in sources and not displayed
     return driver.wait(
         function () {
-            return findElements(xpath, waitTimeout).then(function(elem) {
+            return findElements(xpath, customTimeout).then(function(elem) {
                 if(!elem[0].isDisplayed()) {
                     return true;
                 } else {
@@ -317,15 +300,13 @@ function validateElementNotDisplayed(xpath, customTimeout) {//element visible in
                 }
             });
         },
-        waitTimeout
+        customTimeout
     ).catch(function(err){
         throw(`validateElementNotDisplayed failed on element: "${ xpath }" - error message: "${ err.message }", error stack: "${ err.stack }`);
     });
 };
 
-function validateElementVisible(xpath, customTimeout) {//element visible in sources and may be displayed or not
-    var waitTimeout = customTimeout || config.defaultTimeout;
-
+function validateElementVisible(xpath, customTimeout = config.defaultTimeout) {//element visible in sources and may be displayed or not
     return driver.wait(
         function () {
             return findElements(xpath).then(function(elem) {
@@ -338,15 +319,13 @@ function validateElementVisible(xpath, customTimeout) {//element visible in sour
                 }
             });
         },
-        waitTimeout
+        customTimeout
     ).catch(function(err){
         throw(`validateElementVisible failed on element: "${ xpath }" - error message: "${ err.message }", error stack: "${ err.stack }`);
     });
 };
 
-function validateElementNotVisible(xpath, customTimeout) {//not visible in sources and not displayed
-    var waitTimeout = customTimeout || config.defaultTimeout;
-
+function validateElementNotVisible(xpath, customTimeout = config.defaultTimeout) {//not visible in sources and not displayed
     return validatePageReadyState().then(function() {
         return driver.wait(
             function () {
@@ -360,7 +339,7 @@ function validateElementNotVisible(xpath, customTimeout) {//not visible in sourc
                     }
                 });
             },
-            waitTimeout
+            customTimeout
         ).catch(function(err){
                 throw(`validateElementNotVisible failed on element: "${ xpath }" - error message: "${ err.message }", error stack: "${ err.stack }`);
         });
@@ -422,30 +401,26 @@ function getCheckboxValue(xpath, customTimeout) {
         });
 };
 
-function validateCheckboxValue(xpath, value, customTimeout) {
-    var waitTimeout = customTimeout || config.defaultTimeout;
-
+function validateCheckboxValue(xpath, value, customTimeout = config.defaultTimeout) {
     return driver.wait(
         function () {
             return getCheckboxValue(xpath, customTimeout).then(function(currentValue) {
                 return currentValue === value;
             });
         },
-        waitTimeout
+        customTimeout
     ).catch(function(err){
         throw(`validateCheckboxValue failed on element: "${ xpath }" - error message: "${ err.message }", error stack: "${ err.stack }`);
     });
 };
 
-function setCheckboxValue(xpath, value, customTimeout) {
-    var waitTimeout = customTimeout || config.defaultTimeout;
-
-    return getCheckboxValue(xpath, waitTimeout).then(function(isChecked) {
+function setCheckboxValue(xpath, value, customTimeout = config.defaultTimeout) {
+    return getCheckboxValue(xpath, customTimeout).then(function(isChecked) {
         if(isChecked === value) {
             return true;
         }
 
-        return click(xpath, waitTimeout).then(function() {
+        return click(xpath, customTimeout).then(function() {
             return true;
         });
     });
@@ -471,12 +446,10 @@ function validateElementText(xpath, text, customTimeout) {
     });
 };
 
-function selectFileInputValue(inputXP, fileName, customTimeout) {
-    var waitTimeout = customTimeout || config.defaultTimeout;
-
-    return findElement(inputXP, waitTimeout)
+function selectFileInputValue(inputXP, fileName, customTimeout = config.defaultTimeout) {
+    return findElement(inputXP, customTimeout)
         .then(function(el) {
-            var filePath = global.tf.projectDir + '/data/test_files/' + fileName;
+            var filePath = global.tf.projectDir + `/data/test_files/${ fileName }`;
             logMessage(`Selecting ${ filePath } file.`);
 
             return el.sendKeys(filePath);
@@ -510,7 +483,7 @@ function cleanBrowserState() {
 };
 
 function takeScreenshot(fileName, directory) {
-    var screenshotFilePath = path.join(directory, fileName + ".png");
+    var screenshotFilePath = path.join(directory, `${ fileName }.png`);
 
     return driver.takeScreenshot().then(function(data){
         var base64Data = data.replace(/^data:image\/png;base64,/,"");
@@ -551,9 +524,8 @@ function init() {
 
 function getCurrentDate() {
     var date = new Date();
-    var str = `${ date.toJSON().slice(0,10) }_${ date.getHours() }-${ date.getMinutes() }-${ date.getSeconds() }-${ date.getMilliseconds() }`;
 
-    return str;
+    return `${ date.toJSON().slice(0,10) }_${ date.getHours() }-${ date.getMinutes() }-${ date.getSeconds() }-${ date.getMilliseconds() }`;
 };
 
 function buildDriver(platform) {
