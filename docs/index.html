@@ -222,7 +222,7 @@
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
-
+        
           <h1 id="about">About</h1>
 
 <p><strong>XSolve Web Testing Framework</strong> is test framework above Selenium Webdriver and Cucumber written in JS (Node).</p>
@@ -630,7 +630,7 @@ Chrome browser is recommended. Other browsers weren&rsquo;t tested.</p>
 <p><code class="prettyprint">url</code> page URL
 <code class="prettyprint">customTimeout</code> (optional) - would be used instead of default config timeout.</p>
 
-<h4 id="loadpagebyroute-routename-customtimeout-not-yet-implemented">loadPageByRoute(routeName, customTimeout)</h4>
+<h4 id="loadpagebyroute-routename-customtimeout">loadPageByRoute(routeName, customTimeout)</h4>
 
 <p>Loads page by route from pageUrlData file.</p>
 
@@ -688,6 +688,14 @@ Chrome browser is recommended. Other browsers weren&rsquo;t tested.</p>
 
 <h3 id="validators">Validators</h3>
 
+<h4 id="getcheckboxvalue-xpath-customtimeout">getCheckboxValue(xpath, customTimeout)</h4>
+
+<p>Returns checkbox value.</p>
+
+<p><code class="prettyprint">xpath</code> string with element xpath</p>
+
+<p><code class="prettyprint">customTimeout</code> (optional) - would be used instead of default config timeout.</p>
+
 <h4 id="getelementsnumber-xpath-customtimeout">getElementsNumber(xpath, customTimeout)</h4>
 
 <p>Returns number of elements.</p>
@@ -696,9 +704,9 @@ Chrome browser is recommended. Other browsers weren&rsquo;t tested.</p>
 
 <p><code class="prettyprint">customTimeout</code> (optional) - would be used instead of default config timeout.</p>
 
-<h4 id="getcheckboxvalue-xpath-customtimeout">getCheckboxValue(xpath, customTimeout)</h4>
+<h4 id="getelementtext-xpath-customtimeout">getElementText(xpath, customTimeout)</h4>
 
-<p>Returns checkbox value.</p>
+<p>Returns element text.</p>
 
 <p><code class="prettyprint">xpath</code> string with element xpath</p>
 
@@ -729,6 +737,16 @@ May be browser-specific because of the driver differences.</p>
 May be browser-specific because of the driver differences.</p>
 
 <p><code class="prettyprint">xpath</code> string with element xpath</p>
+
+<p><code class="prettyprint">customTimeout</code> (optional) - would be used instead of default config timeout.</p>
+
+<h4 id="validateelementtext-xpath-text-customtimeout">validateElementText(xpath, text, customTimeout)</h4>
+
+<p>Validates if text of element is equal to expected.</p>
+
+<p><code class="prettyprint">xpath</code> string with element xpath</p>
+
+<p><code class="prettyprint">text</code> expected text</p>
 
 <p><code class="prettyprint">customTimeout</code> (optional) - would be used instead of default config timeout.</p>
 

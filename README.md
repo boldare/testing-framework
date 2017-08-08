@@ -163,7 +163,6 @@ Directory where logs are written. `execution_logs` contains typical logs from te
 ## docs
 Documentation.
 
-
 # Methods
 
 ## World
@@ -247,6 +246,13 @@ Sets checkbox value.
 
 ### Validators
 
+#### getCheckboxValue(xpath, customTimeout)
+Returns checkbox value.
+
+`xpath` string with element xpath
+
+`customTimeout` (optional) - would be used instead of default config timeout.
+
 #### getElementsNumber(xpath, customTimeout)
 Returns number of elements.
 
@@ -254,8 +260,8 @@ Returns number of elements.
 
 `customTimeout` (optional) - would be used instead of default config timeout.
 
-#### getCheckboxValue(xpath, customTimeout)
-Returns checkbox value.
+#### getElementText(xpath, customTimeout)
+Returns element text.
 
 `xpath` string with element xpath
 
@@ -283,6 +289,15 @@ Validates if element is not displayed (visible in sources and not displayed).
 May be browser-specific because of the driver differences.
 
 `xpath` string with element xpath
+
+`customTimeout` (optional) - would be used instead of default config timeout.
+
+#### validateElementText(xpath, text, customTimeout)
+Validates if text of element is equal to expected.
+
+`xpath` string with element xpath
+
+`text` expected text
 
 `customTimeout` (optional) - would be used instead of default config timeout.
 
