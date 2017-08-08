@@ -129,15 +129,17 @@ defineSupportCode(function({registerHandler}) {
 
 defineSupportCode(function({registerHandler}) {
     registerHandler('AfterStep', function(afterStepData) {
-        if(config.enableScreenshotReports) {
-            if(afterStepData.constructor.name == 'Step') {
-                var featureName = afterStepData.scenario.feature.name;
-                var scenarioName = afterStepData.scenario.name;
-                var stepName = afterStepData.name;
-                var screenshotReportFileName = `${ world.getCurrentDate() }__${ featureName }-${ scenarioName }-${ stepName }`;
-                world.takeScreenshot(screenshotReportFileName, screenshotReportsDir);
-            }
-        }
+        if(!config.enableScreenshotReports)
+            return;
+
+        if(afterStepData.constructor.name !== 'Step')
+            return;
+            
+        var featureName = afterStepData.scenario.feature.name;
+        var scenarioName = afterStepData.scenario.name;
+        var stepName = afterStepData.name;
+        var screenshotReportFileName = `${ world.getCurrentDate() }__${ featureName }-${ scenarioName }-${ stepName }`;
+        world.takeScreenshot(screenshotReportFileName, screenshotReportsDir);
     });
 });
 

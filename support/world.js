@@ -26,7 +26,7 @@ var until = webdriver.until;
 //vars
 var driver;
 var logsDirName;
-var seleniumServerUrl = 'http://%s:%s/wd/hub';
+var seleniumServerUrl = `http://${ config.seleniumServerHost }:${ config.seleniumServerPort }/wd/hub`;
 
 const PLATFORM  = {
     CHROME: 'CHROME',
@@ -49,18 +49,18 @@ function logMessage(logMessage, detailedOnlyLog) {
     var displayDetailedLog = config.detailedLog !== undefined ? config.detailedLog : false;
 
     if(displayDetailedLog && config.detailedTestLog) {
-        console.log(sprintf('LOG-info: %s', logMessage));
+        console.log(`LOG-info: ${ logMessage }`);
     } else if(!displayDetailedLog) {
-        console.log(sprintf('LOG: %s', logMessage));
+        console.log(`LOG: ${ logMessage }`);
     }
 };
 
 function logError(errorMessage, noThrow) {
-    var message = sprintf('ERROR: %s', errorMessage);
+    var message = `ERROR: ${ errorMessage }`;
 
     if(noThrow !== undefined && noThrow) {
         throw(message);
-    }else {
+    } else {
         console.log(message);
     }
 };
@@ -84,11 +84,11 @@ function validateUrl(url, customTimeout = config.defaultTimeout) {
             return driver.getCurrentUrl().then(function(currentUrl) {
                 if(currentUrl.indexOf(url) !== -1) {
                     return true;
-                } else {
-                    return sleep(config.pollingRate).then(function() {
-                        return false;
-                    });
                 }
+
+                return sleep(config.pollingRate).then(function() {
+                    return false;
+                });
             });
         },
         customTimeout
@@ -117,17 +117,18 @@ function getCurrentUrl() {
 };
 
 function validateUrlByRoute(pageName, customTimeout) {
-    if(pageUrlData['regex'] !== undefined && pageUrlData['regex'][pageName] !== undefined) {
-        var url = pageUrlData['regex'][pageName];
+    if(pageUrlData.regex && pageUrlData.regex[pageName]) {
+        var url = pageUrlData.regex[pageName];
 
         return validateRegexUrl(regex, customTimeout);
-    } else if(pageUrlData['basic'] !== undefined && pageUrlData['basic'][pageName] !== undefined) {
-        var url = pageUrlData['basic'][pageName];
+    }
+    if(pageUrlData.basic && pageUrlData.basic[pageName]) {
+        var url = pageUrlData.basic[pageName];
 
         return validateUrl(url, customTimeout);
-    } else {
-        logError('validateUrlByRoute - incorrect page name: ' + pageName);
     }
+
+    logError(`validateUrlByRoute - incorrect page name: ${ pageName }`);
 };
 
  function getDocumentReadyState() {//internal only
@@ -162,9 +163,9 @@ function checkExtendedPageState() {
 
             return true;//currently only Angular
         });
-    } else {
-        return boolPromiseResult(true);
     }
+
+    return boolPromiseResult(true);
 };
 
 function validateExtendedPageState(customTimeout = config.defaultTimeout) {
@@ -209,11 +210,11 @@ function waitForElement(xpath, customTimeout = config.defaultTimeout) {//interna
             return driver.findElements(By.xpath(xpath)).then(function(el) {
                 if(el.length > 0) {
                     return true;
-                } else {
-                    return sleep(config.pollingRate).then(function() {
-                        return false;
-                    });
                 }
+
+                return sleep(config.pollingRate).then(function() {
+                    return false;
+                });
             });
         },
         customTimeout
@@ -254,11 +255,11 @@ function validateElementsNumber(xpath, number, customTimeout = config.defaultTim
                 return findElements(xpath, customTimeout).then(function(elem) {
                     if(elem.length === number) {
                         return true;
-                    } else {
-                        return sleep(config.pollingRate).then(function() {
-                            return false;
-                        });
                     }
+
+                    return sleep(config.pollingRate).then(function() {
+                        return false;
+                    });
                 });
             },
             customTimeout
@@ -274,11 +275,11 @@ function validateElementDisplayed(xpath, customTimeout = config.defaultTimeout) 
             return findElements(xpath, customTimeout).then(function(elem) {
                 if(elem[0].isDisplayed()) {
                     return true;
-                } else {
-                    return sleep(config.pollingRate).then(function() {
-                        return false;
-                    });
                 }
+
+                return sleep(config.pollingRate).then(function() {
+                    return false;
+                });
             });
         },
         customTimeout
@@ -293,11 +294,11 @@ function validateElementNotDisplayed(xpath, customTimeout = config.defaultTimeou
             return findElements(xpath, customTimeout).then(function(elem) {
                 if(!elem[0].isDisplayed()) {
                     return true;
-                } else {
-                    return sleep(config.pollingRate).then(function() {
-                        return false;
-                    });
                 }
+
+                return sleep(config.pollingRate).then(function() {
+                    return false;
+                });
             });
         },
         customTimeout
@@ -312,11 +313,11 @@ function validateElementVisible(xpath, customTimeout = config.defaultTimeout) {/
             return findElements(xpath).then(function(elem) {
                 if(elem.length !== 0) {
                     return true;
-                } else {
-                    return sleep(config.pollingRate).then(function() {
-                        return false;
-                    });
                 }
+
+                return sleep(config.pollingRate).then(function() {
+                    return false;
+                });
             });
         },
         customTimeout
@@ -332,11 +333,11 @@ function validateElementNotVisible(xpath, customTimeout = config.defaultTimeout)
                 return driver.findElements(By.xpath(xpath)).then(function(elem) {
                     if(elem.length === 0) {
                         return true;
-                    } else {
-                        return sleep(config.pollingRate).then(function() {
-                            return false;
-                        });
                     }
+
+                    return sleep(config.pollingRate).then(function() {
+                        return false;
+                    });
                 });
             },
             customTimeout
@@ -390,7 +391,7 @@ function fillInInput(xpath, value, blur, customTimeout) {
             return element.clear();
         })
         .then(function() {
-            element.sendKeys(typeof blur !== 'undefined' && blur ? value  + '\t': value);
+            return element.sendKeys(typeof blur !== 'undefined' && blur ? value  + '\t': value);
         });
 };
 
@@ -490,7 +491,7 @@ function takeScreenshot(fileName, directory) {
 
         return fs.writeFile(screenshotFilePath, base64Data, 'base64', function(err) {
             if(err) {
-                logError('takeScreenshot eror: ' + err);
+                logError(`takeScreenshot eror: ${ err }`);
             }
         });
     });
@@ -575,7 +576,7 @@ function buildDriver(platform) {
     var proxyUrl = config.proxyHost + ':' + config.proxyHttpPort;
 
     return new webdriver.Builder()
-        .usingServer(sprintf(seleniumServerUrl, config.seleniumServerHost, config.seleniumServerPort))
+        .usingServer(seleniumServerUrl)
         .withCapabilities(capabilities)
         .setLoggingPrefs(logPreferences)
         .setProxy(seleniumProxy.manual({
