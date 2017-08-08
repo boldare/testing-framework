@@ -427,8 +427,8 @@ function validateCheckboxValue(xpath, value, customTimeout) {
 
     return driver.wait(
         function () {
-            return getCheckboxValue(xpath, customTimeout).then(function(elemState) {
-                return elemState === value;
+            return getCheckboxValue(xpath, customTimeout).then(function(currentValue) {
+                return currentValue === value;
             });
         },
         waitTimeout
@@ -448,6 +448,26 @@ function setCheckboxValue(xpath, value, customTimeout) {
         return click(xpath, waitTimeout).then(function() {
             return true;
         });
+    });
+};
+
+function getElementText(xpath, customTimeout) {
+    return findElement(xpath, customTimeout)
+        .then(function(el) {
+            return el.getText();
+        });
+};
+
+function validateElementText(xpath, text, customTimeout) {
+    return driver.wait(
+        function () {
+            return getElementText(xpath, customTimeout).then(function(currentText) {
+                return currentText === text;
+            });
+        },
+        waitTimeout
+    ).catch(function(err){
+        throw(`validateElementText failed on element: "${ xpath }" - error message: "${ err.message }", error stack: "${ err.stack }`);
     });
 };
 
