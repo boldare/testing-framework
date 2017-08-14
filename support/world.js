@@ -466,7 +466,7 @@ function takeScreenshot(fileName, directory) {
 //angular-specific methods
 
 function getAngularInputValue(xpath, customTimeout = config.defaultTimeout) {
-    return world.findElement(xpath, ).then(function() {
+    return world.findElement(xpath, customTimeout).then(function() {
         var script = `return document.evaluate('${ xpath }', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.value`;
 
         return world.getDriver().executeScript(script, '')
