@@ -34,7 +34,7 @@ function isProxyHttpPortOpen() {
 
             return false;
         });
-};
+}
 
 function openProxyHttpPort(proxyHttpPort) {
     return isProxyHttpPortOpen().then(function(isOpen) {
@@ -53,7 +53,7 @@ function openProxyHttpPort(proxyHttpPort) {
                 });
         }
     });
-};
+}
 
 function startHar() {
     return superagent
@@ -65,7 +65,7 @@ function startHar() {
 
             return true;
         });
-};
+}
 
 function saveHar(fileName, directory) {
     let harFilePath = path.join(directory, fileName + ".har");
@@ -73,7 +73,7 @@ function saveHar(fileName, directory) {
     return superagent
         .get(proxyHarUrl)
         .pipe(fs.createWriteStream(harFilePath));
-};
+}
 
 defineSupportCode(function({After, Before}) {
     let logFileName;
@@ -116,7 +116,7 @@ defineSupportCode(function({After, Before}) {
 });
 
 defineSupportCode(function({registerHandler}) {
-    registerHandler('AfterFeatures', function(event) {
+    registerHandler('AfterFeatures', function() {
         return driver.quit();
     });
 });
@@ -147,4 +147,4 @@ function createLogDirs(logsDir, screenshotReportsDir) {
             fs.mkdirSync(screenshotReportsDir);
         }
     }
-};
+}
