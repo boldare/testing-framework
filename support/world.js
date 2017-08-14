@@ -44,10 +44,10 @@ const PLATFORM  = {
 init();
 
 //methods
-function logMessage(logMessage, detailedOnlyLog) {
-    let displayDetailedLog = config.detailedLog !== undefined ? config.detailedLog : false;
+function logMessage(logMessage, detailedOnlyLog = false) {
+    let displayDetailedLog = config.detailedTestLog !== undefined ? config.detailedTestLog : false;
 
-    if(displayDetailedLog && config.detailedTestLog) {
+    if(displayDetailedLog && detailedOnlyLog) {
         console.log(`LOG-info: ${ logMessage }`);
     } else if(!displayDetailedLog) {
         console.log(`LOG: ${ logMessage }`);
@@ -605,5 +605,7 @@ module.exports = {
     validatePageReadyState: validatePageReadyState,
     validateUrl: validateUrl,
     validateUrlByRegex: validateUrlByRegex,
-    validateUrlByRoute: validateUrlByRoute
+    validateUrlByRoute: validateUrlByRoute,
+    getAngularInputValue,
+    validateAngularInputValue
 };
