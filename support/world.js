@@ -169,9 +169,8 @@ function validateExtendedPageState(customTimeout = config.defaultTimeout) {
                     return true;
                 }
 
-                return sleep(config.pollingRate).then(function() {
-                    return false;
-                });
+                return sleep(config.pollingRate)
+                    .then(() => false);
             });
         },
         customTimeout
@@ -278,7 +277,8 @@ function validateElementNotDisplayed(xpath, customTimeout = config.defaultTimeou
                     return true;
                 }
 
-                return sleep(config.pollingRate).then(() => false);
+                return sleep(config.pollingRate)
+                    .then(() => false);
             });
         },
         customTimeout
@@ -465,12 +465,26 @@ function takeScreenshot(fileName, directory) {
 
 //angular-specific methods
 
-function getAngularInputValue(xpath, customTimeout) {
-    //TODO2: implement
+function getAngularInputValue(xpath, customTimeout = config.defaultTimeout) {
+    return world.findElement(xpath, ).then(function() {
+        var script = `return document.evaluate('${ xpath }', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.value`;
+
+        return world.getDriver().executeScript(script, '')
+            .then((result) => result);
+    });
 };
 
-function validateAngularInputValue(xpath, expectedValue, customTimeout) {
-    //TODO2: implement
+function validateAngularInputValue(xpath, expectedValue, customTimeout = config.defaultTimeout) {
+    return driver.wait(
+        function () {
+            return getAngularInputValue(xpath, customTimeout).then(function(currentValue) {
+                return currentValue === expectedValue;
+            });
+        },
+        waitTimeout
+    ).catch(function(err){
+        throw(`validateAngularInputValue failed on element: "${ xpath }". Error message: "${ err.message }", error stack: "${ err.stack }`);
+    });
 };
 
 //internal methods
