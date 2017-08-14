@@ -1,10 +1,10 @@
 Function.prototype.curry = function() {
-    var func = this;
-    var slice = Array.prototype.slice;
-    var appliedArgs = slice.call(arguments, 0);
+    let func = this;
+    let slice = Array.prototype.slice;
+    let appliedArgs = slice.call(arguments, 0);
 
     return function() {
-        var leftoverArgs = slice.call(arguments, 0);
+        let leftoverArgs = slice.call(arguments, 0);
         return func.apply(this, appliedArgs.concat(leftoverArgs));
     };
 };
@@ -12,20 +12,20 @@ Function.prototype.curry = function() {
 global.tf = global.tf || {};
 
 //imports
-var path = require('path');
+let path = require('path');
 global.tf.projectDir = path.join(__dirname, '..');
-var webdriver = require('selenium-webdriver'),
+let webdriver = require('selenium-webdriver'),
     By = webdriver.By;
-var webdriverRemote = require('selenium-webdriver/remote');
-var config = require('./config.js');
-var pageUrlData = require(global.tf.projectDir + '/data/pageUrlData.js');
-var fs = require('fs');
-var until = webdriver.until;
+let webdriverRemote = require('selenium-webdriver/remote');
+let config = require('./config.js');
+let pageUrlData = require(global.tf.projectDir + '/data/pageUrlData.js');
+let fs = require('fs');
+let until = webdriver.until;
 
 //vars
-var driver;
-var logsDirName;
-var seleniumServerUrl = `http://${ config.seleniumServerHost }:${ config.seleniumServerPort }/wd/hub`;
+let driver;
+let logsDirName;
+let seleniumServerUrl = `http://${ config.seleniumServerHost }:${ config.seleniumServerPort }/wd/hub`;
 
 const PLATFORM  = {
     CHROME: 'CHROME',
@@ -45,7 +45,7 @@ init();
 
 //methods
 function logMessage(logMessage, detailedOnlyLog) {
-    var displayDetailedLog = config.detailedLog !== undefined ? config.detailedLog : false;
+    let displayDetailedLog = config.detailedLog !== undefined ? config.detailedLog : false;
 
     if(displayDetailedLog && config.detailedTestLog) {
         console.log(`LOG-info: ${ logMessage }`);
@@ -55,7 +55,7 @@ function logMessage(logMessage, detailedOnlyLog) {
 };
 
 function logError(errorMessage, noThrow = false) {
-    var message = `ERROR: ${ errorMessage }`;
+    let message = `ERROR: ${ errorMessage }`;
 
     if(noThrow) {
         throw(message);
@@ -69,7 +69,7 @@ function loadPage(page) {
 };
 
 function loadPageByRoute(routeName, customTimeout) {
-    var routeValue = pageUrlData['basic'][routeName];
+    let routeValue = pageUrlData['basic'][routeName];
 
     if(routeValue.charAt(0) === '/') {
         routeValue = routeValue.substr(1);
@@ -97,7 +97,7 @@ function validateUrl(url, customTimeout = config.defaultTimeout) {
 function validateUrlByRegex(regex, customTimeout = config.defaultTimeout) {
     return driver.wait(function() {
             return driver.getCurrentUrl().then(function(currentUrl) {
-                var r = new RegExp(regex);
+                let r = new RegExp(regex);
                 if(r.test(currentUrl)) {
                     return true;
                 }
@@ -115,12 +115,12 @@ function getCurrentUrl() {
 
 function validateUrlByRoute(pageName, customTimeout) {
     if(pageUrlData.regex && pageUrlData.regex[pageName]) {
-        var url = pageUrlData.regex[pageName];
+        let url = pageUrlData.regex[pageName];
 
         return validateRegexUrl(regex, customTimeout);
     }
     if(pageUrlData.basic && pageUrlData.basic[pageName]) {
-        var url = pageUrlData.basic[pageName];
+        let url = pageUrlData.basic[pageName];
 
         return validateUrl(url, customTimeout);
     }
@@ -136,7 +136,7 @@ function validateUrlByRoute(pageName, customTimeout) {
 };
 
 function checkAngularPresence() {
-    var script = 'return (window.angular !== undefined)';
+    let script = 'return (window.angular !== undefined)';
 
     return driver.executeScript(script, '')
         .then((result) => result);
@@ -150,7 +150,7 @@ function checkExtendedPageState() {
     return checkAngularPresence().then(function(present) {
         if(present) {
             //angular-based page - validation
-            var script = 'return (angular.element(document.body).injector() !== undefined) && ' +
+            let script = 'return (angular.element(document.body).injector() !== undefined) && ' +
             '(angular.element(document.body).injector().get(\'$http\').pendingRequests.length === 0)';
 
             return driver.executeScript(script, '')
@@ -357,7 +357,7 @@ function hover(xpath, customTimeout) {
 };
 
 function fillInInput(xpath, value, blur, customTimeout) {
-    var element;
+    let element;
 
     return findElement(xpath, customTimeout)
         .then(function(el) {
@@ -416,7 +416,7 @@ function validateElementText(xpath, text, customTimeout) {
 function selectFileInputValue(inputXP, fileName, customTimeout = config.defaultTimeout) {
     return findElement(inputXP, customTimeout)
         .then(function(el) {
-            var filePath = global.tf.projectDir + `/data/test_files/${ fileName }`;
+            let filePath = global.tf.projectDir + `/data/test_files/${ fileName }`;
             logMessage(`Selecting ${ filePath } file.`);
 
             return el.sendKeys(filePath);
@@ -450,10 +450,10 @@ function cleanBrowserState() {
 };
 
 function takeScreenshot(fileName, directory) {
-    var screenshotFilePath = path.join(directory, `${ fileName }.png`);
+    let screenshotFilePath = path.join(directory, `${ fileName }.png`);
 
     return driver.takeScreenshot().then(function(data){
-        var base64Data = data.replace(/^data:image\/png;base64,/,"");
+        let base64Data = data.replace(/^data:image\/png;base64,/,"");
 
         return fs.writeFile(screenshotFilePath, base64Data, 'base64', function(err) {
             if(err) {
@@ -476,9 +476,7 @@ function validateAngularInputValue(xpath, expectedValue, customTimeout) {
 //internal methods
 
 function boolPromiseResult(value) {
-    return new Promise(function(resolve, reject){
-        resolve(value);
-    });
+    return new Promise((resolve, reject) => { resolve(value) });
 };
 
 function init() {
@@ -490,13 +488,13 @@ function init() {
 };
 
 function getCurrentDate() {
-    var date = new Date();
+    let date = new Date();
 
     return `${ date.toJSON().slice(0,10) }_${ date.getHours() }-${ date.getMinutes() }-${ date.getSeconds() }-${ date.getMilliseconds() }`;
 };
 
 function buildDriver(platform) {
-    var capabilities;
+    let capabilities;
 
     switch(platform) {
         case PLATFORM.CHROME:
@@ -534,12 +532,12 @@ function buildDriver(platform) {
             break;
     }
 
-    var logPreferences = new webdriver.logging.Preferences();
+    let logPreferences = new webdriver.logging.Preferences();
     logPreferences.setLevel('driver', config.seleniumDriverLogLevel);
     logPreferences.setLevel('browser', config.seleniumBrowserLogLevel);
 
-    var seleniumProxy = require('selenium-webdriver/proxy');
-    var proxyUrl = config.proxyHost + ':' + config.proxyHttpPort;
+    let seleniumProxy = require('selenium-webdriver/proxy');
+    let proxyUrl = config.proxyHost + ':' + config.proxyHttpPort;
 
     return new webdriver.Builder()
         .usingServer(seleniumServerUrl)

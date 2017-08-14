@@ -1,19 +1,19 @@
-var world = require('./world.js');
-var driver = world.getDriver();
-var config = require('./config.js');
-var {defineSupportCode} = require('cucumber');
-var fs = require('fs');
-var superagent = require('superagent');
-var path = require('path');
+let world = require('./world.js');
+let driver = world.getDriver();
+let config = require('./config.js');
+let {defineSupportCode} = require('cucumber');
+let fs = require('fs');
+let superagent = require('superagent');
+let path = require('path');
 
-var proxyPortUrl = `http://${ config.proxyHost }:${ config.proxyPort }/proxy`;
-var proxyHarUrl = `http://${ config.proxyHost }:${ config.proxyPort }/proxy/${ config.proxyHttpPort }/har` +
+let proxyPortUrl = `http://${ config.proxyHost }:${ config.proxyPort }/proxy`;
+let proxyHarUrl = `http://${ config.proxyHost }:${ config.proxyPort }/proxy/${ config.proxyHttpPort }/har` +
     `?captureContent=${ config.proxyCaptureContent }&captureHeaders=${ config.proxyCaptureHeaders }`;
 
-var logsDir = 'logs/execution_logs/' + world.getLogsDirName();
-var screenshotReportsDir = 'logs/screenshot_reports/' + world.getLogsDirName();
+let logsDir = 'logs/execution_logs/' + world.getLogsDirName();
+let screenshotReportsDir = 'logs/screenshot_reports/' + world.getLogsDirName();
 
-var isProxyHttpPortOpen = function() {
+function isProxyHttpPortOpen() {
     return superagent
         .get(proxyPortUrl)
         .then(function(res) {//TODO: error support (browsermob not running etc.)
@@ -22,7 +22,7 @@ var isProxyHttpPortOpen = function() {
                 return false;
             }
 
-            var portsObj = JSON.parse(res.text);
+            let portsObj = JSON.parse(res.text);
 
             if( portsObj !== undefined &&
                 portsObj.proxyList !== undefined &&
@@ -36,7 +36,7 @@ var isProxyHttpPortOpen = function() {
         });
 };
 
-var openProxyHttpPort = function(proxyHttpPort) {
+function openProxyHttpPort(proxyHttpPort) {
     return isProxyHttpPortOpen().then(function(isOpen) {
         if(!isOpen) {
             world.logMessage('Opening proxy HTTP port: ' + config.proxyHttpPort, true);
@@ -55,7 +55,7 @@ var openProxyHttpPort = function(proxyHttpPort) {
     });
 };
 
-var startHar = function() {
+function startHar() {
     return superagent
         .put(proxyHarUrl)
         .then(function(res) {
@@ -67,8 +67,8 @@ var startHar = function() {
         });
 };
 
-var saveHar = function(fileName, directory) {
-    var harFilePath = path.join(directory, fileName + ".har");
+function saveHar(fileName, directory) {
+    let harFilePath = path.join(directory, fileName + ".har");
 
     return superagent
         .get(proxyHarUrl)
@@ -76,7 +76,7 @@ var saveHar = function(fileName, directory) {
 };
 
 defineSupportCode(function({After, Before}) {
-    var logFileName;
+    let logFileName;
 
     createLogDirs(logsDir, screenshotReportsDir);
 
@@ -88,8 +88,8 @@ defineSupportCode(function({After, Before}) {
             world.logError('Proxy response error: ' + err);
         });
 
-        var featureName = scenario.scenario.feature.name;
-        var scenarioName = scenario.scenario.name;
+        let featureName = scenario.scenario.feature.name;
+        let scenarioName = scenario.scenario.name;
         logFileName = `${ world.getCurrentDate() }__${ featureName }-${ scenarioName }`;
 
         callback();
@@ -129,10 +129,10 @@ defineSupportCode(function({registerHandler}) {
         if(afterStepData.constructor.name !== 'Step')
             return;
 
-        var featureName = afterStepData.scenario.feature.name;
-        var scenarioName = afterStepData.scenario.name;
-        var stepName = afterStepData.name;
-        var screenshotReportFileName = `${ world.getCurrentDate() }__${ featureName }-${ scenarioName }-${ stepName }`;
+        let featureName = afterStepData.scenario.feature.name;
+        let scenarioName = afterStepData.scenario.name;
+        let stepName = afterStepData.name;
+        let screenshotReportFileName = `${ world.getCurrentDate() }__${ featureName }-${ scenarioName }-${ stepName }`;
         world.takeScreenshot(screenshotReportFileName, screenshotReportsDir);
     });
 });
