@@ -54,10 +54,10 @@ function logMessage(logMessage, detailedOnlyLog) {
     }
 };
 
-function logError(errorMessage, noThrow) {
+function logError(errorMessage, noThrow = false) {
     var message = `ERROR: ${ errorMessage }`;
 
-    if(noThrow !== undefined && noThrow) {
+    if(noThrow) {
         throw(message);
     } else {
         console.log(message);
@@ -102,9 +102,7 @@ function validateUrlByRegex(regex, customTimeout = config.defaultTimeout) {
                     return true;
                 }
 
-                return sleep(config.pollingRate).then(function() {
-                    return false;
-                });
+                return sleep(config.pollingRate).then(() => false);
             });
         },
         customTimeout
@@ -134,17 +132,14 @@ function validateUrlByRoute(pageName, customTimeout) {
     return driver.executeScript(
         'return document.readyState === \'complete\'',
         ''
-    ).then(function(result) {
-        return result;
-    });
+    ).then((result) => result);
 };
 
 function checkAngularPresence() {
     var script = 'return (window.angular !== undefined)';
 
-    return driver.executeScript(script, '').then(function(result) {
-        return result;
-    });
+    return driver.executeScript(script, '')
+        .then((result) => result);
 };
 
 function checkExtendedPageState() {
@@ -158,9 +153,8 @@ function checkExtendedPageState() {
             var script = 'return (angular.element(document.body).injector() !== undefined) && ' +
             '(angular.element(document.body).injector().get(\'$http\').pendingRequests.length === 0)';
 
-            return driver.executeScript(script, '').then(function(result) {
-                return result;
-            });
+            return driver.executeScript(script, '')
+                .then((result) => result);
         }
 
         return true;//currently only Angular
@@ -192,9 +186,8 @@ function validatePageReadyState(customTimeout = config.defaultTimeout) {
                     return true;
                 }
 
-                return sleep(config.pollingRate).then(function() {
-                    return false;
-                });
+                return sleep(config.pollingRate)
+                    .then(() => false);
             })
         },
         customTimeout
@@ -211,9 +204,8 @@ function waitForElement(xpath, customTimeout = config.defaultTimeout) {//interna
                     return true;
                 }
 
-                return sleep(config.pollingRate).then(function() {
-                    return false;
-                });
+                return sleep(config.pollingRate)
+                    .then(() => false);
             });
         },
         customTimeout
@@ -224,30 +216,23 @@ function waitForElement(xpath, customTimeout = config.defaultTimeout) {//interna
 
 function findElement(xpath, customTimeout) {
     return waitForElement(xpath, customTimeout)
-        .then(function() {
-            return driver.findElement(By.xpath(xpath));
-        });
+        .then(() => driver.findElement(By.xpath(xpath)));
 };
 
 function findElements(xpath, customTimeout) {
     return waitForElement(xpath, customTimeout)
-        .then(function() {
-            return driver.findElements(By.xpath(xpath));
-        });
+        .then(() => driver.findElements(By.xpath(xpath)));
 };
 
 function getElementsNumber(xpath, customTimeout) {
     return driver.findElements(By.xpath(xpath))
-        .then(function(el) {
-            return el.length;
-        });
+        .then((el) => el.length);
 };
 
 function validateElementsNumber(xpath, number, customTimeout = config.defaultTimeout) {
     if(number === 0) {
-        return validatePageReadyState().then(function() {
-            return isElementNotVisible(xpath, customTimeout);
-        });
+        return validatePageReadyState()
+            .then(() => isElementNotVisible(xpath, customTimeout));
     } else {
         return driver.wait(
             function () {
@@ -256,9 +241,8 @@ function validateElementsNumber(xpath, number, customTimeout = config.defaultTim
                         return true;
                     }
 
-                    return sleep(config.pollingRate).then(function() {
-                        return false;
-                    });
+                    return sleep(config.pollingRate)
+                        .then(() => false);
                 });
             },
             customTimeout
@@ -276,9 +260,8 @@ function validateElementDisplayed(xpath, customTimeout = config.defaultTimeout) 
                     return true;
                 }
 
-                return sleep(config.pollingRate).then(function() {
-                    return false;
-                });
+                return sleep(config.pollingRate)
+                    .then(() => false);
             });
         },
         customTimeout
@@ -295,9 +278,7 @@ function validateElementNotDisplayed(xpath, customTimeout = config.defaultTimeou
                     return true;
                 }
 
-                return sleep(config.pollingRate).then(function() {
-                    return false;
-                });
+                return sleep(config.pollingRate).then(() => false);
             });
         },
         customTimeout
@@ -314,9 +295,8 @@ function validateElementVisible(xpath, customTimeout = config.defaultTimeout) {/
                     return true;
                 }
 
-                return sleep(config.pollingRate).then(function() {
-                    return false;
-                });
+                return sleep(config.pollingRate)
+                    .then(() => false);
             });
         },
         customTimeout
@@ -334,9 +314,8 @@ function validateElementNotVisible(xpath, customTimeout = config.defaultTimeout)
                         return true;
                     }
 
-                    return sleep(config.pollingRate).then(function() {
-                        return false;
-                    });
+                    return sleep(config.pollingRate)
+                        .then(() => false);
                 });
             },
             customTimeout
@@ -352,9 +331,7 @@ function jsBasedClick(xpath) {
         .then(function() {
             return driver.executeScript(
                 `document.evaluate(\'${ xpath }\', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.click();`
-            ).then(function() {
-                return true;
-            });
+            ).then(() => false);
         });
 };
 
@@ -374,9 +351,8 @@ function click(xpath, customTimeout) {
 function hover(xpath, customTimeout) {
     return validatePageReadyState()
         .then(function() {
-            return findElement(xpath, customTimeout).then(function(el) {
-                return driver.actions().mouseMove(el).perform();
-            });
+            return findElement(xpath, customTimeout)
+                .then((el) => driver.actions().mouseMove(el).perform());
         });
 };
 
@@ -389,24 +365,19 @@ function fillInInput(xpath, value, blur, customTimeout) {
 
             return element.clear();
         })
-        .then(function() {
-            return element.sendKeys(typeof blur !== 'undefined' && blur ? value  + '\t': value);
-        });
+        .then(() => element.sendKeys(typeof blur !== 'undefined' && blur ? value  + '\t': value));
 };
 
 function getCheckboxValue(xpath, customTimeout) {
     return findElement(xpath, customTimeout)
-        .then(function(el) {
-            return el.isSelected();
-        });
+        .then((el) => el.isSelected());
 };
 
 function validateCheckboxValue(xpath, value, customTimeout = config.defaultTimeout) {
     return driver.wait(
         function () {
-            return getCheckboxValue(xpath, customTimeout).then(function(currentValue) {
-                return currentValue === value;
-            });
+            return getCheckboxValue(xpath, customTimeout)
+                .then((currentValue) => currentValue === value);
         },
         customTimeout
     ).catch(function(err){
@@ -420,17 +391,13 @@ function setCheckboxValue(xpath, value, customTimeout = config.defaultTimeout) {
             return true;
         }
 
-        return click(xpath, customTimeout).then(function() {
-            return true;
-        });
+        return click(xpath, customTimeout).then(() => true);
     });
 };
 
 function getElementText(xpath, customTimeout) {
     return findElement(xpath, customTimeout)
-        .then(function(el) {
-            return el.getText();
-        });
+        .then((el) => el.getText());
 };
 
 function validateElementText(xpath, text, customTimeout) {
