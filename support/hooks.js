@@ -4,10 +4,9 @@ var config = require('./config.js');
 var {defineSupportCode} = require('cucumber');
 var fs = require('fs');
 var superagent = require('superagent');
-var sprintf = require('sprintf-js').sprintf;
 var path = require('path');
 
-var proxyPortUrl = 'http://%s:%s/proxy';
+var proxyPortUrl = `http://${ config.proxyHost }:${ config.proxyPort }/proxy`;
 var proxyHarUrl = `http://${ config.proxyHost }:${ config.proxyPort }/proxy/${ config.proxyHttpPort }/har` +
     `?captureContent=${ config.proxyCaptureContent }&captureHeaders=${ config.proxyCaptureHeaders }`;
 
@@ -15,10 +14,8 @@ var logsDir = 'logs/execution_logs/' + world.getLogsDirName();
 var screenshotReportsDir = 'logs/screenshot_reports/' + world.getLogsDirName();
 
 var isProxyHttpPortOpen = function() {
-    var requestUrl = sprintf(proxyPortUrl, config.proxyHost, config.proxyPort);
-
     return superagent
-        .get(requestUrl)
+        .get(proxyPortUrl)
         .then(function(res) {//TODO: error support (browsermob not running etc.)
             if(res.status !== 200) {
                 world.logError('Proxy response error: ' + res.status);
@@ -41,14 +38,12 @@ var isProxyHttpPortOpen = function() {
 };
 
 var openProxyHttpPort = function(proxyHttpPort) {
-    var requestUrl = sprintf(proxyPortUrl, config.proxyHost, config.proxyPort);
-
     return isProxyHttpPortOpen().then(function(isOpen) {
         if(!isOpen) {
             world.logMessage('Opening proxy HTTP port: ' + config.proxyHttpPort, true);
 
             return superagent
-                .post(requestUrl)
+                .post(proxyPortUrl)
                 .send('port=' + proxyHttpPort)
                 .then(function(res) {
                     if(res.status !== 200) {
@@ -134,7 +129,7 @@ defineSupportCode(function({registerHandler}) {
 
         if(afterStepData.constructor.name !== 'Step')
             return;
-            
+
         var featureName = afterStepData.scenario.feature.name;
         var scenarioName = afterStepData.scenario.name;
         var stepName = afterStepData.name;
