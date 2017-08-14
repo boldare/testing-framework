@@ -22,13 +22,12 @@ var isProxyHttpPortOpen = function() {
                 return false;
             }
 
-            var portsArray = JSON.parse(res.text);
+            var portsObj = JSON.parse(res.text);
 
-            if( portsArray !== undefined &&
-                portsArray.proxyList !== undefined &&
-                portsArray.proxyList[0] !== undefined &&
-                portsArray.proxyList[0].port !== undefined &&
-                portsArray.proxyList[0].port == config.proxyHttpPort
+            if( portsObj !== undefined &&
+                portsObj.proxyList !== undefined &&
+                portsObj.proxyList[0] !== undefined &&
+                portsObj.proxyList[0].port == config.proxyHttpPort
             ) {
                 return true;
             }

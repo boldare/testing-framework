@@ -17,7 +17,6 @@ global.tf.projectDir = path.join(__dirname, '..');
 var webdriver = require('selenium-webdriver'),
     By = webdriver.By;
 var webdriverRemote = require('selenium-webdriver/remote');
-var sprintf = require('sprintf-js').sprintf;
 var config = require('./config.js');
 var pageUrlData = require(global.tf.projectDir + '/data/pageUrlData.js');
 var fs = require('fs');
@@ -149,23 +148,23 @@ function checkAngularPresence() {
 };
 
 function checkExtendedPageState() {
-    if(config.extendedPageReadyStateValidation) {
-        return checkAngularPresence().then(function(present) {
-            if(present) {
-                //angular-based page - validation
-                var script = 'return (angular.element(document.body).injector() !== undefined) && ' +
-                '(angular.element(document.body).injector().get(\'$http\').pendingRequests.length === 0)';
-
-                return driver.executeScript(script, '').then(function(result) {
-                    return result;
-                });
-            }
-
-            return true;//currently only Angular
-        });
+    if(!config.extendedPageReadyStateValidation) {
+        return boolPromiseResult(true);
     }
 
-    return boolPromiseResult(true);
+    return checkAngularPresence().then(function(present) {
+        if(present) {
+            //angular-based page - validation
+            var script = 'return (angular.element(document.body).injector() !== undefined) && ' +
+            '(angular.element(document.body).injector().get(\'$http\').pendingRequests.length === 0)';
+
+            return driver.executeScript(script, '').then(function(result) {
+                return result;
+            });
+        }
+
+        return true;//currently only Angular
+    });
 };
 
 function validateExtendedPageState(customTimeout = config.defaultTimeout) {
