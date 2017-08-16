@@ -12,19 +12,19 @@ Function.prototype.curry = function() {
 global.tf = global.tf || {};
 
 //imports
-let path = require('path');
+const path = require('path');
 global.tf.projectDir = path.join(__dirname, '..');
-let webdriver = require('selenium-webdriver'),
+const webdriver = require('selenium-webdriver'),
     By = webdriver.By;
-let webdriverRemote = require('selenium-webdriver/remote');
-let config = require('./config.js');
-let pageUrlData = require(global.tf.projectDir + '/data/pageUrlData.js');
-let fs = require('fs');
+const webdriverRemote = require('selenium-webdriver/remote');
+const config = require('./config.js');
+const pageUrlData = require(global.tf.projectDir + '/data/pageUrlData.js');
+const fs = require('fs');
 
 //vars
 let driver;
 let logsDirName;
-let seleniumServerUrl = `http://${ config.seleniumServerHost }:${ config.seleniumServerPort }/wd/hub`;
+const seleniumServerUrl = `http://${ config.seleniumServerHost }:${ config.seleniumServerPort }/wd/hub`;
 
 const PLATFORM  = {
     CHROME: 'CHROME',

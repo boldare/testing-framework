@@ -1,17 +1,17 @@
-let world = require('./world.js');
-let driver = world.getDriver();
-let config = require('./config.js');
-let {defineSupportCode} = require('cucumber');
-let fs = require('fs');
-let superagent = require('superagent');
-let path = require('path');
+const world = require('./world.js');
+const driver = world.getDriver();
+const config = require('./config.js');
+const {defineSupportCode} = require('cucumber');
+const fs = require('fs');
+const superagent = require('superagent');
+const path = require('path');
 
-let proxyPortUrl = `http://${ config.proxyHost }:${ config.proxyPort }/proxy`;
-let proxyHarUrl = `http://${ config.proxyHost }:${ config.proxyPort }/proxy/${ config.proxyHttpPort }/har` +
+const proxyPortUrl = `http://${ config.proxyHost }:${ config.proxyPort }/proxy`;
+const proxyHarUrl = `http://${ config.proxyHost }:${ config.proxyPort }/proxy/${ config.proxyHttpPort }/har` +
     `?captureContent=${ config.proxyCaptureContent }&captureHeaders=${ config.proxyCaptureHeaders }`;
 
-let logsDir = 'logs/execution_logs/' + world.getLogsDirName();
-let screenshotReportsDir = 'logs/screenshot_reports/' + world.getLogsDirName();
+const logsDir = `logs/execution_logs/${ world.getLogsDirName() }`;
+const screenshotReportsDir = `logs/screenshot_reports/${ world.getLogsDirName() }`;
 
 function isProxyHttpPortOpen() {
     return superagent
