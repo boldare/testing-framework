@@ -582,6 +582,7 @@ Custom project config options.
 # TODO
 Planned features:
 
+  - NPM package
   - Require wrapper
   - Runner
   - Proxy disable/enable config
