@@ -18,7 +18,7 @@ function isProxyHttpPortOpen() {
         .get(proxyPortUrl)
         .then(function(res) {//TODO: error support (browsermob not running etc.)
             if(res.status !== 200) {
-                world.logError('Proxy response error: ' + res.status);
+                world.logError(`Proxy response error: "${ res.status }"`);
                 return false;
             }
 
@@ -39,14 +39,14 @@ function isProxyHttpPortOpen() {
 function openProxyHttpPort(proxyHttpPort) {
     return isProxyHttpPortOpen().then(function(isOpen) {
         if(!isOpen) {
-            world.logMessage('Opening proxy HTTP port: ' + config.proxyHttpPort, true);
+            world.logMessage(`Opening proxy HTTP port: "${ config.proxyHttpPort }"`, true);
 
             return superagent
                 .post(proxyPortUrl)
                 .send('port=' + proxyHttpPort)
                 .then(function(res) {
                     if(res.status !== 200) {
-                        world.logError('Proxy response error: ' + res.status);
+                        world.logError(`Proxy response error: "${ res.status }"`);
                     }
 
                     return true;
@@ -60,7 +60,7 @@ function startHar() {
         .put(proxyHarUrl)
         .then(function(res) {
             if(res.status !== 200 && res.status !== 204) {
-                world.logError('Proxy start HAR error: ' + res.status);
+                world.logError(`Proxy start HAR error: "${ res.status }"`);
             }
 
             return true;
@@ -68,7 +68,7 @@ function startHar() {
 }
 
 function saveHar(fileName, directory) {
-    let harFilePath = path.join(directory, fileName + ".har");
+    let harFilePath = path.join(directory, `${ fileName }.har`);
 
     return superagent
         .get(proxyHarUrl)
@@ -85,7 +85,7 @@ defineSupportCode(function({After, Before}) {
             startHar();
         })
         .catch(function (err) {
-            world.logError('Proxy response error: ' + err);
+            world.logError(`Proxy response error: "${ err }"`);
         });
 
         let featureName = scenario.scenario.feature.name;
@@ -101,11 +101,11 @@ defineSupportCode(function({After, Before}) {
             world.takeScreenshot(logFileName, logsDir);
 
             driver.manage().logs().get('driver').then(function(logs){
-                world.logMessage('Driver logs: ' + JSON.stringify(logs));
+                world.logMessage(`Driver logs: "${ JSON.stringify(logs) }"`);
             });
 
             driver.manage().logs().get('browser').then(function(logs){
-                world.logMessage('Browser logs: ' + JSON.stringify(logs));
+                world.logMessage(`Browser logs: "${ JSON.stringify(logs) }"`);
             });
         }
 

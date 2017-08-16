@@ -10,7 +10,8 @@
         "sanitize-filename": "^1.6.1",
         "selenium-webdriver": "^3.4.0",
         "sprintf-js": "^1.1.1",
-        "superagent": "^3.5.2"
+        "superagent": "^3.5.2",
+        "stringify": "^5.1.0",
     },
     "scripts": {
         "lint": "node_modules/eslint/bin/eslint.js support/",

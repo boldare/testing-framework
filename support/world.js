@@ -18,7 +18,7 @@ const webdriver = require('selenium-webdriver'),
     By = webdriver.By;
 const webdriverRemote = require('selenium-webdriver/remote');
 const config = require('./config.js');
-const pageUrlData = require(global.tf.projectDir + '/data/pageUrlData.js');
+const pageUrlData = require(`${ global.tf.projectDir }/data/pageUrlData.js`);
 const fs = require('fs');
 
 //vars
