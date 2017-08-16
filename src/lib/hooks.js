@@ -1,6 +1,6 @@
-const world = require('./world.js');
+const world = require('./xsolve_wtf.js');
 const driver = world.getDriver();
-const config = require('./config.js');
+const config = require(`${ global.tf.projectDir }/config.js`);
 const {defineSupportCode} = require('cucumber');
 const fs = require('fs');
 const superagent = require('superagent');

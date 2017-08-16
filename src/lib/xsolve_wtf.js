@@ -13,12 +13,12 @@ global.tf = global.tf || {};
 
 //imports
 const path = require('path');
-global.tf.projectDir = path.join(__dirname, '..');
+global.tf.projectDir = path.join(__dirname, '../../..');//TODO: temporary solution
 const webdriver = require('selenium-webdriver'),
     By = webdriver.By;
 const webdriverRemote = require('selenium-webdriver/remote');
-const config = require('./config.js');
-const pageUrlData = require(`${ global.tf.projectDir }/data/pageUrlData.js`);
+const config = require(`${ global.tf.projectDir }/config.js`);
+const pageUrlData = require(`${ global.tf.projectDir }/data/pageUrlData.js`);//should be loaded from config file
 const fs = require('fs');
 
 //vars
