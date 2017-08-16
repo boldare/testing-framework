@@ -1,4 +1,5 @@
 # About
+
 **XSolve Web Testing Framework** is test framework above Selenium Webdriver and Cucumber written in JS (Node).
 NPM: https://www.npmjs.com/package/xsolve_wtf
 
@@ -352,7 +353,7 @@ Validates if angular input value is correct.
 
 # Config
 
-Configuration options.
+Configuration options. `config.js` file must be placed on project main directory.
 
 ```javascript
 //project settings

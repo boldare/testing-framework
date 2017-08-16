@@ -2,10 +2,10 @@
     "author": "XSolve",
     "name": "xsolve_wtf",
     "description": "XSolve Web Testing Framework",
-    "version": "0.2.2-alpha",
+    "version": "0.2.3",
     "license": "MIT",
     "repository": {
-        "url": ""
+        "url": "https://github.com/xsolve-pl/testing-framework"
     },
     "main": "./lib/xsolve_wtf",
     "keywords": [
