@@ -590,6 +590,7 @@ module.exports = {
     getCheckboxValue: getCheckboxValue,
     setCheckboxValue: setCheckboxValue,
     validateCheckboxValue: validateCheckboxValue,
+	getElementText: getElementText,
     validateElementText: validateElementText,
     getCurrentUrl: getCurrentUrl,
     hover: hover,
