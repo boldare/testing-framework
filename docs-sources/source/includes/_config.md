@@ -1,6 +1,8 @@
 # Config
 
-Configuration options.
+Configuration options. `config.js` file must be created in main project directory.
+
+Example config:
 
 ```javascript
 //project settings
@@ -33,12 +35,12 @@ seleniumDriverLogLevel: 'SEVERE',
 seleniumBrowserLogLevel: 'ALL',
 proxyCaptureHeaders: true,
 proxyCaptureContent: false,
-detailedTestLog: true,
+detailedTestLog: false,
 enableScreenshotReports: false,
-pollingRate: 100//ms
 
 //other:
 extendedPageReadyStateValidation: true,
+pollingRate: 100,//ms
 
 //project specific settings:
 ```

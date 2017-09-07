@@ -7,7 +7,7 @@ Install Node.js and NPM from NodeSource.
 sudo apt-get install build-essential nodejs`
 
 ## Java
-Oracle Java may be needed here.
+Oracle Java may be needed because of the BrowserMob Proxy (OpenJDK may not work correctly).
 You can install it and set as default version using:
 `sudo apt-get install python-software-properties && sudo add-apt-repository ppa:webupd8team/java && sudo apt-get update && sudo apt-get install oracle-java8-installer`.
 
@@ -43,9 +43,9 @@ or manually from project page: `http://bmp.lightbody.net/`.
 
 Unzip: `unzip browsermob-proxy-2.1.4-bin.zip`
 
-## Other dependancies
-On project dir run `npm install`. All needed dependancies like Cucumber-js or Superagent would be installed. You can check full dependancies list in `package.json` file.
-
 ## Xvfb (optional)
 If you want to run tests on headless server you would also need Xvfb.
 `sudo apt-get install xvfb xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic x11-apps imagemagick`
+
+## XSolve Web Testing Framework
+Assuming you have `xsolve_wtf` dependancy in your `package.json` file just run `npm install` - framework and all needed dependencies will be installed (cucumber etc.).

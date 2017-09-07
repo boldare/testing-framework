@@ -1,7 +1,7 @@
 # TODO
 Planned features:
 
-  - NPM package
+  - Examples
   - Require wrapper
   - Runner
   - Proxy disable/enable config

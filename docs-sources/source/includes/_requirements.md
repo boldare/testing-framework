@@ -1,9 +1,9 @@
 # Requirements
 
+  - Linux (currently, support for other systems may be added later)
   - Node.js (v6.X or newer)
-  - NPM
+  - NPM 3.X or later (older versions can't be used because of different `node_modules` directory structure)
   - Selenium Server (recommended 3.X)
-  - Cucumber-js (v2.X, from NPM)
   - BrowserMob Proxy (v2.1.X or newer)
 
 Optional:

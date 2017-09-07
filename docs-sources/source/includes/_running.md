@@ -15,16 +15,12 @@ You can create display using:
 Then you have to set display you want to use (99 in this case):
 `export DISPLAY=:99`
 
-If you want to return to "normal" display you have to set value to :0:
+If you want to return to "normal" display you have to set value to `:0`:
 `export DISPLAY=:0` and rerun Selenium Webdriver if needed.
 
 ### Start BrowserMob Proxy
 BrowserMob Proxy also must be running during test execution. You can run proxy by running:
 `bin/browsermob-proxy -port 8888` from inside BrowserMob Proxy directory.
-
-### Copy .dist files
-Copy all .js.dist files (`/support/config.js.dist`, `/data/testData.js.dist` and `/data/pageUrlData.js.dist`) to .js files on project directory.
-For example `config.js.dist` file should be copied to `config.js` etc.
 
 ## Run tests
 Tests can be run using:

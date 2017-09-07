@@ -29,8 +29,8 @@ Loads page by URL.
 `url` page URL
 `customTimeout` (optional) - would be used instead of default config timeout.
 
-#### loadPageByRoute(routeName, customTimeout)
-Loads page by route from pageUrlData file.
+#### loadPageByRoute(routeName, customTimeout) @deprecated
+Loads page by route from `data/pageUrlData.js` file.
 
 `routeName` route name from pageUrlData that would be opened (only basic - can't be regex).
 
@@ -162,8 +162,8 @@ Validates if number of elements is correct.
 #### validatePageReadyState()
 Validates if the page load is complete. `extendedPageReadyStateValidation` may be enabled in config file for extended validation (currently only Angular support implemented).
 
-#### validateUrlByRoute(pageName, customTimeout)
-Validates page route based on page route defined in `pageRoute.js` file. If regex is available it would be used, if not simplified validation would be used (by URL part).
+#### validateUrlByRoute(pageName, customTimeout) @deprecated
+Validates page route based on page route defined in `data/pageUrlData.js` file. If regex is available it would be used, if not simplified validation would be used (by URL part).
 `pageName` page route name
 
 #### validateUrl(url, customTimeout)
