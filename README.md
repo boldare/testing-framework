@@ -15,46 +15,72 @@ Main goals:
 
 # Requirements
 
+  - Linux (currently, support for other systems may be added later)
   - Node.js (v6.X or newer)
-  - NPM
+  - NPM 3.X or later (older versions can't be used because of different `node_modules` directory structure)
   - Selenium Server (recommended 3.X)
-  - Cucumber-js (v2.X, from NPM)
   - BrowserMob Proxy (v2.1.X or newer)
 
 Optional:
 
   - Xvfb (for headless execution)
 
+# Project setup
+
+There are currently few requirements according to the directory and files structure.
+
+## config.js
+
+`config.js` file must be available in the main project directory. Example `config.js` file can be found in Config section of this doc.
+
+## cucumber.js config
+
+`cucumber.js` config file is needed if you want to run tests with just `cucumber.js`
+```javascript
+module.exports = {
+  "default" : "--require node_modules/xsolve_wtf/lib/ --require features/"
+};
+```
+
+## data/pageUrlData.js
+
+`data/pageUrlData.js` file is (currently) required by `validateUrlByRoute` and `loadPageByRoute` methods. Probably wan't be neeeded in next major version.
+
+```javascript
+module.exports = {
+  regex: {
+  },
+  basic: {
+      'example_route': '/example_page_route/asdf',
+  }
+};
+```
+
 # Installation
 Described for Ubuntu 16.04 LTS.
 
-## Framework
-You can install XSolve Web Testing Framework using NPM: https://www.npmjs.com/package/xsolve_wtf
-
-## Requirements
-
-### Node.js and NPM
+## Node.js and NPM
 Install Node.js and NPM from NodeSource.
 `curl -sL https://deb.nodesource.com/setup_6.x -o nodesource_setup.sh && sudo bash nodesource_setup.sh &&
 sudo apt-get install build-essential nodejs`
 
-### Java
-Oracle Java may be needed here.
+## Java
+Oracle Java may be needed because of the BrowserMob Proxy (OpenJDK may not work correctly).
 You can install it and set as default version using:
 `sudo apt-get install python-software-properties && sudo add-apt-repository ppa:webupd8team/java && sudo apt-get update && sudo apt-get install oracle-java8-installer`.
 
 Verify Java version using `java -version` and change if needed using `sudo update-alternatives --config java`
 
-### Selenium Server
+## Selenium Server
 Download Selenium Server Standalone using wget (here version 3.4.0):
 `wget https://selenium-release.storage.googleapis.com/3.4/selenium-server-standalone-3.4.0.jar`
 
 or manually from Selenium website: `http://docs.seleniumhq.org/download/`
 
-### Selenium Drivers
+## Selenium Drivers
 Download Driver you want to use (Chromedriver recommended, other driver weren't tested yet).
 
-#### Chromedriver
+### Chromedriver
 Download latest version from `https://sites.google.com/a/chromium.org/chromedriver/`.
 You can use wget for this:
 `wget http://chromedriver.storage.googleapis.com/2.30/chromedriver_linux64.zip` (here version 2.30, x86-64)
@@ -69,18 +95,19 @@ Check if Chromedriver is visible: `chromedriver --version`.
 
 Not only Chromedriver is needed - Chrome browser also has to be installed. Verify chrome installation with `google-chrome --version`.
 
-### BrowserMob Proxy
+## BrowserMob Proxy
 Download BrowserMob Proxy using: `wget https://github.com/lightbody/browsermob-proxy/releases/download/browsermob-proxy-2.1.4/browsermob-proxy-2.1.4-bin.zip`
 or manually from project page: `http://bmp.lightbody.net/`.
 
 Unzip: `unzip browsermob-proxy-2.1.4-bin.zip`
 
-### Other dependancies
-On project dir run `npm install`. All needed dependancies like Cucumber-js or Superagent will be installed. You can check full dependancies list in `package.json` file.
-
-### Xvfb (optional)
+## Xvfb (optional)
 If you want to run tests on headless server you would also need Xvfb.
 `sudo apt-get install xvfb xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic x11-apps imagemagick`
+
+## XSolve Web Testing Framework
+Assuming you have `xsolve_wtf` dependancy in your `package.json` file just run `npm install` - framework and all needed dependencies will be installed (cucumber etc.).
+
 
 # Running
 
@@ -99,7 +126,7 @@ You can create display using:
 Then you have to set display you want to use (99 in this case):
 `export DISPLAY=:99`
 
-If you want to return to "normal" display you have to set value to :0:
+If you want to return to "normal" display you have to set value to `:0`:
 `export DISPLAY=:0` and rerun Selenium Webdriver if needed.
 
 ## Start BrowserMob Proxy
@@ -147,8 +174,8 @@ Loads page by URL.
 `url` page URL
 `customTimeout` (optional) - would be used instead of default config timeout.
 
-#### loadPageByRoute(routeName, customTimeout)
-Loads page by route from pageUrlData file.
+#### loadPageByRoute(routeName, customTimeout) @deprecated
+Loads page by route from `data/pageUrlData.js` file.
 
 `routeName` route name from pageUrlData that would be opened (only basic - can't be regex).
 
@@ -280,8 +307,8 @@ Validates if number of elements is correct.
 #### validatePageReadyState()
 Validates if the page load is complete. `extendedPageReadyStateValidation` may be enabled in config file for extended validation (currently only Angular support implemented).
 
-#### validateUrlByRoute(pageName, customTimeout)
-Validates page route based on page route defined in `pageRoute.js` file. If regex is available it would be used, if not simplified validation would be used (by URL part).
+#### validateUrlByRoute(pageName, customTimeout) @deprecated
+Validates page route based on page route defined in `data/pageUrlData.js` file. If regex is available it would be used, if not simplified validation would be used (by URL part).
 `pageName` page route name
 
 #### validateUrl(url, customTimeout)
@@ -350,10 +377,11 @@ Validates if angular input value is correct.
 
 `customTimeout` (optional) - would be used instead of default config timeout.
 
-
 # Config
 
-Configuration options. `config.js` file must be placed on project main directory.
+Configuration options. `config.js` file must be created in main project directory.
+
+Example config:
 
 ```javascript
 //project settings
@@ -386,12 +414,12 @@ seleniumDriverLogLevel: 'SEVERE',
 seleniumBrowserLogLevel: 'ALL',
 proxyCaptureHeaders: true,
 proxyCaptureContent: false,
-detailedTestLog: true,
+detailedTestLog: false,
 enableScreenshotReports: false,
-pollingRate: 100//ms
 
 //other:
 extendedPageReadyStateValidation: true,
+pollingRate: 100,//ms
 
 //project specific settings:
 ```
