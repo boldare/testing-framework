@@ -67,7 +67,8 @@ function loadPage(page) {
     return driver.get(page);
 }
 
-function loadPageByRoute(routeName, customTimeout) {//TODO: timeout
+function loadPageByRoute(routeName, customTimeout) {//TODO: deprecated
+    logMessage(`loadPageByRoute is deprecated now - would be removed in next major release`, true);
     let routeValue = pageUrlData['basic'][routeName];
 
     if(routeValue.charAt(0) === '/') {
@@ -112,7 +113,9 @@ function getCurrentUrl() {
     return driver.getCurrentUrl();
 }
 
-function validateUrlByRoute(pageName, customTimeout) {
+function validateUrlByRoute(pageName, customTimeout) {//TODO: deprecated
+    logMessage(`validateUrlByRoute is deprecated now - would be removed in next major release`, true);
+
     if(pageUrlData.regex && pageUrlData.regex[pageName]) {
         let url = pageUrlData.regex[pageName];
 
