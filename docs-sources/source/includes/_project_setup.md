@@ -17,7 +17,7 @@ module.exports = {
 
 ## data/pageUrlData.js
 
-`data/pageUrlData.js` file is (currently) required by `validateUrlByRoute` and `loadPageByRoute` methods. Probably wan't be neeeded in next major version.
+`data/pageUrlData.js` file is (currently) required by `validateUrlByRoute` and `loadPageByRoute` methods. Probably won't be neeeded in next major version because these methods are marked as deprecated now.
 
 ```javascript
 module.exports = {
