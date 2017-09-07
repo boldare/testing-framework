@@ -11,7 +11,7 @@ You can also set custom port running with `-port` parameter:
 ### Xvfb
 If you want to run headlessly you must create virtual display and set it as default BEFORE running Selenium Server.
 You can create display using:
-`/usr/bin/Xvfb :99 -ac -screen 0 1920x1080x24` (here display number 99 with resolution 1920x1080)
+`/usr/bin/Xvfb :99 -ac -screen 0 1920x1080x24 &` (here display number 99 with resolution 1920x1080)
 Then you have to set display you want to use (99 in this case):
 `export DISPLAY=:99`
 
