@@ -13,6 +13,18 @@ Main goals:
   - Parallel execution (not in first release)
   - Multiple driver configs and devices support (not in first release)
 
+# Table of Contents
+
+  - [About](#about)
+  - [Table of Contents](#table-of-contents)
+  - [Requirements](#requirements)
+  - [Project Setup](#project-setup)
+  - [Installation](#installation)
+  - [Running](#running)
+  - [Methods](#methods)
+  - [Config](#config)
+  - [TODO](#todo)
+
 # Requirements
 
   - Linux (currently, support for other systems may be added later)
