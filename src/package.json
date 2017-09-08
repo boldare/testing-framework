@@ -19,8 +19,6 @@
     "dependencies": {
         "browsermob-proxy": "^1.0.9",
         "cucumber": "^2.3.1",
-        "eslint": "^4.4.1",
-        "eslint-config-google": "^0.9.1",
         "sanitize-filename": "^1.6.1",
         "selenium-webdriver": "^3.4.0",
         "sprintf-js": "^1.1.1",
