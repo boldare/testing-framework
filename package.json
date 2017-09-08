@@ -12,7 +12,8 @@
         "eslint-config-google": "^0.9.1"
     },
     "scripts": {
-        "babel": "babel src/src -d src/dist"
+        "babel": "babel src/src -d src/dist",
+        "eslint": "eslint src/src/"
     },
     "engines": {
         "node": ">=6.11.0"
