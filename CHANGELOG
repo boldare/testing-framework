@@ -1,3 +1,4 @@
+0.2.6 - Babel added. cucumber.js config required (directory change)
 0.2.5 - Readme updated. loadPageByRoute and validateUrlByRoute methods marked as deprecated.
 0.2.4 - NPM version
 

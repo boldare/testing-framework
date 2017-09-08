@@ -50,7 +50,7 @@ There are currently few requirements according to the directory and files struct
 `cucumber.js` config file is needed if you want to run tests with just `cucumber.js`
 ```javascript
 module.exports = {
-  "default" : "--require node_modules/xsolve_wtf/lib/ --require features/"
+  "default" : "--require node_modules/xsolve_wtf/dist/ --require features/"
 };
 ```
 
