@@ -1,0 +1,17 @@
+{
+    "author": "XSolve",
+    "name": "xsolve_wtf-dev-tools",
+    "license": "MIT",
+    "repository": {
+        "url": "https://github.com/xsolve-pl/testing-framework"
+    },
+    "devDependencies": {
+        "babel-cli": "6.26.0"
+    },
+    "scripts": {
+        "babel": "babel src/src -d src/dist"
+    },
+    "engines": {
+        "node": ">=6.11.0"
+    }
+}
