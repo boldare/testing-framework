@@ -6,7 +6,8 @@
         "url": "https://github.com/xsolve-pl/testing-framework"
     },
     "devDependencies": {
-        "babel-cli": "6.26.0"
+        "babel-cli": "6.26.0",
+        "babel-preset-es2015": "6.24.1"
     },
     "scripts": {
         "babel": "babel src/src -d src/dist"
