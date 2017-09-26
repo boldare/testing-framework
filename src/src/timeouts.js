@@ -1,4 +1,4 @@
-import { defineSupportCode } from 'cucumber';
+import {defineSupportCode} from 'cucumber';
 import * as world from './xsolve_wtf';
 const config = world.getConfig();
 

@@ -1,12 +1,12 @@
 import * as world from './xsolve_wtf';
-import webdriver from 'selenium-webdriver'
-import { By } from 'selenium-webdriver'
+import webdriver from 'selenium-webdriver';
+import {By} from 'selenium-webdriver';
 const config = world.getConfig();
 let driver;
 
 export default class Validator {
     constructor(d) {
-        console.log('validator constructor driver: ' + d)
+        console.log('validator constructor driver: ' + d);
         this.driver = d;
         driver = d;
     }
@@ -55,7 +55,7 @@ export default class Validator {
     validateUrl(url, customTimeout = config.defaultTimeout) {
         return driver.wait(function() {
                 return driver.getCurrentUrl().then(function(currentUrl) {
-                    console.log(`validateUrl currentUrl ${currentUrl}, expectedUrl ${url}`);
+                    console.log(`validateUrl currentUrl ${ currentUrl }, expectedUrl ${ url }`);
                     if(currentUrl.indexOf(url) !== -1) {
                         return true;
                     }

@@ -1,11 +1,11 @@
-import { projectDir } from './helpers'
-import { PLATFORM } from './constants'
-import { defineSupportCode } from 'cucumber';
-import webdriver from 'selenium-webdriver'
-import { By } from 'selenium-webdriver'
-import webdriverRemote from 'selenium-webdriver/remote'
-import fs from 'fs'
-import path from 'path'
+import {projectDir} from './helpers';
+import {PLATFORM} from './constants';
+import {defineSupportCode} from 'cucumber';
+import webdriver from 'selenium-webdriver';
+import {By} from 'selenium-webdriver';
+import webdriverRemote from 'selenium-webdriver/remote';
+import fs from 'fs';
+import path from 'path';
 
 //framework modules
 import Logger from './logger';
@@ -22,7 +22,7 @@ let action;
 const seleniumServerUrl = `http://${ getConfig().seleniumServerHost }:${ getConfig().seleniumServerPort }/wd/hub`;
 
 export function CustomWorld({attach, parameters}) {
-    console.log('customWorld constructor')
+    console.log('customWorld constructor');
 
     this.attach = attach;
     this.parameters = parameters;
@@ -35,12 +35,12 @@ export function CustomWorld({attach, parameters}) {
         validator = new Validator(d);
         action = new Action(d);
 
-        return d
+        return d;
     });
 }
 
 defineSupportCode(function({setWorldConstructor}) {
-    setWorldConstructor(CustomWorld)
+    setWorldConstructor(CustomWorld);
 });
 
 Function.prototype.curry = function() {
@@ -57,7 +57,7 @@ Function.prototype.curry = function() {
 
 export function getConfig() {
     if (config)
-        return config
+        return config;
 
     config = JSON.parse(fs.readFileSync(path.join(__dirname, '../../..') + '/config.json', 'utf8'));//TODO: temporary solution
 
@@ -87,7 +87,7 @@ export function getDriver() {
 }
 
 function buildDriver(platform) {
-    console.log('platform: ' + PLATFORM)
+    console.log('platform: ' + PLATFORM);
     let capabilities;
 
     switch(platform) {
@@ -159,143 +159,143 @@ function loadDriverOptions(driver) {
 
 export let logMessage = function(...args) {
     return logger.logMessage(...args);
-}
+};
 
 export let logError = function(...args) {
     return logger.logError(...args);
-}
+};
 
 //validators
 export let checkAngularPresence = function(...args) {//internal
     return validator.checkAngularPresence(...args);
-}
+};
 
 export let checkExtendedPageState = function(...args) {//internal
     return validator.checkExtendedPageState(...args);
-}
+};
 
 export let getDocumentReadyState = function(...args) {//internal
     return validator.getDocumentReadyState(...args);
-}
+};
 
 export let validateElementDisplayed = function(...args) {
     return validator.validateElementDisplayed(...args);
-}
+};
 
 export let validateElementNotDisplayed = function(...args) {
     return validator.validateElementNotDisplayed(...args);
-}
+};
 
 export let validateElementVisible = function(...args) {
     return validator.validateElementVisible(...args);
-}
+};
 
 export let validateElementNotVisible = function(...args) {
     return validator.validateElementNotVisible(...args);
-}
+};
 
 export let validateElementsNumber = function(...args) {
     return validator.validateElementsNumber(...args);
-}
+};
 
 export let validateCheckboxValue = function(...args) {
     return validator.validateCheckboxValue(...args);
-}
+};
 
 export let validateElementText = function(...args) {
     return validator.validateElementText(...args);
-}
+};
 
 export let validatePageReadyState = function(...args) {
     return validator.validatePageReadyState(...args);
-}
+};
 
 export let validateExtendedPageState = function(...args) {
     return validator.validateExtendedPageState(...args);
-}
+};
 
 export let validateUrl = function(...args) {
     return validator.validateUrl(...args);
-}
+};
 
 export let validateUrlByRegex = function(...args) {
     return validator.validateUrlByRegex(...args);
-}
+};
 
 export let validateAngularInputValue = function(...args) {
     return validator.validateAngularInputValue(...args);
-}
+};
 
 //actions
 
 export let waitForElement = function(...args) {
     return action.waitForElement(...args);
-}
+};
 
 export let loadPage = function(...args) {
     return action.loadPage(...args);
-}
+};
 
 export let loadPageByRoute = function(...args) {
     return action.loadPageByRoute(...args);
-}
+};
 
 export let findElement = function(...args) {
     return action.findElement(...args);
-}
+};
 
 export let findElements = function(...args) {
     return action.findElements(...args);
-}
+};
 
 export let click = function(...args) {
     return action.click(...args);
-}
+};
 
 export let jsBasedClick = function(...args) {
     return action.jsBasedClick(...args);
-}
+};
 
 export let getCheckboxValue = function(...args) {
     return action.getCheckboxValue(...args);
-}
+};
 
 export let setCheckboxValue = function(...args) {
     return action.setCheckboxValue(...args);
-}
+};
 
 export let getCurrentUrl = function(...args) {
     return action.getCurrentUrl(...args);
-}
+};
 
 export let hover = function(...args) {
     return action.hover(...args);
-}
+};
 
 export let fillInInput = function(...args) {
     return action.fillInInput(...args);
-}
+};
 
 export let selectFileInputValue = function(...args) {
     return action.selectFileInputValue(...args);
-}
+};
 
 export let getElementsNumber = function(...args) {
     return action.getElementsNumber(...args);
-}
+};
 
 export let sleep = function(...args) {
     return action.sleep(...args);
-}
+};
 
 export let cleanBrowserState = function(...args) {
     return action.cleanBrowserState(...args);
-}
+};
 
 export let takeScreenshot = function(...args) {
     return action.takeScreenshot(...args);
-}
+};
 
 export let getAngularInputValue = function(...args) {
     return action.getAngularInputValue(...args);
-}
+};

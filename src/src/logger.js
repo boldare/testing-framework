@@ -4,7 +4,7 @@ let driver;
 
 export default class Logger {
     constructor(d) {
-        console.log('logger constructor driver: ' + d)
+        console.log('logger constructor driver: ' + d);
         this.driver = d;
         driver = d;
     }

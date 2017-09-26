@@ -1,9 +1,9 @@
 import * as world from './xsolve_wtf';
 const config = world.getConfig();
-import { defineSupportCode } from 'cucumber';
-import fs from 'fs'
-import path from 'path'
-import superagent from 'superagent'
+import {defineSupportCode} from 'cucumber';
+import fs from 'fs';
+import path from 'path';
+import superagent from 'superagent';
 
 let driver;
 

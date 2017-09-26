@@ -1,14 +1,14 @@
 import * as world from './xsolve_wtf';
-import webdriver from 'selenium-webdriver'
-import { By } from 'selenium-webdriver'
-import fs from 'fs'
-import path from 'path'
+import webdriver from 'selenium-webdriver';
+import {By} from 'selenium-webdriver';
+import fs from 'fs';
+import path from 'path';
 const config = world.getConfig();
 let driver;
 
 export default class Action {
     constructor(d) {
-        console.log('actions constructor driver: ' + d)
+        console.log('actions constructor driver: ' + d);
         this.driver = d;
         driver = d;
     }
@@ -159,16 +159,14 @@ export default class Action {
 
     waitForElement(xpath, customTimeout = config.defaultTimeout) {//internal only
         return driver.wait(
-             () => {
-                return driver.findElements(By.xpath(xpath)).then(function(el) {
+             () => driver.findElements(By.xpath(xpath)).then(function(el) {
                     if(el.length > 0) {
                         return true;
                     }
 
                     return world.sleep(config.pollingRate)
                         .then(() => false);
-                });
-            },
+                }),
             customTimeout
         ).catch(function(err){
             throw(`waitForElement failed on element: "${ xpath }" - error message: "${ err.message }", error stack: "${ err.stack }`);

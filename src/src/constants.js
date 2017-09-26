@@ -10,4 +10,4 @@ export const PLATFORM = {
     ANDROID: 'ANDROID',
     IPHONE: 'IPHONE',
     IPAD: 'IPAD'
-}
+};
