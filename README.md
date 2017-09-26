@@ -55,20 +55,6 @@ module.exports = {
 };
 ```
 
-## data/pageUrlData.js
-
-`data/pageUrlData.js` file is (currently) required by `validateUrlByRoute` and `loadPageByRoute` methods. Probably won't be neeeded in next major version because these methods are marked as deprecated now.
-
-```javascript
-module.exports = {
-  regex: {
-  },
-  basic: {
-      'example_route': '/example_page_route/asdf',
-  }
-};
-```
-
 # Installation
 Described for Ubuntu 16.04 LTS.
 
@@ -191,13 +177,6 @@ Hovers mouse cursor over element.
 Loads page by URL.
 
 `url` page URL
-`customTimeout` (optional) - would be used instead of default config timeout.
-
-#### loadPageByRoute(routeName, customTimeout) @deprecated
-Loads page by route from `data/pageUrlData.js` file.
-
-`routeName` route name from pageUrlData that would be opened (only basic - can't be regex).
-
 `customTimeout` (optional) - would be used instead of default config timeout.
 
 #### fillInInput(xpath, value, blur, customTimeout)
@@ -325,10 +304,6 @@ Validates if number of elements is correct.
 
 #### validatePageReadyState()
 Validates if the page load is complete. `extendedPageReadyStateValidation` may be enabled in config file for extended validation (currently only Angular support implemented).
-
-#### validateUrlByRoute(pageName, customTimeout) @deprecated
-Validates page route based on page route defined in `data/pageUrlData.js` file. If regex is available it would be used, if not simplified validation would be used (by URL part).
-`pageName` page route name
 
 #### validateUrl(url, customTimeout)
 Validates url by url text.
