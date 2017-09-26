@@ -1,10 +1,11 @@
-const world = require('./xsolve_wtf.js');
-const driver = world.getDriver();
-const config = require(`${ global.tf.projectDir }/config.js`);
-const {defineSupportCode} = require('cucumber');
-const fs = require('fs');
-const superagent = require('superagent');
-const path = require('path');
+import * as world from './xsolve_wtf';
+const config = world.getConfig();
+import { defineSupportCode } from 'cucumber';
+import fs from 'fs'
+import path from 'path'
+import superagent from 'superagent'
+
+let driver;
 
 const proxyPortUrl = `http://${ config.proxyHost }:${ config.proxyPort }/proxy`;
 const proxyHarUrl = `http://${ config.proxyHost }:${ config.proxyPort }/proxy/${ config.proxyHttpPort }/har` +
@@ -18,7 +19,7 @@ function isProxyHttpPortOpen() {
         .get(proxyPortUrl)
         .then(function(res) {//TODO: error support (browsermob not running etc.)
             if(res.status !== 200) {
-                world.logError(`Proxy response error: "${ res.status }"`);
+                logError(`Proxy response error: "${ res.status }"`);
                 return false;
             }
 
@@ -81,18 +82,22 @@ defineSupportCode(function({After, Before}) {
     createLogDirs(logsDir, screenshotReportsDir);
 
     Before(function(scenario, callback) {
-        openProxyHttpPort(config.proxyHttpPort).then(function() {
-            startHar();
-        })
-        .catch(function (err) {
-            world.logError(`Proxy response error: "${ err }"`);
+        this.driver.then(function(d) {//TODO: may be already initialised here?
+            driver = d;
+
+            openProxyHttpPort(config.proxyHttpPort).then(function() {
+                startHar();
+            })
+            .catch(function (err) {
+                logError(`Proxy response error: "${ err }"`);
+            });
+
+            let featureName = scenario.scenario.feature.name;
+            let scenarioName = scenario.scenario.name;
+            logFileName = `${ world.getCurrentDate() }__${ featureName }-${ scenarioName }`;
+
+            callback();
         });
-
-        let featureName = scenario.scenario.feature.name;
-        let scenarioName = scenario.scenario.name;
-        logFileName = `${ world.getCurrentDate() }__${ featureName }-${ scenarioName }`;
-
-        callback();
     });
 
     After(function(scenario) {
