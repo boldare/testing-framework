@@ -158,9 +158,9 @@ https://docs.cucumber.io/tag-expressions/
 
 # Required changes
 
-## 0.4.X version
+## 0.3.X version
 
-Config file was changed in comparison to 0.3.x version -  `config.json` must be used now instead of `config.js`. Example config can be found in Config section.
+Config file was changed in comparison to 0.2.x version - `config.json` must be used now instead of `config.js`. Example config can be found in Config section.
 
 # Methods
 
