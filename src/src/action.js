@@ -1,5 +1,4 @@
 import * as world from './xsolve_wtf';
-import webdriver from 'selenium-webdriver';
 import {By} from 'selenium-webdriver';
 import fs from 'fs';
 import path from 'path';
@@ -8,7 +7,6 @@ let driver;
 
 export default class Action {
     constructor(d) {
-        console.log('actions constructor driver: ' + d);
         this.driver = d;
         driver = d;
     }
@@ -186,16 +184,5 @@ export default class Action {
 
     loadPage(page) {
         return driver.get(page);
-    }
-
-    loadPageByRoute(routeName, customTimeout) {//TODO: deprecated
-        world.logmessage(`loadPageByRoute is deprecated now - would be removed in next major release`, true);
-        let routeValue = pageUrlData['basic'][routeName];
-
-        if(routeValue.charAt(0) === '/') {
-            routeValue = routeValue.substr(1);
-        }
-
-        return driver.get(config.baseUrl + routeValue);
     }
 }

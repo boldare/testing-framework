@@ -2,7 +2,6 @@ import {projectDir} from './helpers';
 import {PLATFORM} from './constants';
 import {defineSupportCode} from 'cucumber';
 import webdriver from 'selenium-webdriver';
-import {By} from 'selenium-webdriver';
 import webdriverRemote from 'selenium-webdriver/remote';
 import fs from 'fs';
 import path from 'path';
@@ -69,7 +68,7 @@ export function getProjectDir() {
 }
 
 export function boolPromiseResult(value) {
-    return new Promise((resolve, reject) => { resolve(value); });
+    return new Promise((resolve) => { resolve(value); });
 }
 
 export function getLogsDirName() {//internal only
@@ -157,145 +156,145 @@ function loadDriverOptions(driver) {
 
 //loggers
 
-export let logMessage = function(...args) {
+export function logMessage(...args) {
     return logger.logMessage(...args);
-};
+}
 
-export let logError = function(...args) {
+export function logError(...args) {
     return logger.logError(...args);
-};
+}
 
 //validators
-export let checkAngularPresence = function(...args) {//internal
+export function checkAngularPresence(...args) {//internal
     return validator.checkAngularPresence(...args);
-};
+}
 
-export let checkExtendedPageState = function(...args) {//internal
+export function checkExtendedPageState(...args) {//internal
     return validator.checkExtendedPageState(...args);
-};
+}
 
-export let getDocumentReadyState = function(...args) {//internal
+export function getDocumentReadyState(...args) {//internal
     return validator.getDocumentReadyState(...args);
-};
+}
 
-export let validateElementDisplayed = function(...args) {
+export function validateElementDisplayed(...args) {
     return validator.validateElementDisplayed(...args);
-};
+}
 
-export let validateElementNotDisplayed = function(...args) {
+export function validateElementNotDisplayed(...args) {
     return validator.validateElementNotDisplayed(...args);
-};
+}
 
-export let validateElementVisible = function(...args) {
+export function validateElementVisible(...args) {
     return validator.validateElementVisible(...args);
-};
+}
 
-export let validateElementNotVisible = function(...args) {
+export function validateElementNotVisible(...args) {
     return validator.validateElementNotVisible(...args);
-};
+}
 
-export let validateElementsNumber = function(...args) {
+export function validateElementsNumber(...args) {
     return validator.validateElementsNumber(...args);
-};
+}
 
-export let validateCheckboxValue = function(...args) {
+export function validateCheckboxValue(...args) {
     return validator.validateCheckboxValue(...args);
-};
+}
 
-export let validateElementText = function(...args) {
+export function validateElementText(...args) {
     return validator.validateElementText(...args);
-};
+}
 
-export let validatePageReadyState = function(...args) {
+export function validatePageReadyState(...args) {
     return validator.validatePageReadyState(...args);
-};
+}
 
-export let validateExtendedPageState = function(...args) {
+export function validateExtendedPageState(...args) {
     return validator.validateExtendedPageState(...args);
-};
+}
 
-export let validateUrl = function(...args) {
+export function validateUrl(...args) {
     return validator.validateUrl(...args);
-};
+}
 
-export let validateUrlByRegex = function(...args) {
+export function validateUrlByRegex(...args) {
     return validator.validateUrlByRegex(...args);
-};
+}
 
-export let validateAngularInputValue = function(...args) {
+export function validateAngularInputValue(...args) {
     return validator.validateAngularInputValue(...args);
-};
+}
 
 //actions
 
-export let waitForElement = function(...args) {
+export function waitForElement(...args) {
     return action.waitForElement(...args);
-};
+}
 
-export let loadPage = function(...args) {
+export function loadPage(...args) {
     return action.loadPage(...args);
-};
+}
 
-export let loadPageByRoute = function(...args) {
-    return action.loadPageByRoute(...args);
-};
-
-export let findElement = function(...args) {
+export function findElement(...args) {
     return action.findElement(...args);
-};
+}
 
-export let findElements = function(...args) {
+export function findElements(...args) {
     return action.findElements(...args);
-};
+}
 
-export let click = function(...args) {
+export function click(...args) {
     return action.click(...args);
-};
+}
 
-export let jsBasedClick = function(...args) {
+export function jsBasedClick(...args) {
     return action.jsBasedClick(...args);
-};
+}
 
-export let getCheckboxValue = function(...args) {
+export function getCheckboxValue(...args) {
     return action.getCheckboxValue(...args);
-};
+}
 
-export let setCheckboxValue = function(...args) {
+export function getElementText(...args) {
+    return action.getElementText(...args);
+}
+
+export function setCheckboxValue(...args) {
     return action.setCheckboxValue(...args);
-};
+}
 
-export let getCurrentUrl = function(...args) {
+export function getCurrentUrl(...args) {
     return action.getCurrentUrl(...args);
-};
+}
 
-export let hover = function(...args) {
+export function hover(...args) {
     return action.hover(...args);
-};
+}
 
-export let fillInInput = function(...args) {
+export function fillInInput(...args) {
     return action.fillInInput(...args);
-};
+}
 
-export let selectFileInputValue = function(...args) {
+export function selectFileInputValue(...args) {
     return action.selectFileInputValue(...args);
-};
+}
 
-export let getElementsNumber = function(...args) {
+export function getElementsNumber(...args) {
     return action.getElementsNumber(...args);
-};
+}
 
-export let sleep = function(...args) {
+export function sleep(...args) {
     return action.sleep(...args);
-};
+}
 
-export let cleanBrowserState = function(...args) {
+export function cleanBrowserState(...args) {
     return action.cleanBrowserState(...args);
-};
+}
 
-export let takeScreenshot = function(...args) {
+export function takeScreenshot(...args) {
     return action.takeScreenshot(...args);
-};
+}
 
-export let getAngularInputValue = function(...args) {
+export function getAngularInputValue(...args) {
     return action.getAngularInputValue(...args);
-};
+}

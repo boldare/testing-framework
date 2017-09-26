@@ -1,14 +1,7 @@
 import * as world from './xsolve_wtf';
 const config = world.getConfig();
-let driver;
 
 export default class Logger {
-    constructor(d) {
-        console.log('logger constructor driver: ' + d);
-        this.driver = d;
-        driver = d;
-    }
-
     logMessage(logMessage, detailedOnlyLog = false) {
         let displayDetailedLog = config.detailedTestLog !== undefined ? config.detailedTestLog : false;
 

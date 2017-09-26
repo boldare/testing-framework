@@ -19,7 +19,7 @@ function isProxyHttpPortOpen() {
         .get(proxyPortUrl)
         .then(function(res) {//TODO: error support (browsermob not running etc.)
             if(res.status !== 200) {
-                logError(`Proxy response error: "${ res.status }"`);
+                world.logError(`Proxy response error: "${ res.status }"`);
                 return false;
             }
 
@@ -89,7 +89,7 @@ defineSupportCode(function({After, Before}) {
                 startHar();
             })
             .catch(function (err) {
-                logError(`Proxy response error: "${ err }"`);
+                world.logError(`Proxy response error: "${ err }"`);
             });
 
             let featureName = scenario.scenario.feature.name;

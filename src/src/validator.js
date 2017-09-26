@@ -1,12 +1,10 @@
 import * as world from './xsolve_wtf';
-import webdriver from 'selenium-webdriver';
 import {By} from 'selenium-webdriver';
 const config = world.getConfig();
 let driver;
 
 export default class Validator {
     constructor(d) {
-        console.log('validator constructor driver: ' + d);
         this.driver = d;
         driver = d;
     }
@@ -87,7 +85,7 @@ export default class Validator {
     validateElementText(xpath, text, customTimeout = config.defaultTimeout) {
         return driver.wait(
             function () {
-                return getElementText(xpath, customTimeout).then(function(currentText) {
+                return world.getElementText(xpath, customTimeout).then(function(currentText) {
                     return currentText === text;
                 });
             },
@@ -100,7 +98,7 @@ export default class Validator {
     validateCheckboxValue(xpath, value, customTimeout = config.defaultTimeout) {
         return driver.wait(
             function () {
-                return getCheckboxValue(xpath, customTimeout)
+                return world.getCheckboxValue(xpath, customTimeout)
                     .then((currentValue) => currentValue === value);
             },
             customTimeout
@@ -128,7 +126,7 @@ export default class Validator {
     }
 
     validateElementNotVisible(xpath, customTimeout = config.defaultTimeout) {//not visible in sources and not displayed
-        return validatePageReadyState().then(function() {
+        return world.validatePageReadyState().then(function() {
             return driver.wait(
                 function () {
                     return driver.findElements(By.xpath(xpath)).then(function(elem) {
