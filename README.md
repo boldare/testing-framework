@@ -21,6 +21,7 @@ Main goals:
   - [Project Setup](#project-setup)
   - [Installation](#installation)
   - [Running](#running)
+  - [Required changes](#required-changes)
   - [Methods](#methods)
   - [Config](#config)
   - [TODO](#todo)
@@ -41,9 +42,9 @@ Optional:
 
 There are currently few requirements according to the directory and files structure.
 
-## config.js
+## config.json
 
-`config.js` file must be available in the main project directory. Example `config.js` file can be found in Config section of this doc.
+`config.json` file must be available in the main project directory. Example `config.json` file can be found in Config section of this doc.
 
 ## cucumber.js config
 
@@ -154,6 +155,12 @@ You can pass "normal" cucumber parameters - specify .feature files, select tags 
 ### Tags
 Make sure to use Cucumber Tag Expressions, not old-style Cucumber tags - there are not available in Cucumber 2.X anymore.
 https://docs.cucumber.io/tag-expressions/
+
+# Required changes
+
+## 0.4.X version
+
+Config file was changed in comparison to 0.3.x version -  `config.json` must be used now instead of `config.js`. Example config can be found in Config section.
 
 # Methods
 
@@ -391,50 +398,35 @@ Validates if angular input value is correct.
 
 # Config
 
-Configuration options. `config.js` file must be created in main project directory.
+Configuration options. `config.json` file must be created in main project directory.
 
 Example config:
 
 ```javascript
-module.exports = {
-    //project settings
-    baseUrl: 'http://localhost:82/',
-
-    //Selenium settings
-    seleniumServerHost: 'localhost',
-    seleniumServerPort: 4444,
-
-    //proxy settings:
-    proxyHost: 'localhost',
-    proxyPort: 8888,
-    proxyHttpPort: 8082,
-
-    //Browser settings:
-    platform: process.env.PLATFORM || 'CHROME',
-    runMaximized: true,
-    xvfbMode: false,
-    XvfbSettings: {
-    	windowWidth: 1920,
-    	windowHeight: 1080
-    },
-
-    //timeouts
-    defaultTimeout: 30000,//ms
-    defaultStepTimeout: 45000,//ms
-
-    //logs:
-    seleniumDriverLogLevel: 'SEVERE',
-    seleniumBrowserLogLevel: 'ALL',
-    proxyCaptureHeaders: true,
-    proxyCaptureContent: false,
-    detailedTestLog: false,
-    enableScreenshotReports: false,
-
-    //other:
-    extendedPageReadyStateValidation: true,
-    pollingRate: 100,//ms
-
-    //project specific settings:
+{
+	"baseUrl": "http://localhost:82/",
+	"seleniumServerHost": "localhost",
+	"seleniumServerPort": 4444,
+	"proxyHost": "localhost",
+	"proxyPort": 8888,
+	"proxyHttpPort": 8082,
+	"platform": "CHROME",
+	"runMaximized": true,
+	"xvfbMode": false,
+	"XvfbSettings": {
+		"windowWidth": 1920,
+		"windowHeight": 1080
+	},
+	"defaultTimeout": 30000,
+	"defaultStepTimeout": 45000,
+	"seleniumDriverLogLevel": "SEVERE",
+	"seleniumBrowserLogLevel": "ALL",
+	"proxyCaptureHeaders": true,
+	"proxyCaptureContent": false,
+	"detailedTestLog": false,
+	"enableScreenshotReports": false,
+	"extendedPageReadyStateValidation": true,
+	"pollingRate": 100
 }
 ```
 
