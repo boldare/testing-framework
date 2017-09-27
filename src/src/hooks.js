@@ -10,9 +10,10 @@ let driver;
 const proxyPortUrl = `http://${ config.proxyHost }:${ config.proxyPort }/proxy`;
 const proxyHarUrl = `http://${ config.proxyHost }:${ config.proxyPort }/proxy/${ config.proxyHttpPort }/har` +
     `?captureContent=${ config.proxyCaptureContent }&captureHeaders=${ config.proxyCaptureHeaders }`;
+const logsDirName = world.getCurrentDate();
 
-const logsDir = `logs/execution_logs/${ world.getLogsDirName() }`;
-const screenshotReportsDir = `logs/screenshot_reports/${ world.getLogsDirName() }`;
+const logsDir = `logs/execution_logs/${ logsDirName }`;
+const screenshotReportsDir = `logs/screenshot_reports/${ logsDirName }`;
 
 function isProxyHttpPortOpen() {
     return superagent
@@ -82,7 +83,7 @@ defineSupportCode(function({After, Before}) {
     createLogDirs(logsDir, screenshotReportsDir);
 
     Before(function(scenario, callback) {
-        this.driver.then(function(d) {//TODO: may be already initialised here?
+        this.driver.then(function(d) {
             driver = d;
 
             openProxyHttpPort(config.proxyHttpPort).then(function() {
@@ -101,7 +102,6 @@ defineSupportCode(function({After, Before}) {
     });
 
     After(function(scenario) {
-
         if(scenario.isFailed()) {
             world.takeScreenshot(logFileName, logsDir);
 
@@ -115,16 +115,11 @@ defineSupportCode(function({After, Before}) {
         }
 
         saveHar(logFileName, logsDir);
-
-        return world.cleanBrowserState();
-    });
-});
-
-defineSupportCode(function({registerHandler}) {
-    registerHandler('AfterFeatures', function() {
         return driver.quit();
+        // return world.cleanBrowserState();
     });
 });
+
 
 defineSupportCode(function({registerHandler}) {
     registerHandler('AfterStep', function(afterStepData) {

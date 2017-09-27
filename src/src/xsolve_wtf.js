@@ -12,7 +12,6 @@ import Validator from './validator';
 import Action from './action';
 
 let driver;
-let logsDirName;
 let config;
 let logger;
 let validator;
@@ -26,6 +25,7 @@ export function CustomWorld({attach, parameters}) {
 
     this.driver = buildDriver(getConfig().platform).then(function(d) {
         driver = d;
+
         loadDriverOptions(d);
 
         logger = new Logger(d);
@@ -67,10 +67,6 @@ export function getProjectDir() {
 
 export function boolPromiseResult(value) {
     return new Promise((resolve) => { resolve(value); });
-}
-
-export function getLogsDirName() {//internal only
-    return logsDirName;
 }
 
 export function getCurrentDate() {
