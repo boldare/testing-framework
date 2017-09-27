@@ -65,7 +65,7 @@ export default class Action {
         return world.findElement(inputXP, customTimeout)
             .then(function(el) {
                 let filePath = global.tf.projectDir + `/data/test_files/${ fileName }`;
-                world.logmessage(`Selecting ${ filePath } file.`);
+                world.logMessage(`Selecting ${ filePath } file.`);
 
                 return el.sendKeys(filePath);
           });
@@ -107,7 +107,7 @@ export default class Action {
                 return world.findElement(xpath, customTimeout)
                     .then(function(el) {
                         el.click().catch(function(err) {
-                            world.logmessage(`Standard click failed with error message: "${ err.message }"`, true);
+                            world.logMessage(`Standard click failed with error message: "${ err.message }"`, true);
                             return world.jsBasedClick(xpath);
                         });
                     });
