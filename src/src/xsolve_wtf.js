@@ -21,8 +21,6 @@ let action;
 const seleniumServerUrl = `http://${ getConfig().seleniumServerHost }:${ getConfig().seleniumServerPort }/wd/hub`;
 
 export function CustomWorld({attach, parameters}) {
-    console.log('customWorld constructor');
-
     this.attach = attach;
     this.parameters = parameters;
 
@@ -86,7 +84,7 @@ export function getDriver() {
 }
 
 function buildDriver(platform) {
-    console.log('platform: ' + PLATFORM);
+    console.log(`Platform: ${ PLATFORM }`);
     let capabilities;
 
     switch(platform) {
