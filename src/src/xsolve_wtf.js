@@ -84,7 +84,7 @@ export function getDriver() {
 }
 
 function buildDriver(platform) {
-    console.log(`Platform: ${ PLATFORM }`);
+    console.log(`Platform: ${ platform }`);
     let capabilities;
 
     switch(platform) {
