@@ -1,3 +1,4 @@
+0.3.0-test4 - Test release 5 for 0.3.0. Browser exit fixed
 0.3.0-test4 - Test release 4 for 0.3.0. Fixes
 0.3.0-test3 - Test release 3 for 0.3.0. Fixes after eslint. Deprecated loadPageByRoute and validateUrlByRoute removed - pageUrlDate file isn't needed anymore.
 0.3.0-test2 - Test release 2 for 0.3.0
