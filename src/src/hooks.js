@@ -129,6 +129,7 @@ defineSupportCode(function({registerHandler}) {
         if(afterStepData.constructor.name !== 'Step')
             return;
 
+        //screenshot reports
         let featureName = afterStepData.scenario.feature.name;
         let scenarioName = afterStepData.scenario.name;
         let stepName = afterStepData.name;

@@ -53,7 +53,7 @@ export default class Validator {
     validateUrl(url, customTimeout = config.defaultTimeout) {
         return driver.wait(function() {
                 return driver.getCurrentUrl().then(function(currentUrl) {
-                    console.log(`validateUrl currentUrl ${ currentUrl }, expectedUrl ${ url }`);
+                    world.logMessage(`validateUrl currentUrl ${ currentUrl }, expectedUrl ${ url }`, true);
                     if(currentUrl.indexOf(url) !== -1) {
                         return true;
                     }
