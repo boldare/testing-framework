@@ -64,7 +64,7 @@ export default class Action {
     selectFileInputValue(inputXP, fileName, customTimeout = config.defaultTimeout) {
         return world.findElement(inputXP, customTimeout)
             .then(function(el) {
-                let filePath = global.tf.projectDir + `/data/test_files/${ fileName }`;
+                let filePath = `${ world.getProjectDir() }/data/test_files/${ fileName }`;
                 world.logMessage(`Selecting ${ filePath } file.`);
 
                 return el.sendKeys(filePath);
