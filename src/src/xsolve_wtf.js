@@ -566,7 +566,7 @@ function buildDriver(platform) {
 }
 
 function loadDriverOptions(driver) {
-    if(config.runMaximized) {
+    if(config.runMaximized && !config.xvfbMode) {
         driver.manage().window().maximize();
     }
 
