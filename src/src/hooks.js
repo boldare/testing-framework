@@ -116,7 +116,7 @@ defineSupportCode(function({After, Before}) {
 
         saveHar(logFileName, logsDir);
         return driver.quit();
-        // return world.cleanBrowserState();
+        //return world.cleanBrowserState();
     });
 });
 
