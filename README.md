@@ -388,7 +388,7 @@ Example config:
 	"platform": "CHROME",
 	"runMaximized": true,
 	"xvfbMode": false,
-	"XvfbSettings": {
+	"xvfbSettings": {
 		"windowWidth": 1920,
 		"windowHeight": 1080
 	},
