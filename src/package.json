@@ -25,7 +25,8 @@
         "superagent": "^3.5.2",
         "stringify": "^5.1.0",
         "command-line-args": "^5.0.1",
-        "command-line-usage": "^4.1.0"
+        "command-line-usage": "^4.1.0",
+        "joi": "^13.1.1"
     },
     "engines": {
         "node": ">=6.11.0"
