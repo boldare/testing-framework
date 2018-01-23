@@ -14,7 +14,7 @@
         "WTF"
     ],
     "bin": {
-        "xsolve_wtf": "./bin/xsolve_wtf"
+        "xsolve_wtf": "./bin/xsolve_wtf.js"
     },
     "dependencies": {
         "browsermob-proxy": "^1.0.9",
@@ -23,7 +23,9 @@
         "selenium-webdriver": "^3.4.0",
         "sprintf-js": "^1.1.1",
         "superagent": "^3.5.2",
-        "stringify": "^5.1.0"
+        "stringify": "^5.1.0",
+        "command-line-args": "^5.0.1",
+        "command-line-usage": "^4.1.0"
     },
     "engines": {
         "node": ">=6.11.0"
