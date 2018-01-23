@@ -375,7 +375,7 @@ Validates if angular input value is correct.
 
 # Config
 
-Configuration options. `config.json` file must be created in main project directory.
+Configuration options. `config.json` file must be created in main project directory. Framework settings are required. Also custom project-related settings may be added (`user` or `custom`) - more details in [Project specific settings](#project-specific-settings).
 
 Example config:
 
@@ -536,8 +536,18 @@ By default actions are made after DOM is loaded (document.readystate == 'complet
 Polling rate isn't supported by Selenium JS bindings - on our test environment about 60-80 requests per second to Selenium Server were made. It isn't speeding up tests execution and it's causing additional CPU usage. This option allows to limit it to some reasonable value.
 
 ## Project specific settings
+```javascript
+"user": {
+	"test1": true,
+	"test2": "aaa"
+},
+"custom": {
+	"test3": false,
+	"test4": "bbb"
+}
+```
 
-Custom project config options.
+Project-specific settings can also be added to config.json file. `user` or `custom` keywords may be used and may contain any needed values.
 
 # TODO
 Planned features:
