@@ -148,6 +148,8 @@ https://docs.cucumber.io/tag-expressions/
 
 Config file was changed in comparison to 0.2.x version - `config.json` must be used now instead of `config.js`. Example config can be found in Config section.
 
+Deprecated loadPageByRoute and validateUrlByRoute methods were removed - pageUrlDate file isn't required anymore. It should be used on user side now - methods can be just copied from xsolve_wtf.js file.
+
 # Methods
 
 ## World
