@@ -44,11 +44,18 @@ There are currently few requirements according to the directory and files struct
 
 ## config.json
 
-`config.json` file must be available in the main project directory. Example `config.json` file can be found in Config section of this doc.
+`config.json` file must be created in the main project directory. Example `config.json` file can be found in Config section of this doc.
 
-## cucumber.js config
+## cucumber runner - config (optional)
 
-`cucumber.js` config file is needed if you want to run tests with just `cucumber.js`
+If you want to run tests without using `xsolve_wtf.js` runner using `cucumber.js` command `cucumber.js` require parameters must be passed to cucumber:
+
+```javascript
+--require node_modules/xsolve_wtf/dist/ --require features/
+```
+
+It is also possible to create `cucumber.js` file in main project directory - adding parameters directly won't be needed then.
+
 ```javascript
 module.exports = {
   "default" : "--require node_modules/xsolve_wtf/dist/ --require features/"
