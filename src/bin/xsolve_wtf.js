@@ -77,12 +77,20 @@ if(cliOptions.help) {
             console.log('stdout: ' + data);
         });
         child.on('close', function(code) {
-            console.log('closing code: ' + code);
+            console.log(`Cucumber finished with exit code "${ code }"`);
+            process.exit(code);
         });
 }
 
 function validateConfig() {
-    var config = JSON.parse(fs.readFileSync(path.join(__dirname, '../../..') + '/config.json', 'utf8'));//TODO: temporary
+    const configPath = path.join(__dirname, '../../..') + '/config.json';//TODO: temporary
+
+    if(!fs.existsSync(configPath)) {
+        console.log('Config validation failed - missing config.json file. \n')
+        process.exit(1);
+    }
+
+    var config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
 
     Joi.validate(config, configSchema).catch((error) => {
         console.log('Config validation failed. \n')
