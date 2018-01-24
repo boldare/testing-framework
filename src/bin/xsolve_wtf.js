@@ -6,6 +6,8 @@ const fs = require('fs');
 const path = require('path');
 const Joi = require('joi');
 
+const cucumberRequireDirectories = '--require node_modules/xsolve_wtf/dist/ --require features/'
+
 const help = [
     {
         header: 'XSolve WTF',
@@ -69,7 +71,7 @@ if(cliOptions.help) {
         var cucumberOptions = cliOptions.cucumber ? cliOptions.cucumber : `features/`;
 
         var exec = require('child_process').exec;
-        var child = exec(`node_modules/cucumber/bin/cucumber.js ${ cucumberOptions }`);
+        var child = exec(`node_modules/cucumber/bin/cucumber.js ${ cucumberOptions } ${ cucumberRequireDirectories }`);
         child.stdout.on('data', function(data) {
             console.log(data);
         });
