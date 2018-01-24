@@ -5,6 +5,7 @@
     "version": "0.3.1",
     "license": "MIT",
     "repository": {
+        "type": "git",
         "url": "https://github.com/xsolve-pl/testing-framework"
     },
     "main": "./dist/xsolve_wtf",

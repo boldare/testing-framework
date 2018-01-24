@@ -3,6 +3,7 @@
     "name": "xsolve_wtf-dev-tools",
     "license": "MIT",
     "repository": {
+        "type": "git",
         "url": "https://github.com/xsolve-pl/testing-framework"
     },
     "devDependencies": {
@@ -13,7 +14,7 @@
     },
     "scripts": {
         "babel": "babel src/src -d src/dist",
-        "eslint": "eslint src/src/"
+        "eslint": "eslint src/src/ bin/"
     },
     "engines": {
         "node": ">=6.11.0"
