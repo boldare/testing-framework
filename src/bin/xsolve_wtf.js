@@ -7,7 +7,7 @@ const path = require('path');
 const Joi = require('joi');
 
 const version = require('../package.json').version;
-const cucumberPath = 'node_modules/cucumber/bin/cucumber.js'
+const cucumberPath = 'node_modules/cucumber/bin/cucumber-js'
 const cucumberRequireDirectories = '--require node_modules/xsolve_wtf/dist/ --require features/'
 
 const help = [
