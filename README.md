@@ -21,6 +21,7 @@ Main goals:
   - [Project Setup](#project-setup)
   - [Installation](#installation)
   - [Running](#running)
+  - [Runner](#runner)
   - [Required changes](#required-changes)
   - [Methods](#methods)
   - [Config](#config)
