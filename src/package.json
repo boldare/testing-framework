@@ -2,7 +2,7 @@
     "author": "XSolve",
     "name": "xsolve_wtf",
     "description": "XSolve Web Testing Framework",
-    "version": "0.4.0-test2",
+    "version": "0.4.0-test3",
     "license": "MIT",
     "repository": {
         "type": "git",
@@ -19,7 +19,7 @@
     },
     "dependencies": {
         "browsermob-proxy": "^1.0.9",
-        "cucumber": "4.0.0",
+        "cucumber": "2.3.1",
         "sanitize-filename": "^1.6.1",
         "selenium-webdriver": "3.6.0",
         "sprintf-js": "^1.1.1",
