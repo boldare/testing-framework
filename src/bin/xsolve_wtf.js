@@ -6,11 +6,13 @@ const fs = require('fs');
 const path = require('path');
 const Joi = require('joi');
 
+const version = require('../package.json').version;
+const cucumberPath = 'node_modules/cucumber/bin/cucumber.js'
 const cucumberRequireDirectories = '--require node_modules/xsolve_wtf/dist/ --require features/'
 
 const help = [
     {
-        header: 'XSolve WTF',
+        header: 'XSolve Web Testing Framework (xsolve_wtf)',
         content: 'Help.'
     },
     {
@@ -18,12 +20,21 @@ const help = [
         optionList: [
             {
                 name: 'help, -h',
-                description: 'This help'
+                description: 'Displays this help.'
+            },
+            {
+                name: 'tags, -t',
+                typeLabel: '[underline]{"tags"}',
+                description: 'Tags'
             },
             {
                 name: 'cucumber, -c',
-                typeLabel: '"[underline]{parameters}"',
-                description: 'Cucumber parameters. You can use double (") or single (\') quotes.'
+                typeLabel: '[underline]{"parameters"}',
+                description: 'Cucumber parameters. If you need to use double quotes (") inside you have to escape them using backslash.'
+            },
+            {
+                name: 'version, -v',
+                desctiption: 'Shows framework version.'
             }
         ]
     }
@@ -58,31 +69,44 @@ const clu_help = clu(help);
 
 const cliOptionDefinitions = [
     { name: 'help', alias: 'h', type: Boolean },
-    { name: 'cucumber', alias: 'c', type: String, multiple: true, defaultOption: true }
+    { name: 'tags', alias: 't', type: String, multiple: true },
+    { name: 'cucumber', alias: 'c', type: String, multiple: true },
+    { name: 'version', alias: 'v', type: Boolean }
 ]
-const cliOptions = commandLineArgs(cliOptionDefinitions)
+const cliOptions = commandLineArgs(cliOptionDefinitions);
 
 if(cliOptions.help) {
     console.log(clu_help);
-} else {
-        validateConfig();
-
-        console.log('Running Cucumber process \n');
-        var cucumberOptions = cliOptions.cucumber ? cliOptions.cucumber : `features/`;
-
-        var exec = require('child_process').exec;
-        var child = exec(`node_modules/cucumber/bin/cucumber.js ${ cucumberOptions } ${ cucumberRequireDirectories }`);
-        child.stdout.on('data', function(data) {
-            console.log(data);
-        });
-        child.stderr.on('data', function(data) {
-            console.log('stdout: ' + data);
-        });
-        child.on('close', function(code) {
-            console.log(`Cucumber finished with exit code "${ code }"`);
-            process.exit(code);
-        });
+    process.exit(0);
 }
+
+if(cliOptions.version) {
+    console.log(`xsolve_wtf: "${ version }"\n`);
+    process.exit(0);
+}
+
+    console.log(`XSolve Web Testing Framework (xs_wtf), version ${ version }\n`);
+    validateConfig();
+
+    var cucumberTags = cliOptions.tags ? `--tags "${ cliOptions.tags }"` : '';
+    var cucumberOptions = cliOptions.cucumber ? cliOptions.cucumber : 'features/';
+    var execValue = `${ cucumberPath } ${ cucumberTags } ${ cucumberOptions } ${ cucumberRequireDirectories }`;
+
+    console.log(`Running Cucumber, command: "${ execValue }"`);
+    var exec = require('child_process').exec;
+
+    var child = exec(execValue);
+    child.stdout.on('data', function(data) {
+        console.log(data);
+    });
+    child.stderr.on('data', function(data) {
+        console.log('stdout: ' + data);
+    });
+    child.on('close', function(code) {
+        console.log(`Cucumber finished with exit code "${ code }"`);
+        process.exit(code);
+    });
+
 
 function validateConfig() {
     const configPath = path.join(__dirname, '../../..') + '/config.json';//TODO: temporary
