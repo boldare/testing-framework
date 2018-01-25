@@ -141,15 +141,49 @@ BrowserMob Proxy also must be running during test execution. You can run proxy b
 
 ## Run tests
 Tests can be run using:
-`node_modules/cucumber/bin/cucumber.js`
+`node_modules/xsolve_wtf/bin/xsolve_wtf.js`
 
-You can pass "normal" cucumber parameters - specify .feature files, select tags etc.
+More detailed information about Runner is available in [Runner](#runner) section.
 
-### Tags
-Make sure to use Cucumber Tag Expressions, not old-style Cucumber tags - there are not available in Cucumber 2.X anymore.
+# Runner
+Runner is now available (0.4.X and newer versions) - it should be used instead of directly using cucumber runner.
+
+## Cucumber parameters
+You can pass "normal" cucumber parameters - specify .feature files etc. using `--cucumber` or `-c` parameter.
+
+`node_modules/xsolve_wtf/bin/xsolve_wtf.js -c "feature/example.feature"`
+
+If you want to use quotes (`"`) inside you have to escape them.
+It's possible to insert `--tags` cucumber parameter here too but it's better to use [Tags](#tags) - it's not needed to escape all quotes then.
+
+## Tags
+Tags can be used using `--tags` or `-t` parameter.
+
+`node_modules/xsolve_wtf/bin/xsolve_wtf.js --tags @disabled`
+`node_modules/xsolve_wtf/bin/xsolve_wtf.js --tags "@test and not @disabled"`
+
+Make sure to use Cucumber Tag Expressions, not old-style Cucumber tags - there are not available anymore since Cucumber 2.X.
 https://docs.cucumber.io/tag-expressions/
 
+## Runner - help
+Help can be displayed using `--help` or `-h` parameter.
+
+`node_modules/xsolve_wtf/bin/xsolve_wtf.js --help`
+
+## Runner - framework version
+Framework version can be displayed using `--version` or `-v` parameter.
+
+`node_modules/xsolve_wtf/bin/xsolve_wtf.js --version`
+
+
+## Cucumber runner
+It's still (0.4.X version) possible to run tests using directly cucumber runner but it's not recommended.
+`node_modules/cucumber/bin/cucumber.js`
+
 # Required changes
+
+## 0.4.X version
+Config file structure is the same as in 0.3.X version but config file is now validated. You have to make sure it's correct according to the rules. All required parameters must be available and also all custom values must be placed in `user` or `custom`.
 
 ## 0.3.X version
 
