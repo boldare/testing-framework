@@ -5,10 +5,12 @@ const clu = require('command-line-usage');
 const fs = require('fs');
 const path = require('path');
 const Joi = require('joi');
+const exec = require('child_process').exec;
 
 const version = require('../package.json').version;
 const cucumberPath = 'node_modules/cucumber/bin/cucumber.js'
 const cucumberRequireDirectories = '--require node_modules/xsolve_wtf/dist/ --require features/'
+const CHILD_MAX_BUFFER_SIZE = 10 * 1024 * 1024;
 
 const help = [
     {
@@ -88,19 +90,18 @@ if(cliOptions.version) {
     console.log(`XSolve Web Testing Framework (xs_wtf), version ${ version }\n`);
     validateConfig();
 
-    var cucumberTags = cliOptions.tags ? `--tags "${ cliOptions.tags }"` : '';
+    let cucumberTags = cliOptions.tags ? `--tags "${ cliOptions.tags }"` : '';
     var cucumberOptions = cliOptions.cucumber ? cliOptions.cucumber : 'features/';
     var execValue = `${ cucumberPath } ${ cucumberTags } ${ cucumberOptions } ${ cucumberRequireDirectories }`;
 
     console.log(`Running Cucumber, command: "${ execValue }"`);
-    var exec = require('child_process').exec;
 
-    var child = exec(execValue);
+    var child = exec(execValue, { maxBuffer: CHILD_MAX_BUFFER_SIZE });
     child.stdout.on('data', function(data) {
         console.log(data);
     });
     child.stderr.on('data', function(data) {
-        console.log('stdout: ' + data);
+        console.log('ERROR: ' + data);
     });
     child.on('close', function(code) {
         console.log(`Cucumber finished with exit code "${ code }"`);
