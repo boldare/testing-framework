@@ -21,6 +21,7 @@ Main goals:
   - [Project Setup](#project-setup)
   - [Installation](#installation)
   - [Running](#running)
+  - [Runner](#runner)
   - [Required changes](#required-changes)
   - [Methods](#methods)
   - [Config](#config)
@@ -44,11 +45,18 @@ There are currently few requirements according to the directory and files struct
 
 ## config.json
 
-`config.json` file must be available in the main project directory. Example `config.json` file can be found in Config section of this doc.
+`config.json` file must be created in the main project directory. Example `config.json` file can be found in Config section of this doc.
 
-## cucumber.js config
+## cucumber runner - config (optional)
 
-`cucumber.js` config file is needed if you want to run tests with just `cucumber.js`
+If you want to run tests without using `xsolve_wtf.js` runner using `cucumber.js` command `cucumber.js` require parameters must be passed to cucumber:
+
+```javascript
+--require node_modules/xsolve_wtf/dist/ --require features/
+```
+
+It is also possible to create `cucumber.js` file in main project directory - adding parameters directly won't be needed then.
+
 ```javascript
 module.exports = {
   "default" : "--require node_modules/xsolve_wtf/dist/ --require features/"
@@ -134,15 +142,49 @@ BrowserMob Proxy also must be running during test execution. You can run proxy b
 
 ## Run tests
 Tests can be run using:
-`node_modules/cucumber/bin/cucumber.js`
+`node_modules/xsolve_wtf/bin/xsolve_wtf.js`
 
-You can pass "normal" cucumber parameters - specify .feature files, select tags etc.
+More detailed information about Runner is available in [Runner](#runner) section.
 
-### Tags
-Make sure to use Cucumber Tag Expressions, not old-style Cucumber tags - there are not available in Cucumber 2.X anymore.
+# Runner
+Runner is now available (0.4.X and newer versions) - it should be used instead of directly using cucumber runner.
+
+## Cucumber parameters
+You can pass "normal" cucumber parameters - specify .feature files etc. using `--cucumber` or `-c` parameter.
+
+`node_modules/xsolve_wtf/bin/xsolve_wtf.js -c "feature/example.feature"`
+
+If you want to use quotes (`"`) inside you have to escape them.
+It's possible to insert `--tags` cucumber parameter here too but it's better to use [Tags](#tags) - it's not needed to escape all quotes then.
+
+## Tags
+Tags can be used using `--tags` or `-t` parameter.
+
+`node_modules/xsolve_wtf/bin/xsolve_wtf.js --tags @disabled`
+`node_modules/xsolve_wtf/bin/xsolve_wtf.js --tags "@test and not @disabled"`
+
+Make sure to use Cucumber Tag Expressions, not old-style Cucumber tags - there are not available anymore since Cucumber 2.X.
 https://docs.cucumber.io/tag-expressions/
 
+## Runner - help
+Help can be displayed using `--help` or `-h` parameter.
+
+`node_modules/xsolve_wtf/bin/xsolve_wtf.js --help`
+
+## Runner - framework version
+Framework version can be displayed using `--version` or `-v` parameter.
+
+`node_modules/xsolve_wtf/bin/xsolve_wtf.js --version`
+
+
+## Cucumber runner
+It's still (0.4.X version) possible to run tests using directly cucumber runner but it's not recommended.
+`node_modules/cucumber/bin/cucumber.js`
+
 # Required changes
+
+## 0.4.X version
+Config file structure is the same as in 0.3.X version but config file is now validated. You have to make sure it's correct according to the rules. All required parameters must be available and also all custom values must be placed in `user` or `custom`.
 
 ## 0.3.X version
 
@@ -375,7 +417,7 @@ Validates if angular input value is correct.
 
 # Config
 
-Configuration options. `config.json` file must be created in main project directory.
+Configuration options. `config.json` file must be created in main project directory. Framework settings are required. Also custom project-related settings may be added (`user` or `custom`) - more details in [Project specific settings](#project-specific-settings).
 
 Example config:
 
@@ -536,8 +578,18 @@ By default actions are made after DOM is loaded (document.readystate == 'complet
 Polling rate isn't supported by Selenium JS bindings - on our test environment about 60-80 requests per second to Selenium Server were made. It isn't speeding up tests execution and it's causing additional CPU usage. This option allows to limit it to some reasonable value.
 
 ## Project specific settings
+```javascript
+"user": {
+	"test1": true,
+	"test2": "aaa"
+},
+"custom": {
+	"test3": false,
+	"test4": "bbb"
+}
+```
 
-Custom project config options.
+Project-specific settings can also be added to config.json file. `user` or `custom` keywords may be used and may contain any needed values.
 
 # TODO
 Planned features:

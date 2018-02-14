@@ -2,9 +2,10 @@
     "author": "XSolve",
     "name": "xsolve_wtf",
     "description": "XSolve Web Testing Framework",
-    "version": "0.3.1",
+    "version": "0.4.0",
     "license": "MIT",
     "repository": {
+        "type": "git",
         "url": "https://github.com/xsolve-pl/testing-framework"
     },
     "main": "./dist/xsolve_wtf",
@@ -14,16 +15,19 @@
         "WTF"
     ],
     "bin": {
-        "xsolve_wtf": "./bin/xsolve_wtf"
+        "xsolve_wtf": "./bin/xsolve_wtf.js"
     },
     "dependencies": {
         "browsermob-proxy": "^1.0.9",
-        "cucumber": "^2.3.1",
+        "cucumber": "2.3.1",
         "sanitize-filename": "^1.6.1",
-        "selenium-webdriver": "^3.4.0",
+        "selenium-webdriver": "3.6.0",
         "sprintf-js": "^1.1.1",
-        "superagent": "^3.5.2",
-        "stringify": "^5.1.0"
+        "superagent": "^3.8.2",
+        "stringify": "^5.2.0",
+        "command-line-args": "^5.0.1",
+        "command-line-usage": "^4.1.0",
+        "joi": "^13.1.1"
     },
     "engines": {
         "node": ">=6.11.0"
