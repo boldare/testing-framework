@@ -96,6 +96,8 @@ defineSupportCode(function({After, Before}) {
             let featureName = scenario.scenario.feature.name;
             let scenarioName = scenario.scenario.name;
             logFileName = `${ world.getCurrentDate() }__${ featureName }-${ scenarioName }`;
+            if(config.truncateLogsFileName)
+                logFileName = truncate(logFileName, 100);
 
             callback();
         });
@@ -113,8 +115,6 @@ defineSupportCode(function({After, Before}) {
                 world.logMessage(`Browser logs: "${ JSON.stringify(logs) }"`);
             });
         }
-        if(config.truncateLogsFileName)
-            logFileName = truncate(logFileName, 100)
 
         saveHar(logFileName, logsDir);
         return driver.quit();
@@ -137,7 +137,7 @@ defineSupportCode(function({registerHandler}) {
         let stepName = afterStepData.name;
         let screenshotReportFileName = `${ world.getCurrentDate() }__${ featureName }-${ scenarioName }-${ stepName }`;
         if(config.truncateLogsFileName)
-            screenshotReportFileName = truncate(screenshotReportFileName, 100)
+            screenshotReportFileName = truncate(screenshotReportFileName, 100);
 
         world.takeScreenshot(screenshotReportFileName, screenshotReportsDir);
     });
