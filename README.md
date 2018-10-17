@@ -443,8 +443,8 @@ Example config:
 	"proxyCaptureHeaders": true,
 	"proxyCaptureContent": false,
 	"detailedTestLog": false,
-  "enableScreenshotReports": false,
-  "truncateLogsFileName": false,
+  	"enableScreenshotReports": false,
+  	"truncateLogsFileName": false,
 	"extendedPageReadyStateValidation": true,
 	"pollingRate": 100
 }
