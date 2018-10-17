@@ -113,6 +113,8 @@ defineSupportCode(function({After, Before}) {
                 world.logMessage(`Browser logs: "${ JSON.stringify(logs) }"`);
             });
         }
+        if(config.truncateLogsFileName)
+            logFileName = truncate(logFileName, 100)
 
         saveHar(logFileName, logsDir);
         return driver.quit();
@@ -134,9 +136,16 @@ defineSupportCode(function({registerHandler}) {
         let scenarioName = afterStepData.scenario.name;
         let stepName = afterStepData.name;
         let screenshotReportFileName = `${ world.getCurrentDate() }__${ featureName }-${ scenarioName }-${ stepName }`;
+        if(config.truncateLogsFileName)
+            screenshotReportFileName = truncate(screenshotReportFileName, 100)
+
         world.takeScreenshot(screenshotReportFileName, screenshotReportsDir);
     });
 });
+
+function truncate(str, n){
+    return (str.length > n) ? str.substr(0, n-1) + '...' : str;
+};
 
 function createLogDirs(logsDir, screenshotReportsDir) {
     if(!fs.existsSync(logsDir)) {

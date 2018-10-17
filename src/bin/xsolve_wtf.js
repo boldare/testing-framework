@@ -61,6 +61,7 @@ const configSchema = Joi.object().keys({
     proxyCaptureContent: Joi.boolean().required(),
     detailedTestLog: Joi.boolean().required(),
     enableScreenshotReports: Joi.boolean().required(),
+    truncateLogsFileName: Joi.boolean().required(),
     extendedPageReadyStateValidation: Joi.boolean().required(),
     pollingRate: Joi.number().integer().required(),
     user: Joi.object().optional(),
