@@ -96,6 +96,8 @@ defineSupportCode(function({After, Before}) {
             let featureName = scenario.scenario.feature.name;
             let scenarioName = scenario.scenario.name;
             logFileName = `${ world.getCurrentDate() }__${ featureName }-${ scenarioName }`;
+            if(config.truncateLogsFileName)
+                logFileName = truncate(logFileName, 100);
 
             callback();
         });
@@ -134,9 +136,16 @@ defineSupportCode(function({registerHandler}) {
         let scenarioName = afterStepData.scenario.name;
         let stepName = afterStepData.name;
         let screenshotReportFileName = `${ world.getCurrentDate() }__${ featureName }-${ scenarioName }-${ stepName }`;
+        if(config.truncateLogsFileName)
+            screenshotReportFileName = truncate(screenshotReportFileName, 100);
+
         world.takeScreenshot(screenshotReportFileName, screenshotReportsDir);
     });
 });
+
+function truncate(str, n){
+    return (str.length > n) ? str.substr(0, n-3) + '...' : str;
+};
 
 function createLogDirs(logsDir, screenshotReportsDir) {
     if(!fs.existsSync(logsDir)) {
